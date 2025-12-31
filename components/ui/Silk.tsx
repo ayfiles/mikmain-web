@@ -84,8 +84,6 @@ interface SilkPlaneProps {
 
 const SilkPlane = forwardRef<Mesh, SilkPlaneProps>(function SilkPlane({ uniforms }, ref) {
   const { viewport } = useThree();
-  
-  // Ref Typecasting für TypeScript
   const meshRef = ref as React.MutableRefObject<Mesh>;
 
   useLayoutEffect(() => {
@@ -140,14 +138,15 @@ const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, r
   );
 
   return (
-    <Canvas 
-       dpr={[1, 2]} 
-       frameloop="always" 
-       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} // Wichtig damit es full-screen ist
-       camera={{ position: [0, 0, 1] }} // Kamera fixieren
-    >
-      <SilkPlane ref={meshRef} uniforms={uniforms} />
-    </Canvas>
+    <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+        <Canvas 
+        dpr={[1, 2]} 
+        frameloop="always" 
+        camera={{ position: [0, 0, 1] }}
+        >
+        <SilkPlane ref={meshRef} uniforms={uniforms} />
+        </Canvas>
+    </div>
   );
 };
 
