@@ -1,8 +1,8 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { forwardRef, useRef, useMemo, useLayoutEffect } from 'react';
-import { Color, Mesh, ShaderMaterial, Vector3 } from 'three';
+import { useRef, useMemo, useLayoutEffect } from 'react';
+import { Color, Mesh, ShaderMaterial, Vector2 } from 'three';
 
 // Helper: Hex zu RGB Array
 const hexToNormalizedRGB = (hex: string) => {
@@ -57,8 +57,10 @@ void main() {
   vec2  tex        = uv * uScale;
   float tOffset    = uSpeed * uTime;
 
+  // Wellenbewegung
   tex.y += 0.03 * sin(8.0 * tex.x - tOffset);
 
+  // Komplexes Muster
   float pattern = 0.6 +
                   0.4 * sin(5.0 * (tex.x + tex.y +
                                    cos(3.0 * tex.x + 5.0 * tex.y) +
@@ -82,37 +84,44 @@ interface SilkPlaneProps {
   };
 }
 
-const SilkPlane = forwardRef<Mesh, SilkPlaneProps>(function SilkPlane({ uniforms }, ref) {
+// Interne Komponente für das Mesh
+const SilkPlane = ({ uniforms }: SilkPlaneProps) => {
+  const meshRef = useRef<Mesh>(null);
   const { viewport } = useThree();
-  const meshRef = ref as React.MutableRefObject<Mesh>;
 
+  // Mesh an Viewport anpassen
   useLayoutEffect(() => {
     if (meshRef.current) {
       meshRef.current.scale.set(viewport.width, viewport.height, 1);
     }
-  }, [meshRef, viewport]);
+  }, [viewport]);
 
-  useFrame((_, delta) => {
+  // Die Animations-Schleife
+  useFrame((state, delta) => {
     if (meshRef.current) {
        const material = meshRef.current.material as ShaderMaterial;
+       // HIER war der Faktor oft zu klein. Wir erhöhen ihn.
+       // Wir nutzen uSpeed direkt aus den Uniforms im Shader, 
+       // aber uTime muss stetig wachsen.
        if(material.uniforms && material.uniforms.uTime) {
-          material.uniforms.uTime.value += 0.1 * delta;
+          material.uniforms.uTime.value += delta * 0.5; // Schnellerer Time-Step
        }
     }
   });
 
   return (
     <mesh ref={meshRef}>
-      <planeGeometry args={[1, 1, 1, 1]} />
+      <planeGeometry args={[1, 1, 64, 64]} /> 
+      {/* Mehr Segmente (64x64) für weichere Wellen */}
       <shaderMaterial 
         uniforms={uniforms} 
         vertexShader={vertexShader} 
         fragmentShader={fragmentShader} 
+        transparent={true}
       />
     </mesh>
   );
-});
-SilkPlane.displayName = 'SilkPlane';
+};
 
 interface SilkProps {
   speed?: number;
@@ -122,9 +131,9 @@ interface SilkProps {
   rotation?: number;
 }
 
-const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }: SilkProps) => {
-  const meshRef = useRef<Mesh>(null);
-
+const Silk = ({ speed = 1, scale = 1, color = '#0a192f', noiseIntensity = 0.5, rotation = 0 }: SilkProps) => {
+  
+  // Uniforms einmalig erstellen
   const uniforms = useMemo(
     () => ({
       uSpeed: { value: speed },
@@ -140,11 +149,12 @@ const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, r
   return (
     <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
         <Canvas 
-        dpr={[1, 2]} 
-        frameloop="always" 
-        camera={{ position: [0, 0, 1] }}
+          dpr={[1, 2]} // Pixel-Ratio für scharfe Kanten
+          frameloop="always" // Erzwingt Animation
+          camera={{ position: [0, 0, 1], fov: 75 }}
+          gl={{ antialias: true, alpha: true }}
         >
-        <SilkPlane ref={meshRef} uniforms={uniforms} />
+          <SilkPlane uniforms={uniforms} />
         </Canvas>
     </div>
   );
