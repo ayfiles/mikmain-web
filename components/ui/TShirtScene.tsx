@@ -50,15 +50,10 @@ function JacketModel({ color }: { color: string }) {
         rotationIntensity={isHovered ? 0 : 0.2} 
         floatIntensity={0.5}
       >
-        {/* Modell mit doppelter Größe (2.4 statt 1.2) */}
+        {/* Modell doppelt so groß (4.8) */}
         <primitive 
           object={scene} 
-          scale={2.4} 
-          position={[0, -1.2, 0]} 
-        />
-
-        {/* Unsichtbare Hitbox für stabileren Hover (ebenfalls vergrößert) */}
-        <mesh
+          scale={4.8} 
           position={[0, 0, 0]}
           onPointerOver={() => {
             setIsHovered(true);
@@ -68,10 +63,7 @@ function JacketModel({ color }: { color: string }) {
             setIsHovered(false);
             document.body.style.cursor = 'default';
           }}
-        >
-          <boxGeometry args={[3.5, 4.5, 2.5]} />
-          <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-        </mesh>
+        />
       </Float>
     </group>
   );
@@ -84,8 +76,8 @@ export default function TShirtScene() {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <Canvas dpr={[1, 2]} gl={{ antialias: true }}>
-        {/* Kamera-Distanz auf 8 erhöht, damit das große Modell nicht den Rahmen sprengt */}
-        <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} />
+        {/* Kamera-Distanz angepasst für das größere Modell */}
+        <PerspectiveCamera makeDefault position={[0, 0, 12]} fov={50} />
         
         <ambientLight intensity={1} />
         <pointLight position={[10, 10, 10]} intensity={1} />
@@ -94,11 +86,11 @@ export default function TShirtScene() {
           <JacketModel color={wireColor} />
           {/* Schattenposition und Skalierung an die neue Größe angepasst */}
           <ContactShadows 
-            position={[0, -2.8, 0]} 
+            position={[0, -4.5, 0]} 
             opacity={0.4} 
-            scale={12} 
+            scale={20} 
             blur={2.5} 
-            far={3} 
+            far={5} 
           />
           <Environment preset="city" />
         </Suspense>

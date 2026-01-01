@@ -9,6 +9,15 @@ import { BlurText } from "@/components/react-bits/BlurText";
 import Silk from "@/components/ui/Silk"; 
 import TShirtScene from "@/components/ui/TShirtScene";
 
+const LOGOS = [
+  { name: "Harput", logo: "/logos/harput.svg" },
+  { name: "Kostarellos", logo: "/logos/kostarellos.svg" },
+  { name: "SH", logo: "/logos/sh.svg" },
+  { name: "Fluffy", logo: "/logos/fluffy.svg" },
+  { name: "Gärtnerei Kujtah", logo: "/logos/gartnerei-kujtah.svg" },
+  { name: "Steinbergerhof", logo: "/logos/steinbergerhof.svg" },
+];
+
 export function HeroSection() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -105,6 +114,44 @@ export function HeroSection() {
           </Button>
         </motion.div>
 
+      </div>
+
+      {/* EBENE 4: LOGO LOOP AM UNTEREN RAND */}
+      <div className="absolute bottom-0 left-0 right-0 z-[3] h-24 overflow-hidden">
+        {/* Logo Loop Container mit gleicher Breite wie Navbar */}
+        <div className="relative h-full w-[95%] max-w-[900px] mx-auto overflow-hidden">
+          {/* Logo Loop */}
+          <div className="relative h-full flex items-center">
+          <motion.div
+            className="flex items-center gap-16"
+            animate={{
+              x: [0, `-${(120 + 64) * LOGOS.length * 2}px`],
+            }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 40,
+                ease: "linear",
+              },
+            }}
+          >
+            {/* Mehrfach dupliziert für nahtlosen Loop */}
+            {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logoItem, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center min-w-[120px] h-12 flex-shrink-0"
+              >
+                <img
+                  src={logoItem.logo}
+                  alt={logoItem.name}
+                  className="h-8 md:h-10 w-auto opacity-40 grayscale hover:grayscale-0 hover:opacity-60 transition-all duration-300"
+                />
+              </div>
+            ))}
+          </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
