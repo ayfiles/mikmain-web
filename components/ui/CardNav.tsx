@@ -3,6 +3,8 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+// HIER: Der Import für den neuen Toggler (Pfad ggf. anpassen auf @/components/magicui/...)
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"; 
 
 type CardNavLink = {
   label: string;
@@ -46,11 +48,12 @@ const CardNav: React.FC<CardNavProps> = ({
   const cardsRef = useRef<HTMLDivElement[]>([]);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-  const BASE_HEIGHT = 80; 
+  // Standard Höhe
+  const BASE_HEIGHT = 60; 
 
   const calculateHeight = () => {
     const navEl = navRef.current;
-    if (!navEl) return 300;
+    if (!navEl) return 260;
 
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     if (isMobile) {
@@ -67,7 +70,7 @@ const CardNav: React.FC<CardNavProps> = ({
         contentEl.style.height = 'auto';
         contentEl.offsetHeight;
 
-        const padding = 20; 
+        const padding = 16; 
         const contentHeight = contentEl.scrollHeight;
 
         contentEl.style.visibility = wasVisible;
@@ -78,7 +81,7 @@ const CardNav: React.FC<CardNavProps> = ({
         return BASE_HEIGHT + contentHeight + padding;
       }
     }
-    return 320; 
+    return 280; 
   };
 
   const createTimeline = () => {
@@ -86,7 +89,7 @@ const CardNav: React.FC<CardNavProps> = ({
     if (!navEl) return null;
 
     gsap.set(navEl, { height: BASE_HEIGHT, overflow: 'hidden' });
-    gsap.set(cardsRef.current, { y: 60, opacity: 0 });
+    gsap.set(cardsRef.current, { y: 50, opacity: 0 });
 
     const tl = gsap.timeline({ paused: true });
 
@@ -96,7 +99,7 @@ const CardNav: React.FC<CardNavProps> = ({
       ease
     });
 
-    tl.to(cardsRef.current, { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 }, '-=0.2');
+    tl.to(cardsRef.current, { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 }, '-=0.1');
 
     return tl;
   };
@@ -140,69 +143,76 @@ const CardNav: React.FC<CardNavProps> = ({
 
   return (
     <div
-      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[95%] max-w-[1000px] z-[99] top-8 rounded-[30px] ${className}`}
+      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[95%] max-w-[900px] z-[99] top-6 rounded-[24px] ${className}`}
     >
       <nav
         ref={navRef}
-        className={`card-nav block h-[80px] p-0 rounded-[30px] relative overflow-hidden will-change-[height]`}
+        className={`card-nav block h-[60px] p-0 rounded-[24px] relative overflow-hidden will-change-[height]`}
         style={{ backgroundColor: baseColor }}
       >
-        <div className="card-nav-top absolute inset-x-0 top-0 h-[80px] flex items-center justify-between px-8 z-[2]">
+        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-6 z-[2]">
           
           {/* MENU BUTTON (LINKS) */}
           <div
-            // HIER GEÄNDERT: 'text-mik-navy' entfernt, dafür style={{ color: menuColor }} eingefügt
             className="cursor-pointer hover:opacity-70 transition-opacity"
             onClick={toggleMenu}
             aria-label={isExpanded ? 'Close menu' : 'Open menu'}
             style={{ color: menuColor }} 
           >
-            {isHamburgerOpen ? <X size={32} /> : <Menu size={32} />}
+            {isHamburgerOpen ? <X size={24} /> : <Menu size={24} />}
           </div>
           
           {/* LOGO (MITTE) */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center font-heading font-bold text-3xl tracking-tighter text-mik-navy">
-             {logo ? <img src={logo} alt={logoAlt} className="h-10 w-auto" /> : <span>MikMain<span className="text-mik-red">.</span></span>}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center font-heading font-bold text-2xl tracking-tighter text-mik-navy">
+             {logo ? <img src={logo} alt={logoAlt} className="h-8 w-auto" /> : <span>MikMain<span className="text-mik-red">.</span></span>}
           </div>
 
-          {/* CTA BUTTON (RECHTS) */}
-          <button
-            type="button"
-            // HIER GEÄNDERT: Farben werden jetzt über Props gesteuert
-            className="hidden md:inline-flex rounded-full px-8 py-3 text-base font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform duration-200"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-          >
-            Kontakt aufnehmen
-          </button>
+          {/* RECHTS: CTA & THEME TOGGLER */}
+          <div className="flex items-center gap-3">
+             
+             {/* Der neue Theme Toggler */}
+             <div className="hidden md:block">
+               <AnimatedThemeToggler />
+             </div>
+
+             <button
+               type="button"
+               className="hidden md:inline-flex rounded-full px-6 py-2 text-sm font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-200"
+               style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+             >
+               Kontakt
+             </button>
+          </div>
           
-          <div className="md:hidden w-[32px]"></div>
+          {/* Platzhalter Mobile */}
+          <div className="md:hidden w-[24px]"></div>
 
         </div>
 
         {/* CONTENT */}
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[90px] bottom-0 p-4 flex flex-col md:flex-row items-stretch gap-4 z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[70px] bottom-0 p-3 flex flex-col md:flex-row items-stretch gap-3 z-[1] ${
             isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
           }`}
         >
           {(items || []).slice(0, 3).map((item, idx) => (
             <div
               key={`${item.label}-${idx}`}
-              className="nav-card relative flex flex-col justify-between p-8 rounded-[24px] flex-1 min-h-[200px] transition-transform hover:scale-[1.02]"
+              className="nav-card relative flex flex-col justify-between p-6 rounded-[20px] flex-1 min-h-[160px] transition-transform hover:scale-[1.02]"
               ref={setCardRef(idx)}
-              style={{ backgroundColor: item.bgColor, color: item.textColor }}
+              style={{ backgroundColor: '#0A192F', color: '#F8FAFC' }}
             >
-              <div className="text-3xl font-heading font-bold mb-6 opacity-90">
+              <div className="text-2xl font-heading font-bold mb-4 opacity-90">
                 {item.label}
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 {item.links?.map((lnk, i) => (
                   <a
                     key={`${lnk.label}-${i}`}
-                    className="inline-flex items-center gap-3 text-lg font-medium opacity-70 hover:opacity-100 transition-opacity"
+                    className="inline-flex items-center gap-2 text-base font-medium opacity-70 hover:opacity-100 transition-opacity"
                     href={lnk.href}
                   >
-                    <ArrowUpRight size={20} />
+                    <ArrowUpRight size={16} />
                     {lnk.label}
                   </a>
                 ))}

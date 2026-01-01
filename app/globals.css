@@ -4,36 +4,49 @@
 
 @layer base {
   :root {
-    /* --- Deine Palette --- */
-    --background: 222 47% 11%; /* Midnight Navy als Standard */
-    --foreground: 210 40% 98%; /* Weißer Text als Standard */
-
-    /* PRIMARY: Midnight Navy */
+    /* --- LIGHT MODE (Business White) --- */
+    --background: 210 40% 98%; /* Helles Grau/Weiß */
+    --foreground: 222 47% 11%; /* Navy Text */
+    
     --primary: 222 47% 11%;
     --primary-foreground: 210 40% 98%;
 
-    /* SECONDARY: Interface Blue */
-    --secondary: 221 83% 53%;
+    /* Deine Akzentfarben bleiben gleich */
+    --secondary: 221 83% 53%; 
     --secondary-foreground: 210 40% 98%;
-
-    /* ACCENT: Crimson / Turkish Red */
     --accent: 0 72% 35%;
     --accent-foreground: 210 40% 98%;
-
-    /* NEUTRAL: Cool Grey */
-    --muted: 215 20% 65%;
+    --muted: 215 20% 85%;
     --muted-foreground: 222 47% 11%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
+    --radius: 0.5rem;
+  }
 
+  .dark {
+    /* --- DARK MODE (MikMain Navy) --- */
+    --background: 222 47% 11%; /* Dein Navy */
+    --foreground: 210 40% 98%; /* Weißer Text */
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+    
     --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
     
-    --border: 215 20% 65%;
-    --input: 215 20% 65%;
-    --ring: 221 83% 53%;
+    --muted: 215 20% 65%;
+    --muted-foreground: 210 40% 98%;
     
-    --radius: 0.5rem;
+    --border: 215 20% 25%; /* Dunklere Border */
+    --input: 215 20% 25%;
   }
 }
 
@@ -41,13 +54,10 @@
   * {
     border-color: hsl(var(--border));
   }
-  
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
-  
-  /* Typografie Zuweisung */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-kiro), sans-serif;
     font-weight: 700;
