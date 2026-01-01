@@ -1,8 +1,9 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useRef, useMemo, useLayoutEffect } from 'react';
+import { useRef, useMemo, useLayoutEffect, useEffect, useState } from 'react';
 import { Color, Mesh, ShaderMaterial, Vector2 } from 'three';
+import { useTheme } from 'next-themes';
 
 // Helper: Hex zu RGB Array
 const hexToNormalizedRGB = (hex: string) => {
@@ -96,6 +97,16 @@ const SilkPlane = ({ uniforms }: SilkPlaneProps) => {
     }
   }, [viewport]);
 
+  // Aktualisiere die Farbe, wenn sich die Uniforms ändern
+  useEffect(() => {
+    if (meshRef.current) {
+      const material = meshRef.current.material as ShaderMaterial;
+      if (material.uniforms && material.uniforms.uColor) {
+        material.uniforms.uColor.value.copy(uniforms.uColor.value);
+      }
+    }
+  }, [uniforms.uColor]);
+
   // Die Animations-Schleife
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -131,7 +142,16 @@ interface SilkProps {
   rotation?: number;
 }
 
-const Silk = ({ speed = 1, scale = 1, color = '#0a192f', noiseIntensity = 0.5, rotation = 0 }: SilkProps) => {
+const Silk = ({ speed = 1, scale = 1, color, noiseIntensity = 0.5, rotation = 0 }: SilkProps) => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Wenn keine Farbe übergeben wurde, verwende Theme-basierte Farbe
+  const silkColor = color || (mounted && resolvedTheme === "light" ? "#F8FAFC" : "#0a192f");
   
   // Uniforms einmalig erstellen
   const uniforms = useMemo(
@@ -139,11 +159,11 @@ const Silk = ({ speed = 1, scale = 1, color = '#0a192f', noiseIntensity = 0.5, r
       uSpeed: { value: speed },
       uScale: { value: scale },
       uNoiseIntensity: { value: noiseIntensity },
-      uColor: { value: new Color(...hexToNormalizedRGB(color)) },
+      uColor: { value: new Color(...hexToNormalizedRGB(silkColor)) },
       uRotation: { value: rotation },
       uTime: { value: 0 }
     }),
-    [speed, scale, noiseIntensity, color, rotation]
+    [speed, scale, noiseIntensity, silkColor, rotation]
   );
 
   return (

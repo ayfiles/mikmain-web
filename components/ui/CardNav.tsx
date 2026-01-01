@@ -147,7 +147,7 @@ const CardNav: React.FC<CardNavProps> = ({
     >
       <nav
         ref={navRef}
-        className={`card-nav block h-[60px] p-0 rounded-[24px] relative overflow-hidden will-change-[height]`}
+        className={`card-nav block h-[60px] p-0 rounded-[24px] relative overflow-hidden will-change-[height] backdrop-blur-xl border border-white/10 shadow-lg`}
         style={{ backgroundColor: baseColor }}
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-6 z-[2]">
@@ -198,9 +198,9 @@ const CardNav: React.FC<CardNavProps> = ({
           {(items || []).slice(0, 3).map((item, idx) => (
             <div
               key={`${item.label}-${idx}`}
-              className="nav-card relative flex flex-col justify-between p-6 rounded-[20px] flex-1 min-h-[160px] transition-transform hover:scale-[1.02]"
+              className="nav-card relative flex flex-col justify-between p-6 rounded-[20px] flex-1 min-h-[160px] transition-transform hover:scale-[1.02] backdrop-blur-xl border border-white/10 shadow-lg"
               ref={setCardRef(idx)}
-              style={{ backgroundColor: '#0A192F', color: '#F8FAFC' }}
+              style={{ backgroundColor: 'rgba(10, 25, 47, 0.7)', color: '#F8FAFC' }}
             >
               <div className="text-2xl font-heading font-bold mb-4 opacity-90">
                 {item.label}

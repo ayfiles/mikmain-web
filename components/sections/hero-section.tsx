@@ -7,39 +7,46 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { BlurText } from "@/components/react-bits/BlurText";
 import Silk from "@/components/ui/Silk"; 
+import TShirtScene from "@/components/ui/TShirtScene";
 
 export function HeroSection() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Warten bis der Client geladen ist (verhindert Fehler/Flackern)
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // --- HIER IST DEINE ÄNDERUNG ---
-  // Wenn Light Mode: Nutze exakt #F8FAFC
-  // Wenn Dark Mode: Nutze Navy (#0a192f)
-  // Fallback (bevor geladen): Navy
-  const silkColor = mounted && resolvedTheme === "light" ? "#F8FAFC" : "#0a192f";
+  const isLightMode = mounted && resolvedTheme === "light";
 
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20 transition-colors duration-300">
+    <section 
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20 transition-colors duration-300"
+      style={{ backgroundColor: isLightMode ? '#F8FAFC' : undefined }}
+    >
       
-      {/* BACKGROUND */}
+      {/* EBENE 1: GANZ HINTEN (Silk Animation) */}
       <div className="absolute inset-0 z-0 w-full h-full">
          <Silk 
-           color={silkColor} // <--- Die Farbe wird hier übergeben
            speed={4.0} 
            scale={1.0} 
            noiseIntensity={0.5} 
          />
-         
-         {/* Overlay für bessere Lesbarkeit (passt sich auch an) */}
-         <div className="absolute inset-0 bg-background/30 z-[1]"></div>
+         {!isLightMode && (
+           <div className="absolute inset-0 bg-background/30 z-[1] backdrop-blur-[2px]"></div>
+         )}
       </div>
 
-      {/* CONTENT */}
+      {/* EBENE 2: MITTE (3D Modell hinter dem Text) */}
+      <div className="absolute inset-0 z-[2] pointer-events-none flex items-center justify-center">
+        <div className="w-full h-full max-w-[1400px] relative">
+          <div className="absolute right-0 lg:right-[-10%] top-1/2 -translate-y-1/2 w-full lg:w-[70%] h-[80vh]">
+            <TShirtScene />
+          </div>
+        </div>
+      </div>
+
+      {/* EBENE 3: VORNE (Content / Text / Buttons) */}
       <div className="relative z-10 w-[95%] max-w-[900px] mx-auto px-6 flex flex-col items-start text-left">
         
         {/* Headline */}
@@ -93,7 +100,6 @@ export function HeroSection() {
             Konzept ansehen
           </Button>
         </motion.div>
-
 
       </div>
     </section>
