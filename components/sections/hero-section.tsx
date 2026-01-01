@@ -37,17 +37,21 @@ export function HeroSection() {
          )}
       </div>
 
-      {/* EBENE 2: MITTE (3D Modell hinter dem Text) */}
-      <div className="absolute inset-0 z-[2] pointer-events-none flex items-center justify-center">
+      {/* EBENE 2: MITTE (3D Modell) */}
+      {/* Wir entfernen pointer-events-none vom Hauptcontainer dieser Ebene */}
+      <div className="absolute inset-0 z-[2] flex items-center justify-center">
         <div className="w-full h-full max-w-[1400px] relative">
-          <div className="absolute right-0 lg:right-[-10%] top-1/2 -translate-y-1/2 w-full lg:w-[70%] h-[80vh]">
+          {/* pointer-events-auto ist entscheidend, damit TShirtScene Hover-Events registriert */}
+          <div className="absolute right-0 lg:right-[-10%] top-1/2 -translate-y-1/2 w-full lg:w-[70%] h-[80vh] pointer-events-auto">
             <TShirtScene />
           </div>
         </div>
       </div>
 
       {/* EBENE 3: VORNE (Content / Text / Buttons) */}
-      <div className="relative z-10 w-[95%] max-w-[900px] mx-auto px-6 flex flex-col items-start text-left">
+      {/* Wir setzen pointer-events-none auf den Text-Container, damit man das Modell "darunter" hovern kann. 
+          Die interaktiven Elemente (Buttons) bekommen pointer-events-auto zurück. */}
+      <div className="relative z-10 w-[95%] max-w-[900px] mx-auto px-6 flex flex-col items-start text-left pointer-events-none">
         
         {/* Headline */}
         <div className="font-heading font-bold text-5xl md:text-7xl lg:text-8xl tracking-tight text-foreground mb-6 max-w-5xl leading-[1.1]">
@@ -77,12 +81,12 @@ export function HeroSection() {
           Wir verbinden <span className="text-foreground font-semibold">Manufaktur-Qualität</span> mit digitaler Prozess-Effizienz – vom Design bis zum Wäscheservice.
         </motion.p>
 
-        {/* Buttons */}
+        {/* Buttons - müssen wieder klickbar sein mittels pointer-events-auto */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+          className="mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto pointer-events-auto"
         >
           <Button 
             size="lg" 
