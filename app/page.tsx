@@ -1,11 +1,14 @@
 "use client";
 
 import { HeroSection } from "@/components/sections/hero-section";
+import { MissionSection } from "@/components/sections/mission-section";
+import { PlatformSection } from "@/components/sections/platform-section";
+// HIER NEU: Importiere die Service Section
+import { ServiceSection } from "@/components/sections/service-section";
 import CardNav from "@/components/ui/CardNav";
 
 export default function Home() {
   
-  // Die Menü-Struktur für MikMain
   const navItems = [
     {
       label: "Manufaktur",
@@ -41,25 +44,30 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between relative">
       
-      {/* Die Navbar schwebt über allem (z-index ist in der Komponente geregelt).
-        Wir nutzen das dunkle Logo, da der Hintergrund der Navbar weiß/transparent ist.
-      */}
+      {/* Navbar - schwebt über allem */}
       <CardNav 
-  items={navItems} 
-  baseColor="rgba(15, 23, 42, 0.6)" 
-  menuColor="#F8FAFC"
-  buttonBgColor="#2563EB"
-  buttonTextColor="#F8FAFC"
-  // HIER GEÄNDERT: Nur noch der Blur, kein Border mehr
-  className="backdrop-blur-xl shadow-none" 
-  logo="/mikmain-primary-light.svg"
-  logoAlt="MikMain Logo"
-/>
+        items={navItems} 
+        baseColor="rgba(15, 23, 42, 0.6)" 
+        menuColor="#F8FAFC"
+        buttonBgColor="#2563EB"
+        buttonTextColor="#F8FAFC"
+        className="backdrop-blur-xl shadow-none" 
+        logo="/mikmain-primary-light.svg"
+        logoAlt="MikMain Logo"
+      />
 
-      {/* Deine Hero Section mit dem Silk-Hintergrund */}
+      {/* 1. Hero: Einstieg & Emotion */}
       <HeroSection />
 
-      {/* Hier kommen später die nächsten Sektionen (z.B. Features, Footer) hin */}
+      {/* 2. Mission: Das "Warum" (Manifesto) */}
+      <MissionSection />
+
+      {/* 3. Plattform: Das "Wie" (Produkt & Features) */}
+      <PlatformSection />
+
+      {/* 4. Service: Der Kreislauf (Logistik) - HIER NEU EINGEBAUT */}
+      <ServiceSection />
+
     </main>
   );
 }
