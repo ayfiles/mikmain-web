@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { 
   XCircle, 
   AlertTriangle, 
@@ -9,9 +8,9 @@ import {
   Layers, 
   Leaf 
 } from "lucide-react";
-import SpotlightCard from "@/components/react-bits/SpotlightCard";
+import { Marquee } from "@/components/ui/marquee";
+import { cn } from "@/lib/utils";
 
-// Erweiterte Liste auf 6 Punkte für das 2x3 Grid
 const PAIN_POINTS = [
   {
     icon: Clock,
@@ -45,11 +44,35 @@ const PAIN_POINTS = [
   }
 ];
 
+const firstRow = PAIN_POINTS.slice(0, 3);
+const secondRow = PAIN_POINTS.slice(3);
+
+const ProblemCard = ({ icon: Icon, title, description }: typeof PAIN_POINTS[0]) => {
+  return (
+    <figure
+      className={cn(
+        "relative w-80 cursor-pointer overflow-hidden rounded-xl border p-6",
+        "border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+      )}
+    >
+      <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-4 text-red-500">
+        <Icon size={24} />
+      </div>
+      <h3 className="font-heading text-xl font-bold mb-2 text-white">
+        {title}
+      </h3>
+      <p className="text-gray-400 font-sans text-sm leading-relaxed">
+        {description}
+      </p>
+    </figure>
+  );
+};
+
 export function ProblemSection() {
   return (
     <section className="py-12 bg-mik-navy text-white relative overflow-hidden">
       
-      {/* Background Pattern (Subtiler Grid Hintergrund) */}
+      {/* Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <div className="container mx-auto px-6 relative z-10">
@@ -64,43 +87,26 @@ export function ProblemSection() {
           </p>
         </div>
 
-        {/* 2x3 Grid mit Spotlight Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 scale-[0.675] origin-center">
-          {PAIN_POINTS.map((point, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 80, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ 
-                duration: 0.6,
-                delay: idx * 0.1,
-                ease: [0.16, 1, 0.3, 1]
-              }}
-            >
-              <SpotlightCard 
-                className="h-full bg-white/5 border-white/10 hover:border-white/20 transition-colors" 
-                spotlightColor="rgba(239, 68, 68, 0.2)" // Rötliches Licht passend zum "Problem"-Thema
-              >
-                <div className="p-8 flex flex-col h-full">
-                  <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-6 text-red-500 shrink-0">
-                    <point.icon size={24} />
-                  </div>
-                  
-                  <h3 className="font-heading text-2xl font-bold mb-3 text-white">
-                    {point.title}
-                  </h3>
-                  
-                  <p className="text-gray-400 font-sans leading-relaxed flex-grow">
-                    {point.description}
-                  </p>
-                </div>
-              </SpotlightCard>
-            </motion.div>
-          ))}
-        </div>
-
       </div>
+
+      {/* Marquee Cards */}
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+        <Marquee pauseOnHover className="[--duration:30s]">
+          {firstRow.map((point, idx) => (
+            <ProblemCard key={idx} {...point} />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:30s]">
+          {secondRow.map((point, idx) => (
+            <ProblemCard key={idx} {...point} />
+          ))}
+        </Marquee>
+        
+        {/* Fade-Effekte an den Seiten */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-mik-navy"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-mik-navy"></div>
+      </div>
+
     </section>
   );
 }
