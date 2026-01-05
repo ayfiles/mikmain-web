@@ -48,8 +48,8 @@ const CardNav: React.FC<CardNavProps> = ({
   const cardsRef = useRef<HTMLDivElement[]>([]);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-  // Standard Höhe
-  const BASE_HEIGHT = 60; 
+  // Standard Höhe (2x skaliert)
+  const BASE_HEIGHT = 120; 
 
   const calculateHeight = () => {
     const navEl = navRef.current;
@@ -81,7 +81,7 @@ const CardNav: React.FC<CardNavProps> = ({
         return BASE_HEIGHT + contentHeight + padding;
       }
     }
-    return 280; 
+    return 340; 
   };
 
   const createTimeline = () => {
@@ -143,14 +143,14 @@ const CardNav: React.FC<CardNavProps> = ({
 
   return (
     <div
-      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[95%] max-w-[900px] z-[99] top-6 rounded-[24px] ${className}`}
+      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[95%] max-w-[1200px] z-[99] top-6 rounded-[40px] ${className}`}
     >
       <nav
         ref={navRef}
-        className={`card-nav block h-[60px] p-0 rounded-[24px] relative overflow-hidden will-change-[height] backdrop-blur-xl border border-white/10 shadow-lg`}
+        className={`card-nav block h-[120px] p-0 rounded-[40px] relative overflow-hidden will-change-[height] backdrop-blur-xl border border-white/10 shadow-lg`}
         style={{ backgroundColor: baseColor }}
       >
-        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-6 z-[2]">
+        <div className="card-nav-top absolute inset-x-0 top-0 h-[120px] flex items-center justify-between px-10 z-[2]">
           
           {/* MENU BUTTON (LINKS) */}
           <div
@@ -159,25 +159,25 @@ const CardNav: React.FC<CardNavProps> = ({
             aria-label={isExpanded ? 'Close menu' : 'Open menu'}
             style={{ color: menuColor }} 
           >
-            {isHamburgerOpen ? <X size={24} /> : <Menu size={24} />}
+            {isHamburgerOpen ? <X size={36} /> : <Menu size={36} />}
           </div>
           
           {/* LOGO (MITTE) */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center font-heading font-bold text-2xl tracking-tighter text-mik-navy">
-             {logo ? <img src={logo} alt={logoAlt} className="h-8 w-auto" /> : <span>MikMain<span className="text-mik-red">.</span></span>}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center font-heading font-bold text-4xl tracking-tighter text-mik-navy">
+             {logo ? <img src={logo} alt={logoAlt} className="h-14 w-auto" /> : <span>MikMain<span className="text-mik-red">.</span></span>}
           </div>
 
           {/* RECHTS: CTA & THEME TOGGLER */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-5">
              
              {/* Der neue Theme Toggler */}
-             <div className="hidden md:block">
+             <div className="hidden md:block scale-125">
                <AnimatedThemeToggler />
              </div>
 
              <button
                type="button"
-               className="hidden md:inline-flex rounded-full px-6 py-2 text-sm font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-200"
+               className="hidden md:inline-flex rounded-full px-10 py-4 text-lg font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-200"
                style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
              >
                Kontakt
@@ -185,13 +185,13 @@ const CardNav: React.FC<CardNavProps> = ({
           </div>
           
           {/* Platzhalter Mobile */}
-          <div className="md:hidden w-[24px]"></div>
+          <div className="md:hidden w-[36px]"></div>
 
         </div>
 
         {/* CONTENT */}
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[70px] bottom-0 p-3 flex flex-col md:flex-row items-stretch gap-3 z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[130px] bottom-0 p-4 flex flex-col md:flex-row items-stretch gap-4 z-[1] ${
             isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
           }`}
         >

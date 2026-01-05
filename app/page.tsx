@@ -3,9 +3,8 @@
 import { HeroSection } from "@/components/sections/hero-section";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { SolutionSection } from "@/components/sections/solution-section";
-import { CatalogSection } from "@/components/sections/catalog-section";
-import { ReferencesSection } from "@/components/sections/references-section";
 import { ContactSection } from "@/components/sections/contact-section";
+import { FooterSection } from "@/components/sections/footer-section";
 import CardNav from "@/components/ui/CardNav";
 
 export default function Home() {
@@ -19,15 +18,6 @@ export default function Home() {
       links: [
         { label: "Problem", href: "#problem", ariaLabel: "Problem" },
         { label: "Lösung", href: "#solution", ariaLabel: "Lösung" },
-      ]
-    },
-    {
-      label: "Katalog",
-      bgColor: "#f3f4f6", 
-      textColor: "#0a192f", 
-      links: [
-        { label: "Kategorien", href: "#catalog", ariaLabel: "Kategorien" },
-        { label: "Referenzen", href: "#references", ariaLabel: "Referenzen" }
       ]
     },
     {
@@ -66,20 +56,13 @@ export default function Home() {
         <SolutionSection />
       </div>
 
-      {/* 3. Katalog (Bento Grid) */}
-      <div id="catalog">
-        <CatalogSection />
-      </div>
-
-      {/* 4. Referenzen (Bento Grid) */}
-      <div id="references">
-        <ReferencesSection />
-      </div>
-
-      {/* 5. Kontakt */}
+      {/* 3. Kontakt */}
       <div id="contact">
         <ContactSection />
       </div>
+
+      {/* 4. Footer */}
+      <FooterSection />
 
     </main>
   );

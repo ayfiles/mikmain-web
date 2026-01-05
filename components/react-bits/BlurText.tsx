@@ -43,7 +43,7 @@ export const BlurText = ({ text, delay = 200, className = '' }: BlurTextProps) =
 
   return (
     <motion.div
-      className={`flex flex-wrap gap-x-4 gap-y-2 justify-center ${className}`} // justify-center für zentrierten Text
+      className={`flex flex-wrap gap-x-4 gap-y-2 justify-start ${className}`} // justify-start für linksbündigen Text
       variants={container}
       initial="hidden"
       animate="visible"

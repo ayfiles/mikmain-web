@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // <--- WICHTIG: Damit der Toggler funktioniert
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -12,9 +12,14 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      // HIER GEÄNDERT: Responsive Paddings für bessere Ratios auf allen Screens
+      padding: {
+        DEFAULT: "1rem", // 16px auf Mobile
+        sm: "2rem",      // 32px auf Tablet
+        lg: "4rem",      // 64px auf Desktop (Luftig & Edel)
+      },
       screens: {
-        "2xl": "1400px",
+        "2xl": "1400px", // Maximale Breite bleibt bei 1400px
       },
     },
     extend: {
@@ -26,7 +31,7 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))", // <--- Hier passiert die Magie
+        background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -56,7 +61,6 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Deine Custom Farben (bleiben fest)
         mik: {
           navy: "#0a192f",
           red: "#991b1b",

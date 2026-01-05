@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { Marquee } from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { TextAnimate } from "@/components/ui/text-animate";
 
 const PAIN_POINTS = [
   {
@@ -77,35 +79,68 @@ export function ProblemSection() {
       
       <div className="container mx-auto px-6 relative z-10">
         
-        {/* Header */}
+        {/* Header - mit Magic UI TextAnimate */}
         <div className="text-center mb-8">
-          <h2 className="font-heading text-4xl md:text-5xl font-bold mb-2 text-red-500">
+          <TextAnimate 
+            animation="blurInUp" 
+            by="word"
+            as="h2"
+            className="font-heading text-4xl md:text-5xl font-bold mb-4 text-red-500"
+            once
+            duration={0.8}
+          >
             Was läuft schief?
-          </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto font-sans">
+          </TextAnimate>
+          <motion.p 
+            className="text-xl text-gray-300 max-w-2xl mx-auto font-sans"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          >
             Corporate Fashion ist oft mehr Last als Lust. Kennen Sie diese Lücken in Ihrem Prozess?
-          </p>
+          </motion.p>
         </div>
 
       </div>
 
-      {/* Marquee Cards */}
-      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-        <Marquee pauseOnHover className="[--duration:30s]">
-          {firstRow.map((point, idx) => (
-            <ProblemCard key={idx} {...point} />
-          ))}
-        </Marquee>
-        <Marquee reverse pauseOnHover className="[--duration:30s]">
-          {secondRow.map((point, idx) => (
-            <ProblemCard key={idx} {...point} />
-          ))}
-        </Marquee>
+      {/* Marquee Cards - Scroll Animation (nur opacity + y, kein x wegen Marquee-Konflikt) */}
+      <motion.div 
+        className="relative flex w-full flex-col items-center justify-center overflow-hidden"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+        >
+          <Marquee pauseOnHover className="[--duration:30s]">
+            {firstRow.map((point, idx) => (
+              <ProblemCard key={idx} {...point} />
+            ))}
+          </Marquee>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+        >
+          <Marquee reverse pauseOnHover className="[--duration:30s]">
+            {secondRow.map((point, idx) => (
+              <ProblemCard key={idx} {...point} />
+            ))}
+          </Marquee>
+        </motion.div>
         
         {/* Fade-Effekte an den Seiten */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-mik-navy"></div>
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-mik-navy"></div>
-      </div>
+      </motion.div>
 
     </section>
   );

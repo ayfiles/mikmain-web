@@ -30,7 +30,7 @@ export function HeroSection() {
 
   return (
     <section 
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20 transition-colors duration-300"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-36 transition-colors duration-300"
       style={{ backgroundColor: isLightMode ? '#F8FAFC' : undefined }}
     >
       
@@ -47,85 +47,86 @@ export function HeroSection() {
       </div>
 
       {/* EBENE 2: MITTE (3D Modell) */}
-      {/* Wir entfernen pointer-events-none vom Hauptcontainer dieser Ebene */}
-      <div className="absolute inset-0 z-[2] flex items-center justify-center">
-        <div className="w-full h-full max-w-[1400px] relative">
-          {/* pointer-events-auto ist entscheidend, damit TShirtScene Hover-Events registriert */}
-          <div className="absolute right-0 lg:right-[-10%] top-1/2 -translate-y-1/2 w-full lg:w-[70%] h-[80vh] pointer-events-auto">
+      {/* Nutzt jetzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
+      <div className="absolute inset-0 z-[2] flex items-center justify-center pointer-events-none">
+        <div className="w-[95%] h-full max-w-[1200px] relative mx-auto">
+          {/* pointer-events-auto ist entscheidend, damit TShirtScene Hover-Events registriert - weiter rechts für Gap */}
+          <div className="absolute right-0 lg:right-[-15%] top-1/2 -translate-y-1/2 w-full lg:w-[55%] h-[90vh] pointer-events-auto">
             <TShirtScene />
           </div>
         </div>
       </div>
 
       {/* EBENE 3: VORNE (Content / Text / Buttons) */}
-      {/* Wir setzen pointer-events-none auf den Text-Container, damit man das Modell "darunter" hovern kann. 
-          Die interaktiven Elemente (Buttons) bekommen pointer-events-auto zurück. */}
-      <div className="relative z-10 w-[95%] max-w-[900px] mx-auto px-6 flex flex-col items-start text-left pointer-events-none">
+      {/* Nutzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
+      <div className="relative z-10 w-[95%] max-w-[1200px] mx-auto h-full flex flex-col justify-center pointer-events-none">
         
-        {/* Headline */}
-        <div className="font-heading font-bold text-5xl md:text-7xl lg:text-8xl tracking-tight text-foreground mb-6 max-w-5xl leading-[1.1]">
-           <BlurText 
-             text="Corporate Fashion." 
-             className="text-foreground drop-shadow-2xl" 
-             delay={100}
-           />
-           <motion.div 
-             initial={{ opacity: 0, filter: 'blur(10px)' }}
-             animate={{ opacity: 1, filter: 'blur(0px)' }}
-             transition={{ delay: 1, duration: 0.8 }}
-             className="text-transparent bg-clip-text bg-gradient-to-r from-muted-foreground via-foreground to-muted-foreground"
-           >
-             Concierge Level.
-           </motion.div>
+        <div className="flex flex-col items-start text-left max-w-[55%]"> {/* Text-Breite begrenzt für Gap zum 3D-Modell */}
+            
+            {/* Headline */}
+            <div className="font-heading font-bold text-7xl md:text-[6.5rem] lg:text-[9rem] tracking-tight text-foreground mb-4 leading-[1.05]">
+            <BlurText 
+                text="Corporate Fashion." 
+                className="text-foreground drop-shadow-2xl" 
+                delay={100}
+            />
+            <motion.div 
+                initial={{ opacity: 0, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, filter: 'blur(0px)' }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="text-transparent bg-clip-text bg-gradient-to-r from-muted-foreground via-foreground to-muted-foreground"
+            >
+                Concierge Level.
+            </motion.div>
+            </div>
+
+            {/* Subline */}
+            <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="mt-3 text-xl md:text-2xl text-muted-foreground font-sans leading-relaxed max-w-2xl"
+            >
+            MikMain ist Ihr Concierge für Unternehmensbekleidung. 
+            Wir verbinden <span className="text-foreground font-semibold">Manufaktur-Qualität</span> mit digitaler Prozess-Effizienz – vom Design bis zum Wäscheservice.
+            </motion.p>
+
+            {/* Buttons */}
+            <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto pointer-events-auto"
+            >
+            <Button 
+                size="lg" 
+                className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-xl h-16 px-10 shadow-[0_0_40px_-5px_#991B1B80] transition-all hover:scale-105 rounded-xl"
+            >
+                Plattform Demo
+                <ArrowRight className="ml-3 h-6 w-6" />
+            </Button>
+
+            <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-xl h-16 px-10 backdrop-blur-sm rounded-xl"
+            >
+                Konzept ansehen
+            </Button>
+            </motion.div>
         </div>
-
-        {/* Subline */}
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-4 max-w-2xl text-lg md:text-xl text-muted-foreground font-sans leading-relaxed"
-        >
-          MikMain ist Ihr Concierge für Unternehmensbekleidung. 
-          Wir verbinden <span className="text-foreground font-semibold">Manufaktur-Qualität</span> mit digitaler Prozess-Effizienz – vom Design bis zum Wäscheservice.
-        </motion.p>
-
-        {/* Buttons - müssen wieder klickbar sein mittels pointer-events-auto */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto pointer-events-auto"
-        >
-          <Button 
-            size="lg" 
-            className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-lg h-14 px-8 shadow-[0_0_30px_-5px_#991B1B80] transition-all hover:scale-105"
-          >
-            Plattform Demo
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-lg h-14 px-8 backdrop-blur-sm"
-          >
-            Konzept ansehen
-          </Button>
-        </motion.div>
 
       </div>
 
-      {/* EBENE 4: LOGO LOOP AM UNTEREN RAND */}
-      <div className="absolute bottom-0 left-0 right-0 z-[3] h-24 overflow-hidden">
-        {/* Logo Loop Container mit gleicher Breite wie Navbar */}
-        <div className="relative h-full w-[95%] max-w-[900px] mx-auto overflow-hidden">
-          {/* Logo Loop */}
+      {/* EBENE 4: LOGO LOOP AM UNTEREN RAND - 1.5x skaliert */}
+      <div className="absolute bottom-0 left-0 right-0 z-[3] h-32 overflow-hidden">
+        {/* Nutzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
+        <div className="relative h-full w-[95%] max-w-[1200px] mx-auto overflow-hidden">
           <div className="relative h-full flex items-center">
           <motion.div
-            className="flex items-center gap-16"
+            className="flex items-center gap-20"
             animate={{
-              x: [0, `-${(120 + 64) * LOGOS.length * 2}px`],
+              x: [0, `-${(160 + 80) * LOGOS.length * 2}px`],
             }}
             transition={{
               x: {
@@ -136,16 +137,15 @@ export function HeroSection() {
               },
             }}
           >
-            {/* Mehrfach dupliziert für nahtlosen Loop */}
             {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logoItem, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center min-w-[120px] h-12 flex-shrink-0"
+                className="flex items-center justify-center min-w-[160px] h-16 flex-shrink-0"
               >
                 <img
                   src={logoItem.logo}
                   alt={logoItem.name}
-                  className="h-8 md:h-10 w-auto opacity-40 grayscale hover:grayscale-0 hover:opacity-60 transition-all duration-300"
+                  className="h-10 md:h-14 w-auto opacity-40 grayscale hover:grayscale-0 hover:opacity-60 transition-all duration-300"
                 />
               </div>
             ))}
