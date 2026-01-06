@@ -53,17 +53,17 @@ const ProblemCard = ({ icon: Icon, title, description }: typeof PAIN_POINTS[0]) 
   return (
     <figure
       className={cn(
-        "relative w-80 cursor-pointer overflow-hidden rounded-xl border p-6",
+        "relative w-80 cursor-pointer overflow-hidden rounded-2xl border p-8",
         "border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
       )}
     >
-      <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-4 text-red-500">
-        <Icon size={24} />
+      <div className="w-14 h-14 bg-red-500/20 rounded-full flex items-center justify-center mb-5 text-red-500">
+        <Icon size={28} />
       </div>
-      <h3 className="font-heading text-xl font-bold mb-2 text-white">
+      <h3 className="font-heading text-xl font-bold mb-3 text-white">
         {title}
       </h3>
-      <p className="text-gray-400 font-sans text-sm leading-relaxed">
+      <p className="text-gray-400 font-sans text-base leading-relaxed">
         {description}
       </p>
     </figure>
@@ -72,7 +72,7 @@ const ProblemCard = ({ icon: Icon, title, description }: typeof PAIN_POINTS[0]) 
 
 export function ProblemSection() {
   return (
-    <section className="py-12 bg-mik-navy text-white relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-mik-navy text-white relative overflow-hidden">
       
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -80,7 +80,7 @@ export function ProblemSection() {
       <div className="container mx-auto px-6 relative z-10">
         
         {/* Header - mit Magic UI TextAnimate */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-16">
           <TextAnimate 
             animation="blurInUp" 
             by="word"
@@ -106,7 +106,7 @@ export function ProblemSection() {
 
       {/* Marquee Cards - Scroll Animation (nur opacity + y, kein x wegen Marquee-Konflikt) */}
       <motion.div 
-        className="relative flex w-full flex-col items-center justify-center overflow-hidden"
+        className="relative flex w-full flex-col items-center justify-center overflow-hidden gap-6"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
@@ -118,7 +118,7 @@ export function ProblemSection() {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
         >
-          <Marquee pauseOnHover className="[--duration:30s]">
+          <Marquee className="[--duration:30s]">
             {firstRow.map((point, idx) => (
               <ProblemCard key={idx} {...point} />
             ))}
@@ -130,7 +130,7 @@ export function ProblemSection() {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
         >
-          <Marquee reverse pauseOnHover className="[--duration:30s]">
+          <Marquee reverse className="[--duration:30s]">
             {secondRow.map((point, idx) => (
               <ProblemCard key={idx} {...point} />
             ))}

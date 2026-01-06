@@ -120,8 +120,14 @@ export function HeroSection() {
 
       {/* EBENE 4: LOGO LOOP AM UNTEREN RAND */}
       <div className="absolute bottom-0 left-0 right-0 z-[3] h-24 overflow-hidden">
-        {/* Nutzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
-        <div className="relative h-full w-[95%] max-w-[1200px] mx-auto overflow-hidden">
+        {/* Container mit CSS Mask für smooth fade */}
+        <div 
+          className="relative h-full w-[95%] max-w-[1200px] mx-auto overflow-hidden"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+          }}
+        >
           <div className="relative h-full flex items-center">
           <motion.div
             className="flex items-center gap-16"

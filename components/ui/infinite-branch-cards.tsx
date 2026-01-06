@@ -42,6 +42,7 @@ export const BRANCH_DATA: BranchItem[] = [
     description: "Hygienische und komfortable Berufskleidung für das Gesundheitswesen. Antibakterielle Stoffe, ergonomische Schnitte und professionelles Erscheinungsbild.",
     icon: Stethoscope,
     gradient: "from-cyan-500/20 via-teal-500/10 to-emerald-500/20",
+    backgroundImage: "/branches/medizin.png",
     features: ["Kasacks & Hosen", "OP-Kleidung", "Laborkittel", "Hygiene-Wäscheservice"],
     images: ["/placeholder-medical-1.jpg", "/placeholder-medical-2.jpg"]
   },
@@ -52,6 +53,7 @@ export const BRANCH_DATA: BranchItem[] = [
     description: "Einheitliche Teamkleidung die Ihre Marke stärkt. Vom Polo bis zum Blazer – wiedererkennbar, bequem und repräsentativ.",
     icon: ShoppingBag,
     gradient: "from-violet-500/20 via-purple-500/10 to-fuchsia-500/20",
+    backgroundImage: "/branches/retail.png",
     features: ["Verkäufer-Outfits", "Marken-Polos", "Accessoires", "Corporate Design"],
     images: ["/placeholder-retail-1.jpg", "/placeholder-retail-2.jpg"]
   },
@@ -62,6 +64,7 @@ export const BRANCH_DATA: BranchItem[] = [
     description: "Professionelle Business-Kleidung für Ihr Team. Einheitliches Auftreten bei Meetings, Messen und im täglichen Geschäft.",
     icon: Building2,
     gradient: "from-slate-500/20 via-gray-500/10 to-zinc-500/20",
+    backgroundImage: "/branches/office.png",
     features: ["Business-Hemden", "Blazer & Sakkos", "Event-Outfits", "Messe-Kleidung"],
     images: ["/placeholder-corporate-1.jpg", "/placeholder-corporate-2.jpg"]
   },
@@ -72,6 +75,7 @@ export const BRANCH_DATA: BranchItem[] = [
     description: "Elegante und funktionale Kleidung für Wellness- und Beauty-Profis. Stilvoll, bequem und pflegeleicht.",
     icon: Sparkles,
     gradient: "from-rose-500/20 via-pink-500/10 to-fuchsia-500/20",
+    backgroundImage: "/branches/wellnes.png",
     features: ["Spa-Uniformen", "Friseur-Kleidung", "Kosmetik-Kittel", "Wellness-Roben"],
     images: ["/placeholder-wellness-1.jpg", "/placeholder-wellness-2.jpg"]
   },
@@ -95,7 +99,6 @@ export function InfiniteBranchCards({
   onCardClick,
 }: InfiniteBranchCardsProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [start, setStart] = useState(false);
 
   const getSpeed = useCallback(() => {
     switch (speed) {
@@ -108,24 +111,20 @@ export function InfiniteBranchCards({
     }
   }, [speed]);
 
-  useEffect(() => {
-    setStart(true);
-  }, []);
-
-  // Dupliziere Items für nahtlose Animation
-  const duplicatedItems = [...items, ...items];
+  // Dupliziere Items mehrfach für nahtlose Animation (auch bei Widescreen)
+  const duplicatedItems = [...items, ...items, ...items, ...items];
 
   return (
     <div
       className={cn(
-        "relative z-20 w-full overflow-hidden",
+        "relative z-20 w-full overflow-x-clip overflow-y-visible py-6",
         className
       )}
     >
       <div
         className={cn(
-          "flex gap-6 w-max",
-          start && (direction === "left" ? "animate-scroll-left" : "animate-scroll-right"),
+          "flex gap-6 w-max px-4",
+          direction === "left" ? "animate-scroll-left" : "animate-scroll-right",
           pauseOnHover && "pause-animation"
         )}
         style={{
@@ -133,7 +132,6 @@ export function InfiniteBranchCards({
         } as React.CSSProperties}
       >
         {duplicatedItems.map((item, idx) => {
-          const Icon = item.icon;
           const isHovered = hoveredIndex === idx;
           const hasHover = hoveredIndex !== null;
           
@@ -177,14 +175,9 @@ export function InfiniteBranchCards({
               )}
               
               {/* Content */}
-              <div className="relative z-10 h-full p-6 flex flex-col">
-                {/* Top: Icon */}
-                <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm w-fit mb-4">
-                  <Icon className="w-7 h-7 text-mik-blue" />
-                </div>
-                
-                {/* Middle: Title & Description */}
-                <div className="flex-1">
+              <div className="relative z-10 h-full p-6 flex flex-col justify-end">
+                {/* Title & Description */}
+                <div className="flex-1 flex flex-col justify-end">
                   <h3 className="font-heading text-xl font-bold text-white mb-1">
                     {item.title}
                   </h3>

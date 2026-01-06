@@ -4,10 +4,14 @@ import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { InfiniteBranchCards, BRANCH_DATA, BranchItem } from "@/components/ui/infinite-branch-cards";
 import { BranchModal } from "@/components/ui/branch-modal";
+import { CatalogRequestModal } from "@/components/ui/catalog-request-modal";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export function CatalogSection() {
   const [selectedBranch, setSelectedBranch] = useState<BranchItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
@@ -43,19 +47,10 @@ export function CatalogSection() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-center"
           >
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-block px-4 py-2 mb-6 rounded-full bg-mik-blue/10 border border-mik-blue/20 text-mik-blue text-sm font-medium"
-            >
-              Branchen-Expertise
-            </motion.span>
-
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4"
             >
               Unser{" "}
@@ -67,7 +62,7 @@ export function CatalogSection() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
             >
               Spezialisierte Lösungen für jede Branche. Von der Gastronomie bis zum
@@ -80,8 +75,8 @@ export function CatalogSection() {
         <div className="relative z-10 space-y-6">
           {/* Reihe 1 - Nach links scrollend */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <InfiniteBranchCards
@@ -95,8 +90,8 @@ export function CatalogSection() {
 
           {/* Reihe 2 - Nach rechts scrollend */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             <InfiniteBranchCards
@@ -109,16 +104,53 @@ export function CatalogSection() {
           </motion.div>
         </div>
 
-        {/* Fade Edges für besseren visuellen Effekt */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent pointer-events-none z-20" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent pointer-events-none z-20" />
+        {/* CTA Bereich */}
+        <div className="relative z-10 w-[95%] max-w-[1200px] mx-auto mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-center"
+          >
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="text-lg md:text-xl text-muted-foreground mb-6"
+            >
+              Benötigen Sie einen personalisierten Produktkatalog für Ihr Unternehmen?
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              <Button
+                onClick={() => setIsRequestModalOpen(true)}
+                size="lg"
+                className="bg-mik-blue hover:bg-blue-600 text-white font-heading font-bold text-lg h-14 px-10 shadow-[0_0_40px_-5px_rgba(59,130,246,0.4)] transition-all hover:scale-105 rounded-xl"
+              >
+                Jetzt anfragen
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Fade Edges - Breit genug für Widescreen */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 lg:w-48 xl:w-64 2xl:w-80 bg-gradient-to-r from-background via-background/90 to-transparent pointer-events-none z-20" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 lg:w-48 xl:w-64 2xl:w-80 bg-gradient-to-l from-background via-background/90 to-transparent pointer-events-none z-20" />
       </section>
 
-      {/* Modal */}
+      {/* Modals */}
       <BranchModal
         item={selectedBranch}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
+      />
+      <CatalogRequestModal
+        isOpen={isRequestModalOpen}
+        onClose={() => setIsRequestModalOpen(false)}
       />
     </>
   );

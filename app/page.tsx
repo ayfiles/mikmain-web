@@ -4,22 +4,45 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { SolutionSection } from "@/components/sections/solution-section";
 import { CatalogSection } from "@/components/sections/catalog-section";
+import { ReferencesSection } from "@/components/sections/references-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { FooterSection } from "@/components/sections/footer-section";
 import CardNav from "@/components/ui/CardNav";
 
 export default function Home() {
   
-  // Die Menü-Struktur für MikMain
+  // Die Menü-Struktur für MikMain - Jede Section hat eine eigene Card
   const navItems = [
     {
-      label: "Manufaktur",
+      label: "Problem",
       bgColor: "#0a192f", 
       textColor: "#ffffff",
       links: [
-        { label: "Problem", href: "#problem", ariaLabel: "Problem" },
-        { label: "Lösung", href: "#solution", ariaLabel: "Lösung" },
-        { label: "Katalog", href: "#catalog", ariaLabel: "Katalog" },
+        { label: "Zur Section", href: "#problem", ariaLabel: "Problem" },
+      ]
+    },
+    {
+      label: "Lösung",
+      bgColor: "#0a192f", 
+      textColor: "#ffffff",
+      links: [
+        { label: "Zur Section", href: "#solution", ariaLabel: "Lösung" },
+      ]
+    },
+    {
+      label: "Katalog",
+      bgColor: "#0a192f", 
+      textColor: "#ffffff",
+      links: [
+        { label: "Zur Section", href: "#catalog", ariaLabel: "Katalog" },
+      ]
+    },
+    {
+      label: "Referenzen",
+      bgColor: "#0a192f", 
+      textColor: "#ffffff",
+      links: [
+        { label: "Zur Section", href: "#references", ariaLabel: "Referenzen" },
       ]
     },
     {
@@ -27,7 +50,7 @@ export default function Home() {
       bgColor: "#991b1b", 
       textColor: "#ffffff",
       links: [
-        { label: "Anfrage", href: "#contact", ariaLabel: "Anfrage" },
+        { label: "Zur Section", href: "#contact", ariaLabel: "Kontakt" },
       ]
     }
   ];
@@ -63,7 +86,12 @@ export default function Home() {
         <CatalogSection />
       </div>
 
-      {/* 4. Kontakt */}
+      {/* 4. Referenzen (Kunden) */}
+      <div id="references">
+        <ReferencesSection />
+      </div>
+
+      {/* 5. Kontakt */}
       <div id="contact">
         <ContactSection />
       </div>

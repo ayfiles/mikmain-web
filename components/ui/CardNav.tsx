@@ -4,7 +4,8 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 // HIER: Der Import für den neuen Toggler (Pfad ggf. anpassen auf @/components/magicui/...)
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"; 
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import { useOutsideClick } from "@/hooks/use-outside-click"; 
 
 type CardNavLink = {
   label: string;
@@ -56,31 +57,32 @@ const CardNav: React.FC<CardNavProps> = ({
     if (!navEl) return 260;
 
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile) {
-      const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement;
-      if (contentEl) {
-        const wasVisible = contentEl.style.visibility;
-        const wasPointerEvents = contentEl.style.pointerEvents;
-        const wasPosition = contentEl.style.position;
-        const wasHeight = contentEl.style.height;
+    
+    // Für beide Fälle: Content sichtbar machen, Höhe messen, wieder verstecken
+    const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement;
+    if (contentEl) {
+      const wasVisible = contentEl.style.visibility;
+      const wasPointerEvents = contentEl.style.pointerEvents;
+      const wasPosition = contentEl.style.position;
+      const wasHeight = contentEl.style.height;
 
-        contentEl.style.visibility = 'visible';
-        contentEl.style.pointerEvents = 'auto';
-        contentEl.style.position = 'static';
-        contentEl.style.height = 'auto';
-        contentEl.offsetHeight;
+      contentEl.style.visibility = 'visible';
+      contentEl.style.pointerEvents = 'auto';
+      contentEl.style.position = 'static';
+      contentEl.style.height = 'auto';
+      contentEl.offsetHeight;
 
-        const padding = 16; 
-        const contentHeight = contentEl.scrollHeight;
+        const padding = 8;
+      const contentHeight = contentEl.scrollHeight;
 
-        contentEl.style.visibility = wasVisible;
-        contentEl.style.pointerEvents = wasPointerEvents;
-        contentEl.style.position = wasPosition;
-        contentEl.style.height = wasHeight;
+      contentEl.style.visibility = wasVisible;
+      contentEl.style.pointerEvents = wasPointerEvents;
+      contentEl.style.position = wasPosition;
+      contentEl.style.height = wasHeight;
 
-        return BASE_HEIGHT + contentHeight + padding;
-      }
+      return BASE_HEIGHT + contentHeight + padding;
     }
+    
     return 340; 
   };
 
@@ -141,6 +143,17 @@ const CardNav: React.FC<CardNavProps> = ({
     if (el) cardsRef.current[i] = el;
   };
 
+  // Click-Outside Handler
+  useOutsideClick(navRef, () => {
+    if (isExpanded) {
+      const tl = tlRef.current;
+      if (tl) {
+        setIsHamburgerOpen(false);
+        tl.reverse().then(() => setIsExpanded(false));
+      }
+    }
+  });
+
   return (
     <div
       className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[95%] max-w-[1200px] z-[99] top-6 rounded-[40px] ${className}`}
@@ -191,28 +204,29 @@ const CardNav: React.FC<CardNavProps> = ({
 
         {/* CONTENT */}
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[130px] bottom-0 p-4 flex flex-col md:flex-row items-stretch gap-4 z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[130px] bottom-0 p-1.5 md:p-2 flex flex-col md:flex-row items-stretch gap-1.5 z-[1] ${
             isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
           }`}
         >
-          {(items || []).slice(0, 3).map((item, idx) => (
+          {(items || []).map((item, idx) => (
             <div
               key={`${item.label}-${idx}`}
-              className="nav-card relative flex flex-col justify-between p-6 rounded-[20px] flex-1 min-h-[160px] transition-transform hover:scale-[1.02] backdrop-blur-xl border border-white/10 shadow-lg"
+              className="nav-card relative flex flex-col justify-between p-1.5 md:p-2 rounded-[12px] flex-1 aspect-[3/2] transition-transform hover:scale-[1.02] backdrop-blur-xl border border-white/10 shadow-lg"
               ref={setCardRef(idx)}
-              style={{ backgroundColor: 'rgba(10, 25, 47, 0.7)', color: '#F8FAFC' }}
+              style={{ backgroundColor: item.bgColor || 'rgba(10, 25, 47, 0.7)', color: item.textColor || '#F8FAFC' }}
             >
-              <div className="text-2xl font-heading font-bold mb-4 opacity-90">
+              <div className="text-xs md:text-sm font-heading font-bold mb-0.5 opacity-90">
                 {item.label}
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-0.5">
                 {item.links?.map((lnk, i) => (
                   <a
                     key={`${lnk.label}-${i}`}
-                    className="inline-flex items-center gap-2 text-base font-medium opacity-70 hover:opacity-100 transition-opacity"
+                    className="inline-flex items-center gap-1 text-[9px] md:text-[10px] font-medium opacity-70 hover:opacity-100 transition-opacity"
                     href={lnk.href}
+                    onClick={() => setIsExpanded(false)}
                   >
-                    <ArrowUpRight size={16} />
+                    <ArrowUpRight size={8} />
                     {lnk.label}
                   </a>
                 ))}
