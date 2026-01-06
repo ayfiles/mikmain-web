@@ -3,6 +3,7 @@
 import { HeroSection } from "@/components/sections/hero-section";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { SolutionSection } from "@/components/sections/solution-section";
+import { CatalogSection } from "@/components/sections/catalog-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { FooterSection } from "@/components/sections/footer-section";
 import CardNav from "@/components/ui/CardNav";
@@ -18,6 +19,7 @@ export default function Home() {
       links: [
         { label: "Problem", href: "#problem", ariaLabel: "Problem" },
         { label: "Lösung", href: "#solution", ariaLabel: "Lösung" },
+        { label: "Katalog", href: "#catalog", ariaLabel: "Katalog" },
       ]
     },
     {
@@ -56,7 +58,12 @@ export default function Home() {
         <SolutionSection />
       </div>
 
-      {/* 3. Kontakt */}
+      {/* 3. Katalog (Branchen) */}
+      <div id="catalog">
+        <CatalogSection />
+      </div>
+
+      {/* 4. Kontakt */}
       <div id="contact">
         <ContactSection />
       </div>

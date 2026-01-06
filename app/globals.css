@@ -63,3 +63,34 @@
     font-weight: 700;
   }
 }
+
+/* Infinite Scroll Animation */
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left var(--scroll-duration, 40s) linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right var(--scroll-duration, 40s) linear infinite;
+}
+
+.pause-animation:hover {
+  animation-play-state: paused;
+}
