@@ -28,9 +28,23 @@ export function ProductCard({ product, className }: ProductCardProps) {
     >
       {/* Produktbild Container */}
       <div className="relative w-full aspect-[4/5] overflow-hidden bg-gradient-to-br from-mik-navy/60 to-mik-navy/40">
-        {/* Placeholder für Produktbild - kann später durch echte Bilder ersetzt werden */}
+        {/* Produktbild */}
+        <img 
+          src={product.image} 
+          alt={product.name}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback falls Bild nicht geladen werden kann
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+            const fallback = target.nextElementSibling as HTMLElement;
+            if (fallback) fallback.style.display = 'flex';
+          }}
+        />
+        
+        {/* Fallback Placeholder */}
         <div 
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center hidden"
           style={{ backgroundColor: product.primaryColor }}
         >
           <div className="text-center p-6">

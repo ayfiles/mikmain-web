@@ -1,7 +1,7 @@
 "use client";
 
 import { HeroSection } from "@/components/sections/hero-section";
-import { SolutionSection } from "@/components/sections/solution-section";
+import { ServicesSection } from "@/components/sections/services-section";
 import { CatalogSection } from "@/components/sections/catalog-section";
 import { ReferencesSection } from "@/components/sections/references-section";
 import { ContactSection } from "@/components/sections/contact-section";
@@ -13,35 +13,35 @@ export default function Home() {
   // Die Menü-Struktur für MikMain - Jede Section hat eine eigene Card
   const navItems = [
     {
-      label: "Lösung",
+      label: "Services",
       bgColor: "#0a192f", 
       textColor: "#ffffff",
       links: [
-        { label: "Zur Section", href: "#solution", ariaLabel: "Lösung" },
+        { label: "Zur Section", href: "#services", ariaLabel: "Services" },
       ]
     },
     {
-      label: "Katalog",
+      label: "Kollektion",
       bgColor: "#0a192f", 
       textColor: "#ffffff",
       links: [
-        { label: "Zur Section", href: "#catalog", ariaLabel: "Katalog" },
+        { label: "Zur Section", href: "#catalog", ariaLabel: "Kollektion" },
       ]
     },
     {
-      label: "Referenzen",
+      label: "Kundenreferenzen",
       bgColor: "#0a192f", 
       textColor: "#ffffff",
       links: [
-        { label: "Zur Section", href: "#references", ariaLabel: "Referenzen" },
+        { label: "Zur Section", href: "#references", ariaLabel: "Kundenreferenzen" },
       ]
     },
     {
-      label: "Kontakt",
-      bgColor: "#991b1b", 
+      label: "Impressum",
+      bgColor: "#0a192f", 
       textColor: "#ffffff",
       links: [
-        { label: "Zur Section", href: "#contact", ariaLabel: "Kontakt" },
+        { label: "Zur Seite", href: "/impressum", ariaLabel: "Impressum" },
       ]
     }
   ];
@@ -62,9 +62,9 @@ export default function Home() {
 
       <HeroSection />
       
-      {/* Solution (All-Inclusive) */}
-      <div id="solution">
-        <SolutionSection />
+      {/* Services */}
+      <div id="services">
+        <ServicesSection />
       </div>
       
       {/* Katalog (Branchen) */}

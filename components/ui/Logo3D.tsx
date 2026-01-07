@@ -50,7 +50,7 @@ function LogoMesh() {
   });
 
   return (
-    <group ref={meshRef} scale={0.08} rotation={[Math.PI, 0, 0]}>
+    <group ref={meshRef} scale={0.04} rotation={[Math.PI, 0, 0]}>
       {geometries.map((geometry, index) => (
         <mesh key={index} geometry={geometry}>
           {/* Solides Material */}
@@ -84,10 +84,10 @@ function FallbackMesh() {
 
 export function Logo3D({ className }: { className?: string }) {
   return (
-    <div className={className}>
+    <div className={`${className} overflow-visible`} style={{ overflow: 'visible' }}>
       <Canvas
-        camera={{ position: [0, 0, 150], fov: 50 }}
-        style={{ background: "transparent" }}
+        camera={{ position: [0, 0, 120], fov: 50 }}
+        style={{ background: "transparent", overflow: "visible" }}
         gl={{ alpha: true, antialias: true }}
       >
         <ambientLight intensity={0.8} />

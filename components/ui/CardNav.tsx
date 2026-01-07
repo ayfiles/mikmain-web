@@ -206,35 +206,39 @@ const CardNav: React.FC<CardNavProps> = ({
 
         {/* CONTENT */}
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[65px] md:top-[130px] bottom-0 p-1 flex flex-col md:flex-row items-stretch gap-1.5 z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[65px] md:top-[130px] bottom-0 px-4 md:px-10 py-1 flex flex-col md:flex-row items-center justify-center gap-[9px] z-[1] ${
             isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
           }`}
         >
-          {(items || []).map((item, idx) => (
-            <div
-              key={`${item.label}-${idx}`}
-              className="nav-card relative flex flex-col justify-between p-1 rounded-[12px] flex-1 aspect-[3/2] transition-transform hover:scale-[1.02] backdrop-blur-xl border border-white/10 shadow-lg"
-              ref={setCardRef(idx)}
-              style={{ backgroundColor: item.bgColor || 'rgba(10, 25, 47, 0.7)', color: item.textColor || '#F8FAFC' }}
-            >
-              <div className="text-xs font-heading font-bold mb-0.5 opacity-90">
-                {item.label}
-              </div>
-              <div className="flex flex-col gap-0.5">
-                {item.links?.map((lnk, i) => (
-                  <a
-                    key={`${lnk.label}-${i}`}
-                    className="inline-flex items-center gap-1 text-[8px] font-medium opacity-70 hover:opacity-100 transition-opacity"
-                    href={lnk.href}
-                    onClick={() => setIsExpanded(false)}
-                  >
-                    <ArrowUpRight size={8} />
-                    {lnk.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))}
+          {(items || []).map((item, idx) => {
+            const firstLink = item.links?.[0];
+            return (
+              <a
+                key={`${item.label}-${idx}`}
+                href={firstLink?.href || '#'}
+                onClick={() => setIsExpanded(false)}
+                className="nav-card relative flex flex-col justify-between p-1 rounded-[12px] h-[45px] md:h-[90px] w-[calc(100%-32px)] md:w-[calc(18.75%-9px)] transition-all duration-300 ease-in-out hover:scale-110 backdrop-blur-xl border border-white/10 shadow-lg cursor-pointer"
+                ref={setCardRef(idx)}
+                style={{ 
+                  backgroundColor: item.bgColor || 'rgba(10, 25, 47, 0.7)', 
+                  color: item.textColor || '#F8FAFC',
+                  textDecoration: 'none'
+                }}
+              >
+                <div className="text-xs font-heading font-bold mb-0.5 opacity-90">
+                  {item.label}
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  {firstLink && (
+                    <div className="inline-flex items-center gap-1 text-[8px] font-medium opacity-70">
+                      <ArrowUpRight size={8} />
+                      {firstLink.label}
+                    </div>
+                  )}
+                </div>
+              </a>
+            );
+          })}
         </div>
       </nav>
     </div>
