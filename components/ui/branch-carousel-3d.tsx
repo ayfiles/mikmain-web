@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react"; // FIX: Import von motion/react
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BranchItem } from "./infinite-branch-cards";
@@ -24,25 +24,28 @@ export function BranchCarousel3D({
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const startXRef = useRef<number>(0);
-  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // FIX: Typ auf 'number | null' geändert für Browser-Kompatibilität
+  const autoPlayIntervalRef = useRef<number | null>(null);
 
   // Auto-Play Logic (15 Sekunden, pausiert bei Hover)
   useEffect(() => {
     if (isHovered || isDragging) {
       if (autoPlayIntervalRef.current) {
-        clearInterval(autoPlayIntervalRef.current);
+        window.clearInterval(autoPlayIntervalRef.current);
         autoPlayIntervalRef.current = null;
       }
       return;
     }
 
-    autoPlayIntervalRef.current = setInterval(() => {
+    // FIX: window.setInterval erzwingt die Rückgabe einer 'number' (statt NodeJS.Timeout)
+    autoPlayIntervalRef.current = window.setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % items.length);
     }, 15000);
 
     return () => {
       if (autoPlayIntervalRef.current) {
-        clearInterval(autoPlayIntervalRef.current);
+        window.clearInterval(autoPlayIntervalRef.current);
       }
     };
   }, [isHovered, isDragging, items.length]);
@@ -364,4 +367,3 @@ function BranchCard({
 }
 
 export default BranchCarousel3D;
-
