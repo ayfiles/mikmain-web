@@ -35,10 +35,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
         >
           <div className="text-center p-6">
             <div 
-              className="w-32 h-32 mx-auto rounded-lg mb-4 flex items-center justify-center"
+              className="w-24 h-24 mx-auto rounded-lg mb-4 flex items-center justify-center"
               style={{ backgroundColor: product.primaryColor === "#ffffff" ? "#e5e7eb" : "rgba(255,255,255,0.1)" }}
             >
-              <span className="text-4xl">👔</span>
+              <span className="text-3xl">👔</span>
             </div>
             <p className="text-white/80 text-sm font-sans">
               {product.name}
@@ -53,12 +53,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
       {/* Content */}
       <div className="p-4 bg-mik-navy/60 backdrop-blur-sm">
         {/* Produktname */}
-        <h3 className="font-heading text-lg font-bold text-white mb-1 line-clamp-1">
+        <h3 className="font-heading text-base font-bold text-white mb-1 line-clamp-1">
           {product.name}
         </h3>
         
         {/* Beschreibung */}
-        <p className="text-sm text-mik-grey/80 font-sans mb-4 line-clamp-2">
+        <p className="text-xs text-mik-grey/80 font-sans mb-4 line-clamp-2">
           {product.description}
         </p>
 
@@ -73,7 +73,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
                 animate={{ scale: 1 }}
                 transition={{ delay: index * 0.05, type: "spring", stiffness: 200 }}
                 className={cn(
-                  "w-6 h-6 rounded-full border-2 transition-all duration-200",
+                  "w-5 h-5 rounded-full border-2 transition-all duration-200",
                   "hover:scale-110 hover:border-white/40",
                   variant.hex === "#ffffff" || variant.hex === "#ffffff" 
                     ? "border-white/30" 

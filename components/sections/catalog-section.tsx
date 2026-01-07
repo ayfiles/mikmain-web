@@ -34,13 +34,13 @@ export function CatalogSection() {
     <>
       <section
         ref={sectionRef}
-        className="relative w-full py-24 md:py-32 overflow-visible bg-background"
+        className="relative w-full py-16 md:py-24 lg:py-32 overflow-x-hidden bg-background"
       >
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-mik-blue/5 to-transparent pointer-events-none" />
 
         {/* Header */}
-        <div className="relative z-10 w-[95%] max-w-[1200px] mx-auto mb-16">
+        <div className="relative z-10 w-full max-w-[1200px] mx-auto mb-10 md:mb-16 px-4 sm:px-0" style={{ maxWidth: 'min(95vw, 1200px)' }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -51,7 +51,7 @@ export function CatalogSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4"
+              className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
             >
               Unsere{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-mik-blue to-blue-400">
@@ -63,7 +63,7 @@ export function CatalogSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+              className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
             >
               Spezialisierte Lösungen für jede Branche. Von der Gastronomie bis zum
               Corporate Office – wir kennen die Anforderungen Ihres Bereichs.
@@ -85,7 +85,7 @@ export function CatalogSection() {
         </motion.div>
 
         {/* CTA Bereich */}
-        <div className="relative z-10 w-[95%] max-w-[1200px] mx-auto mt-16">
+        <div className="relative z-10 w-full max-w-[1200px] mx-auto mt-10 md:mt-16 px-4 sm:px-0" style={{ maxWidth: 'min(95vw, 1200px)' }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -96,7 +96,7 @@ export function CatalogSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="text-lg md:text-xl text-muted-foreground mb-6"
+              className="text-base md:text-lg text-muted-foreground mb-6"
             >
               Benötigen Sie einen personalisierten Produktkatalog für Ihr Unternehmen?
             </motion.p>
@@ -104,12 +104,12 @@ export function CatalogSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              className="flex flex-col sm:flex-row gap-3 justify-center items-center"
             >
               <Button
                 onClick={() => setIsFullCatalogOpen(true)}
                 size="lg"
-                className="bg-mik-blue hover:bg-blue-600 text-white font-heading font-bold text-lg h-14 px-10 shadow-[0_0_40px_-5px_rgba(59,130,246,0.4)] transition-all hover:scale-105 rounded-xl"
+                className="bg-mik-blue hover:bg-blue-600 text-white font-heading font-bold text-base h-12 px-8 shadow-[0_0_40px_-5px_rgba(59,130,246,0.4)] transition-all hover:scale-105 rounded-xl"
               >
                 Gesamtkatalog ansehen
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -118,7 +118,7 @@ export function CatalogSection() {
                 onClick={() => setIsRequestModalOpen(true)}
                 variant="outline"
                 size="lg"
-                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-lg h-14 px-10 backdrop-blur-sm rounded-xl"
+                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-base h-12 px-8 backdrop-blur-sm rounded-xl"
               >
                 Jetzt anfragen
                 <ArrowRight className="ml-2 h-5 w-5" />

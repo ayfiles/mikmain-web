@@ -211,13 +211,13 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className={cn(
-                "relative w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-3xl",
+                "relative w-full max-w-full sm:max-w-xl md:max-w-2xl max-h-full sm:max-h-[90vh] overflow-hidden rounded-none sm:rounded-3xl",
                 "bg-mik-navy/95 backdrop-blur-2xl border border-white/10",
                 "[box-shadow:0_0_80px_-20px_rgba(59,130,246,0.3),inset_0_1px_0_0_rgba(255,255,255,0.05)]"
               )}
             >
               {/* Header */}
-              <div className="relative h-32 overflow-hidden bg-gradient-to-br from-mik-blue/20 via-mik-blue/10 to-transparent">
+              <div className="relative h-24 sm:h-32 overflow-hidden bg-gradient-to-br from-mik-blue/20 via-mik-blue/10 to-transparent">
                 <div className="absolute inset-0 opacity-30">
                   <div className="absolute inset-0" style={{
                     backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
@@ -225,12 +225,12 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                   }} />
                 </div>
 
-                <div className="relative z-10 h-full flex items-center justify-between px-6">
+                <div className="relative z-10 h-full flex items-center justify-between px-4 sm:px-6">
                   <div>
-                    <h2 className="font-heading text-2xl font-bold text-white mb-1">
+                    <h2 className="font-heading text-xl font-bold text-white mb-1">
                       Personalisierten Katalog anfragen
                     </h2>
-                    <p className="text-sm text-mik-grey">
+                    <p className="text-xs text-mik-grey">
                       Wir erstellen Ihnen einen individuellen Produktkatalog
                     </p>
                   </div>
@@ -243,16 +243,16 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                       "hover:bg-white/20 transition-colors"
                     )}
                   >
-                    <X className="w-5 h-5 text-white" />
+                    <X className="w-4 h-4 text-white" />
                   </button>
                 </div>
               </div>
 
               {/* Content */}
-              <form onSubmit={handleSubmit} className="p-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
+              <form onSubmit={handleSubmit} className="p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-6rem)] sm:max-h-[calc(90vh-8rem)]">
                 {/* Name */}
-                <div className="mb-5">
-                  <label className="block text-sm font-medium text-white mb-2">
+                <div className="mb-4">
+                  <label className="block text-xs font-medium text-white mb-2">
                     Name <span className="text-red-400">*</span>
                   </label>
                   <input
@@ -261,7 +261,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     value={formData.name}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full px-4 py-3 rounded-xl bg-white/5 border",
+                      "w-full px-3 py-2.5 rounded-xl bg-white/5 border",
                       "text-white placeholder:text-mik-grey/50",
                       "focus:outline-none focus:ring-2 focus:ring-mik-blue/50 focus:border-mik-blue/50",
                       "transition-all",
@@ -278,8 +278,8 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                 </div>
 
                 {/* Email */}
-                <div className="mb-5">
-                  <label className="block text-sm font-medium text-white mb-2">
+                <div className="mb-4">
+                  <label className="block text-xs font-medium text-white mb-2">
                     E-Mail <span className="text-red-400">*</span>
                   </label>
                   <input
@@ -288,7 +288,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     value={formData.email}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full px-4 py-3 rounded-xl bg-white/5 border",
+                      "w-full px-3 py-2.5 rounded-xl bg-white/5 border",
                       "text-white placeholder:text-mik-grey/50",
                       "focus:outline-none focus:ring-2 focus:ring-mik-blue/50 focus:border-mik-blue/50",
                       "transition-all",
@@ -305,8 +305,8 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                 </div>
 
                 {/* Company */}
-                <div className="mb-5">
-                  <label className="block text-sm font-medium text-white mb-2">
+                <div className="mb-4">
+                  <label className="block text-xs font-medium text-white mb-2">
                     Unternehmen <span className="text-red-400">*</span>
                   </label>
                   <input
@@ -315,7 +315,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     value={formData.company}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full px-4 py-3 rounded-xl bg-white/5 border",
+                      "w-full px-3 py-2.5 rounded-xl bg-white/5 border",
                       "text-white placeholder:text-mik-grey/50",
                       "focus:outline-none focus:ring-2 focus:ring-mik-blue/50 focus:border-mik-blue/50",
                       "transition-all",
@@ -332,8 +332,8 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                 </div>
 
                 {/* Phone */}
-                <div className="mb-5">
-                  <label className="block text-sm font-medium text-white mb-2">
+                <div className="mb-4">
+                  <label className="block text-xs font-medium text-white mb-2">
                     Telefon <span className="text-mik-grey text-xs">(Optional)</span>
                   </label>
                   <input
@@ -342,7 +342,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     value={formData.phone}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full px-4 py-3 rounded-xl bg-white/5 border",
+                      "w-full px-3 py-2.5 rounded-xl bg-white/5 border",
                       "text-white placeholder:text-mik-grey/50",
                       "focus:outline-none focus:ring-2 focus:ring-mik-blue/50 focus:border-mik-blue/50",
                       "transition-all",
@@ -359,8 +359,8 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                 </div>
 
                 {/* Logo Upload */}
-                <div className="mb-5">
-                  <label className="block text-sm font-medium text-white mb-2">
+                <div className="mb-4">
+                  <label className="block text-xs font-medium text-white mb-2">
                     Logo hochladen <span className="text-mik-grey text-xs">(Optional)</span>
                   </label>
                   <input
@@ -427,8 +427,8 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                 </div>
 
                 {/* Message */}
-                <div className="mb-5">
-                  <label className="block text-sm font-medium text-white mb-2">
+                <div className="mb-4">
+                  <label className="block text-xs font-medium text-white mb-2">
                     Nachricht <span className="text-mik-grey text-xs">(Optional)</span>
                   </label>
                   <textarea
@@ -437,7 +437,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     onChange={handleInputChange}
                     rows={4}
                     className={cn(
-                      "w-full px-4 py-3 rounded-xl bg-white/5 border",
+                      "w-full px-3 py-2.5 rounded-xl bg-white/5 border",
                       "text-white placeholder:text-mik-grey/50",
                       "focus:outline-none focus:ring-2 focus:ring-mik-blue/50 focus:border-mik-blue/50",
                       "transition-all resize-none",

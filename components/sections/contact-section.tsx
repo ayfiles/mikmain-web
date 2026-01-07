@@ -173,11 +173,11 @@ export function ContactSection() {
   };
 
   return (
-    <section className="py-24 bg-background">
-      <div className="container mx-auto px-6 max-w-4xl">
-        <div className="bg-card border border-border rounded-3xl p-8 md:p-12 shadow-lg">
+    <section className="py-16 bg-background overflow-x-hidden w-full">
+      <div className="container mx-auto px-4 sm:px-6 max-w-xl md:max-w-4xl">
+        <div className="bg-card border border-border rounded-3xl p-6 md:p-8 shadow-lg">
           <div className="text-center mb-10">
-            <h2 className="font-heading text-4xl font-bold mb-4">Kontakt</h2>
+            <h2 className="font-heading text-3xl font-bold mb-4">Kontakt</h2>
             <p className="text-muted-foreground">Lassen Sie uns über Ihre Kollektion sprechen.</p>
           </div>
 
@@ -190,7 +190,7 @@ export function ContactSection() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name & Unternehmen */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold ml-1">
                     Name <span className="text-red-400">*</span>
@@ -201,7 +201,7 @@ export function ContactSection() {
                     value={formData.name}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full p-4 rounded-xl bg-background border transition-all",
+                      "w-full p-3 rounded-xl bg-background border transition-all",
                       "focus:ring-2 focus:ring-mik-blue outline-none",
                       errors.name ? "border-red-400" : "border-input"
                     )}
@@ -209,7 +209,7 @@ export function ContactSection() {
                   />
                   {errors.name && (
                     <p className="text-xs text-red-400 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                      <AlertCircle className="w-2.5 h-2.5" />
                       {errors.name}
                     </p>
                   )}
@@ -224,7 +224,7 @@ export function ContactSection() {
                     value={formData.company}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full p-4 rounded-xl bg-background border transition-all",
+                      "w-full p-3 rounded-xl bg-background border transition-all",
                       "focus:ring-2 focus:ring-mik-blue outline-none",
                       errors.company ? "border-red-400" : "border-input"
                     )}
@@ -232,7 +232,7 @@ export function ContactSection() {
                   />
                   {errors.company && (
                     <p className="text-xs text-red-400 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                      <AlertCircle className="w-2.5 h-2.5" />
                       {errors.company}
                     </p>
                   )}
@@ -250,7 +250,7 @@ export function ContactSection() {
                   value={formData.email}
                   onChange={handleInputChange}
                   className={cn(
-                    "w-full p-4 rounded-xl bg-background border transition-all",
+                    "w-full p-3 rounded-xl bg-background border transition-all",
                     "focus:ring-2 focus:ring-mik-blue outline-none",
                     errors.email ? "border-red-400" : "border-input"
                   )}
@@ -258,7 +258,7 @@ export function ContactSection() {
                 />
                 {errors.email && (
                   <p className="text-xs text-red-400 flex items-center gap-1">
-                    <AlertCircle className="w-3 h-3" />
+                    <AlertCircle className="w-2.5 h-2.5" />
                     {errors.email}
                   </p>
                 )}
@@ -274,7 +274,7 @@ export function ContactSection() {
                   value={formData.branch}
                   onChange={handleInputChange}
                   className={cn(
-                    "w-full p-4 rounded-xl bg-background border transition-all",
+                    "w-full p-3 rounded-xl bg-background border transition-all",
                     "focus:ring-2 focus:ring-mik-blue outline-none",
                     errors.branch ? "border-red-400" : "border-input"
                   )}
@@ -289,7 +289,7 @@ export function ContactSection() {
                 </select>
                 {errors.branch && (
                   <p className="text-xs text-red-400 flex items-center gap-1">
-                    <AlertCircle className="w-3 h-3" />
+                    <AlertCircle className="w-2.5 h-2.5" />
                     {errors.branch}
                   </p>
                 )}
@@ -304,14 +304,14 @@ export function ContactSection() {
                       (Mehrfachauswahl möglich)
                     </span>
                   </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {availableProducts.map((product) => (
                       <button
                         key={product}
                         type="button"
                         onClick={() => handleProductToggle(product)}
                         className={cn(
-                          "p-3 rounded-xl border text-left transition-all",
+                          "p-2 rounded-xl border text-left transition-all",
                           "hover:border-mik-blue/50",
                           formData.products.includes(product)
                             ? "bg-mik-blue/10 border-mik-blue text-mik-blue"
@@ -321,24 +321,24 @@ export function ContactSection() {
                         <div className="flex items-center gap-2">
                           <div
                             className={cn(
-                              "w-4 h-4 rounded border-2 flex items-center justify-center",
+                              "w-3.5 h-3.5 rounded border-2 flex items-center justify-center",
                               formData.products.includes(product)
                                 ? "bg-mik-blue border-mik-blue"
                                 : "border-input"
                             )}
                           >
                             {formData.products.includes(product) && (
-                              <CheckCircle2 className="w-3 h-3 text-white" />
+                              <CheckCircle2 className="w-2.5 h-2.5 text-white" />
                             )}
                           </div>
-                          <span className="text-sm">{product}</span>
+                          <span className="text-xs">{product}</span>
                         </div>
                       </button>
                     ))}
                   </div>
                   {errors.products && (
                     <p className="text-xs text-red-400 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
+                      <AlertCircle className="w-2.5 h-2.5" />
                       {errors.products}
                     </p>
                   )}
@@ -355,7 +355,7 @@ export function ContactSection() {
                   value={formData.budget}
                   onChange={handleInputChange}
                   className={cn(
-                    "w-full p-4 rounded-xl bg-background border transition-all",
+                    "w-full p-3 rounded-xl bg-background border transition-all",
                     "focus:ring-2 focus:ring-mik-blue outline-none",
                     errors.budget ? "border-red-400" : "border-input"
                   )}
@@ -369,7 +369,7 @@ export function ContactSection() {
                 </select>
                 {errors.budget && (
                   <p className="text-xs text-red-400 flex items-center gap-1">
-                    <AlertCircle className="w-3 h-3" />
+                    <AlertCircle className="w-2.5 h-2.5" />
                     {errors.budget}
                   </p>
                 )}
@@ -383,7 +383,7 @@ export function ContactSection() {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full p-4 rounded-xl bg-background border border-input focus:ring-2 focus:ring-mik-blue outline-none transition-all resize-none"
+                  className="w-full p-3 rounded-xl bg-background border border-input focus:ring-2 focus:ring-mik-blue outline-none transition-all resize-none"
                   placeholder="Wie können wir helfen?"
                 />
               </div>
@@ -396,7 +396,7 @@ export function ContactSection() {
                     checked={formData.privacyAccepted}
                     onChange={handlePrivacyChange}
                     className={cn(
-                      "mt-1 w-5 h-5 rounded border-2",
+                      "mt-1 w-4 h-4 rounded border-2",
                       "bg-background border-input",
                       "focus:ring-2 focus:ring-mik-blue/50",
                       "checked:bg-mik-blue checked:border-mik-blue",
@@ -404,7 +404,7 @@ export function ContactSection() {
                       errors.privacyAccepted ? "border-red-400" : ""
                     )}
                   />
-                  <span className="text-sm text-foreground flex-1">
+                  <span className="text-xs text-foreground flex-1">
                     Ich akzeptiere die{" "}
                     <a
                       href="#"
@@ -417,8 +417,8 @@ export function ContactSection() {
                   </span>
                 </label>
                 {errors.privacyAccepted && (
-                  <p className="text-xs text-red-400 flex items-center gap-1 ml-8">
-                    <AlertCircle className="w-3 h-3" />
+                  <p className="text-xs text-red-400 flex items-center gap-1 ml-7">
+                    <AlertCircle className="w-2.5 h-2.5" />
                     {errors.privacyAccepted}
                   </p>
                 )}
@@ -429,7 +429,7 @@ export function ContactSection() {
                 type="submit"
                 disabled={isSubmitting}
                 size="lg"
-                className="w-full bg-mik-navy text-white hover:bg-mik-blue h-14 text-lg font-heading disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-mik-navy text-white hover:bg-mik-blue h-12 text-base font-heading disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Wird gesendet..." : "Anfrage senden"}
               </Button>

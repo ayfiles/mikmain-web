@@ -58,13 +58,13 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className={cn(
-                "relative w-full max-w-7xl max-h-[90vh] overflow-hidden rounded-3xl",
+                "relative w-full max-w-full sm:max-w-3xl lg:max-w-5xl xl:max-w-7xl max-h-full sm:max-h-[90vh] overflow-hidden rounded-none sm:rounded-3xl",
                 "bg-mik-navy/95 backdrop-blur-2xl border border-white/10",
                 "[box-shadow:0_0_80px_-20px_rgba(59,130,246,0.3),inset_0_1px_0_0_rgba(255,255,255,0.05)]"
               )}
             >
               {/* Header */}
-              <div className="relative h-32 overflow-hidden bg-gradient-to-br from-mik-blue/20 via-mik-blue/10 to-transparent">
+              <div className="relative h-24 sm:h-32 overflow-hidden bg-gradient-to-br from-mik-blue/20 via-mik-blue/10 to-transparent">
                 <div className="absolute inset-0 opacity-30">
                   <div
                     className="absolute inset-0"
@@ -75,12 +75,12 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
                   />
                 </div>
 
-                <div className="relative z-10 h-full flex items-center justify-between px-6">
+                <div className="relative z-10 h-full flex items-center justify-between px-4 sm:px-6">
                   <div>
-                    <h2 className="font-heading text-2xl md:text-3xl font-bold text-white mb-1">
+                    <h2 className="font-heading text-xl md:text-2xl font-bold text-white mb-1">
                       Gesamtkatalog
                     </h2>
-                    <p className="text-sm text-mik-grey">
+                    <p className="text-xs text-mik-grey">
                       Alle Produkte auf einen Blick
                     </p>
                   </div>
@@ -94,14 +94,14 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
                     )}
                     aria-label="Modal schließen"
                   >
-                    <X className="w-5 h-5 text-white" />
+                    <X className="w-4 h-4 text-white" />
                   </button>
                 </div>
               </div>
 
               {/* Content - Scrollable Grid */}
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-6rem)] sm:max-h-[calc(90vh-8rem)]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {PRODUCTS.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}

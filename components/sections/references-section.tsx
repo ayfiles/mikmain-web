@@ -26,13 +26,13 @@ export function ReferencesSection() {
     <>
       <section
         ref={sectionRef}
-        className="relative w-full py-24 md:py-32 overflow-visible bg-background"
+        className="relative w-full py-16 md:py-24 lg:py-32 overflow-x-hidden bg-background"
       >
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-mik-blue/5 to-transparent pointer-events-none" />
 
         {/* Header */}
-        <div className="relative z-10 w-[95%] max-w-[1200px] mx-auto mb-16">
+        <div className="relative z-10 w-full max-w-[1200px] mx-auto mb-10 md:mb-16 px-4 sm:px-0" style={{ maxWidth: 'min(95vw, 1200px)' }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -43,7 +43,7 @@ export function ReferencesSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4"
+              className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
             >
               Kunden{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-mik-blue to-blue-400">
@@ -55,7 +55,7 @@ export function ReferencesSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+              className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
             >
               Vertrauen Sie auf unsere Expertise. Entdecken Sie, wie wir Unternehmen
               bei ihrer Corporate Fashion unterstützen.

@@ -30,7 +30,7 @@ export function HeroSection() {
 
   return (
     <section 
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-24 transition-colors duration-300"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden overflow-x-hidden pt-20 transition-colors duration-300"
       style={{ backgroundColor: isLightMode ? '#F8FAFC' : undefined }}
     >
       
@@ -48,10 +48,10 @@ export function HeroSection() {
 
       {/* EBENE 2: MITTE (3D Modell) */}
       {/* Nutzt jetzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
-      <div className="absolute inset-0 z-[2] flex items-center justify-center pointer-events-none">
-        <div className="w-[95%] h-full max-w-[1200px] relative mx-auto">
+      <div className="absolute inset-0 z-[2] flex items-center justify-center pointer-events-none overflow-x-hidden">
+        <div className="w-full h-full max-w-[1200px] relative mx-auto px-4 sm:px-0">
           {/* pointer-events-auto ist entscheidend, damit TShirtScene Hover-Events registriert - weiter rechts für Gap */}
-          <div className="absolute right-0 lg:right-[-15%] top-1/2 -translate-y-1/2 w-full lg:w-[55%] h-[70vh] pointer-events-auto">
+          <div className="hidden lg:block absolute right-0 lg:right-[-15%] top-1/2 -translate-y-1/2 w-full lg:w-[55%] h-[50vh] md:h-[60vh] lg:h-[70vh] pointer-events-auto overflow-hidden">
             <TShirtScene />
           </div>
         </div>
@@ -59,12 +59,12 @@ export function HeroSection() {
 
       {/* EBENE 3: VORNE (Content / Text / Buttons) */}
       {/* Nutzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
-      <div className="relative z-10 w-[95%] max-w-[1200px] mx-auto h-full flex flex-col justify-center pointer-events-none">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto h-full flex flex-col justify-center pointer-events-none px-4 sm:px-0">
         
-        <div className="flex flex-col items-start text-left max-w-[55%]"> {/* Text-Breite begrenzt für Gap zum 3D-Modell */}
+        <div className="flex flex-col items-start text-left max-w-full lg:max-w-[55%]"> {/* Text-Breite begrenzt für Gap zum 3D-Modell */}
             
             {/* Headline */}
-            <div className="font-heading font-bold text-5xl md:text-[4.5rem] lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.05]">
+            <div className="font-heading font-bold text-4xl md:text-5xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.05]">
             <BlurText 
                 text="Corporate Fashion." 
                 className="text-foreground drop-shadow-2xl" 
@@ -85,7 +85,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-2 text-lg md:text-xl text-muted-foreground font-sans leading-relaxed max-w-xl"
+            className="mt-2 text-base md:text-lg text-muted-foreground font-sans leading-relaxed max-w-xl"
             >
             MikMain ist Ihr Concierge für Unternehmensbekleidung. 
             Wir verbinden <span className="text-foreground font-semibold">Manufaktur-Qualität</span> mit digitaler Prozess-Effizienz – vom Design bis zum Wäscheservice.
@@ -100,7 +100,7 @@ export function HeroSection() {
             >
             <Button 
                 size="lg" 
-                className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-lg h-14 px-8 shadow-[0_0_40px_-5px_#991B1B80] transition-all hover:scale-105 rounded-xl"
+                className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-base h-12 px-6 shadow-[0_0_40px_-5px_#991B1B80] transition-all hover:scale-105 rounded-xl"
             >
                 Plattform Demo
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -109,7 +109,7 @@ export function HeroSection() {
             <Button 
                 variant="outline" 
                 size="lg" 
-                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-lg h-14 px-8 backdrop-blur-sm rounded-xl"
+                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-base h-12 px-6 backdrop-blur-sm rounded-xl"
             >
                 Konzept ansehen
             </Button>
@@ -119,10 +119,10 @@ export function HeroSection() {
       </div>
 
       {/* EBENE 4: LOGO LOOP AM UNTEREN RAND */}
-      <div className="absolute bottom-0 left-0 right-0 z-[3] h-24 overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 z-[3] h-20 md:h-24 overflow-hidden overflow-x-hidden">
         {/* Container mit CSS Mask für smooth fade */}
         <div 
-          className="relative h-full w-[95%] max-w-[1200px] mx-auto overflow-hidden"
+          className="relative h-full w-full max-w-[1200px] mx-auto overflow-hidden overflow-x-hidden px-4 sm:px-0"
           style={{
             maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
@@ -146,12 +146,12 @@ export function HeroSection() {
             {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logoItem, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center min-w-[140px] h-12 flex-shrink-0"
+                className="flex items-center justify-center min-w-[100px] sm:min-w-[140px] h-7 md:h-9 flex-shrink-0"
               >
                 <img
                   src={logoItem.logo}
                   alt={logoItem.name}
-                  className="h-8 md:h-10 w-auto opacity-40 grayscale hover:grayscale-0 hover:opacity-60 transition-all duration-300"
+                  className="h-7 md:h-9 w-auto opacity-40 grayscale hover:grayscale-0 hover:opacity-60 transition-all duration-300"
                 />
               </div>
             ))}

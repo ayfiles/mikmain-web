@@ -26,8 +26,8 @@ export function FooterSection() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative py-12 bg-background">
-      <div className="w-[95%] max-w-[1200px] mx-auto">
+    <footer className="relative py-8 bg-background overflow-x-hidden w-full">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-0" style={{ maxWidth: 'min(95vw, 1200px)' }}>
         
         {/* Main Footer Card - Navbar Style */}
         <motion.div
@@ -40,17 +40,17 @@ export function FooterSection() {
         >
           
           {/* Top Section */}
-          <div className="p-10 md:p-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="p-8 md:p-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               
               {/* Brand Column */}
               <div className="lg:col-span-1">
                 <img 
                   src="/mikmain-primary-light.svg" 
                   alt="MikMain Logo" 
-                  className="h-12 w-auto mb-6"
+                  className="h-10 w-auto mb-4"
                 />
-                <p className="text-gray-400 font-sans text-base leading-relaxed mb-6">
+                <p className="text-gray-400 font-sans text-sm leading-relaxed mb-6">
                   Ihr Concierge für Corporate Fashion. 
                   Von der Idee bis zum Wäscheservice – alles aus einer Hand.
                 </p>
@@ -59,24 +59,24 @@ export function FooterSection() {
                 <div className="flex gap-4">
                   <a 
                     href="#" 
-                    className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                     aria-label="LinkedIn"
                   >
-                    <Linkedin size={20} />
+                    <Linkedin size={18} />
                   </a>
                   <a 
                     href="#" 
-                    className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                     aria-label="Instagram"
                   >
-                    <Instagram size={20} />
+                    <Instagram size={18} />
                   </a>
                 </div>
               </div>
 
               {/* Links Columns */}
               <div>
-                <h4 className="font-heading font-bold text-white text-lg mb-5">Unternehmen</h4>
+                <h4 className="font-heading font-bold text-white text-base mb-4">Unternehmen</h4>
                 <ul className="space-y-3">
                   {FOOTER_LINKS.company.map((link, idx) => (
                     <li key={idx}>
@@ -93,8 +93,8 @@ export function FooterSection() {
               </div>
 
               <div>
-                <h4 className="font-heading font-bold text-white text-lg mb-5">Services</h4>
-                <ul className="space-y-3">
+                <h4 className="font-heading font-bold text-white text-base mb-4">Services</h4>
+                <ul className="space-y-2">
                   {FOOTER_LINKS.services.map((link, idx) => (
                     <li key={idx}>
                       <a 
@@ -111,7 +111,7 @@ export function FooterSection() {
 
               {/* Contact Column */}
               <div>
-                <h4 className="font-heading font-bold text-white text-lg mb-5">Kontakt</h4>
+                <h4 className="font-heading font-bold text-white text-base mb-4">Kontakt</h4>
                 <ul className="space-y-4">
                   <li>
                     <a 
@@ -153,17 +153,17 @@ export function FooterSection() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-white/10 px-10 md:px-12 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-gray-500 text-sm">
+          <div className="border-t border-white/10 px-8 md:px-10 py-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <p className="text-gray-500 text-xs">
                 © {currentYear} MikMain. Alle Rechte vorbehalten.
               </p>
-              <div className="flex gap-6">
+              <div className="flex gap-4">
                 {FOOTER_LINKS.legal.map((link, idx) => (
                   <a 
                     key={idx}
                     href={link.href}
-                    className="text-gray-500 hover:text-white text-sm transition-colors"
+                    className="text-gray-500 hover:text-white text-xs transition-colors"
                   >
                     {link.label}
                   </a>
@@ -175,7 +175,7 @@ export function FooterSection() {
         </motion.div>
 
         {/* Bottom Spacing */}
-        <div className="h-6" />
+        <div className="h-4" />
         
       </div>
     </footer>
