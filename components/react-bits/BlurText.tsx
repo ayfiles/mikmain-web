@@ -1,10 +1,14 @@
 "use client";
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
+import React from 'react';
 
 interface BlurTextProps {
   text: string;
   delay?: number;
   className?: string;
+  animateBy?: 'words' | 'letters';
+  direction?: 'top' | 'bottom';
+  onAnimationComplete?: () => void;
 }
 
 export const BlurText = ({ text, delay = 200, className = '' }: BlurTextProps) => {
@@ -43,7 +47,7 @@ export const BlurText = ({ text, delay = 200, className = '' }: BlurTextProps) =
 
   return (
     <motion.div
-      className={`flex flex-wrap gap-x-4 gap-y-2 justify-start ${className}`} // justify-start für linksbündigen Text
+      className={`flex flex-wrap gap-x-4 gap-y-2 justify-start ${className}`}
       variants={container}
       initial="hidden"
       animate="visible"
