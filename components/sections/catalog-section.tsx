@@ -2,7 +2,8 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { InfiniteBranchCards, BRANCH_DATA, BranchItem } from "@/components/ui/infinite-branch-cards";
+import { BRANCH_DATA, BranchItem } from "@/components/ui/infinite-branch-cards";
+import { BranchCarousel3D } from "@/components/ui/branch-carousel-3d";
 import { BranchModal } from "@/components/ui/branch-modal";
 import { CatalogRequestModal } from "@/components/ui/catalog-request-modal";
 import { Button } from "@/components/ui/button";
@@ -26,15 +27,12 @@ export function CatalogSection() {
     setTimeout(() => setSelectedBranch(null), 300);
   };
 
-  // Teile die Branchen in zwei Reihen auf
-  const row1Items = BRANCH_DATA;
-  const row2Items = [...BRANCH_DATA].reverse();
 
   return (
     <>
       <section
         ref={sectionRef}
-        className="relative w-full py-24 md:py-32 overflow-hidden bg-background"
+        className="relative w-full py-24 md:py-32 overflow-visible bg-background"
       >
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-mik-blue/5 to-transparent pointer-events-none" />
@@ -71,38 +69,18 @@ export function CatalogSection() {
           </motion.div>
         </div>
 
-        {/* Cards Container - Volle Breite */}
-        <div className="relative z-10 space-y-6">
-          {/* Reihe 1 - Nach links scrollend */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <InfiniteBranchCards
-              items={row1Items}
-              direction="left"
-              speed="slow"
-              pauseOnHover={true}
-              onCardClick={handleCardClick}
-            />
-          </motion.div>
-
-          {/* Reihe 2 - Nach rechts scrollend */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <InfiniteBranchCards
-              items={row2Items}
-              direction="right"
-              speed="slow"
-              pauseOnHover={true}
-              onCardClick={handleCardClick}
-            />
-          </motion.div>
-        </div>
+        {/* 3D Carousel */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="relative z-10"
+        >
+          <BranchCarousel3D
+            items={BRANCH_DATA}
+            onCardClick={handleCardClick}
+          />
+        </motion.div>
 
         {/* CTA Bereich */}
         <div className="relative z-10 w-[95%] max-w-[1200px] mx-auto mt-16">
@@ -137,9 +115,6 @@ export function CatalogSection() {
           </motion.div>
         </div>
 
-        {/* Fade Edges - Breit genug für Widescreen */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 lg:w-48 xl:w-64 2xl:w-80 bg-gradient-to-r from-background via-background/90 to-transparent pointer-events-none z-20" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 lg:w-48 xl:w-64 2xl:w-80 bg-gradient-to-l from-background via-background/90 to-transparent pointer-events-none z-20" />
       </section>
 
       {/* Modals */}

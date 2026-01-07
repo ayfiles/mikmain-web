@@ -140,7 +140,7 @@ export function CustomerCarousel({
       onMouseDown={handleMouseDown}
     >
       {/* Carousel Container */}
-      <div className="relative w-full max-w-4xl mx-auto overflow-hidden">
+      <div className="relative w-full max-w-4xl mx-auto overflow-visible px-2">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}

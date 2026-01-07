@@ -26,7 +26,7 @@ export function ReferencesSection() {
     <>
       <section
         ref={sectionRef}
-        className="relative w-full py-24 md:py-32 overflow-hidden bg-background"
+        className="relative w-full py-24 md:py-32 overflow-visible bg-background"
       >
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-mik-blue/5 to-transparent pointer-events-none" />

@@ -133,7 +133,6 @@ export function InfiniteBranchCards({
       >
         {duplicatedItems.map((item, idx) => {
           const isHovered = hoveredIndex === idx;
-          const hasHover = hoveredIndex !== null;
           
           return (
             <div
@@ -143,8 +142,7 @@ export function InfiniteBranchCards({
                 "border border-white/10 bg-mik-navy/60 backdrop-blur-xl",
                 "transition-all duration-300 ease-out",
                 "[box-shadow:0_0_40px_-10px_rgba(59,130,246,0.15),inset_0_1px_0_0_rgba(255,255,255,0.05)]",
-                isHovered && "scale-105 border-mik-blue/50 [box-shadow:0_0_60px_-10px_rgba(59,130,246,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)]",
-                hasHover && !isHovered && "opacity-40 blur-[2px] scale-95"
+                isHovered && "scale-105 border-mik-blue/50 [box-shadow:0_0_60px_-10px_rgba(59,130,246,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)]"
               )}
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
