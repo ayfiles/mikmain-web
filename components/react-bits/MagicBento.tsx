@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 
@@ -196,7 +197,8 @@ const ParticleCard: React.FC<{
         });
       }, index * 100);
 
-      timeoutsRef.current.push(timeoutId);
+      // FIX: Casten zu 'unknown' und dann 'number', um TypeScript zufrieden zu stellen
+      timeoutsRef.current.push(timeoutId as unknown as number);
     });
   }, [initializeParticles]);
 
