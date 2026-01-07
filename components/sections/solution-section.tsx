@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { CheckCircle2, Palette, Factory, Monitor, Truck, Sparkles, Recycle } from "lucide-react";
+import { CheckCircle2, Palette, Factory, Monitor, Truck, Sparkles, Recycle, Image } from "lucide-react";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { motion, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -18,8 +18,9 @@ const SERVICE_BENTO_MAPPING = [
   { service: "Eigene Manufaktur-Produktion", bentoIndex: 1 },
   { service: "Digitales Bestell-Dashboard", bentoIndex: 2 },
   { service: "Lager & Logistik-Management", bentoIndex: 3 },
-  { service: "Wäsche-Service & Aufbereitung", bentoIndex: 4 },
-  { service: "Recycling & Upcycling", bentoIndex: 5 }
+  { service: "Wäsche-Service & Aufbereitung*", bentoIndex: 4 },
+  { service: "Recycling & Upcycling", bentoIndex: 5 },
+  { service: "Logo Service", bentoIndex: 6 }
 ];
 
 const features = [
@@ -77,6 +78,15 @@ const features = [
     className: "col-span-3 lg:col-span-1",
     background: <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/15 via-transparent to-mik-navy/60" />,
   },
+  {
+    Icon: Image,
+    name: "Logo Service",
+    description: "Professionelle Logo-Applikation auf Ihre Textilien.",
+    href: "#",
+    cta: "Mehr erfahren",
+    className: "col-span-3 lg:col-span-1",
+    background: <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-mik-navy/60" />,
+  },
 ];
 
 export function SolutionSection() {
@@ -115,10 +125,14 @@ export function SolutionSection() {
   // Service 6: 40% - 53%
   const opacity6 = useTransform(scrollYProgress, [0.42, 0.50], [0, 1]);
   const y6 = useTransform(scrollYProgress, [0.42, 0.50], [40, 0]);
+  
+  // Service 7: 45% - 58%
+  const opacity7 = useTransform(scrollYProgress, [0.45, 0.53], [0, 1]);
+  const y7 = useTransform(scrollYProgress, [0.45, 0.53], [40, 0]);
 
   // USP Box Animation
-  const uspOpacity = useTransform(scrollYProgress, [0.48, 0.56], [0, 1]);
-  const uspY = useTransform(scrollYProgress, [0.48, 0.56], [30, 0]);
+  const uspOpacity = useTransform(scrollYProgress, [0.52, 0.60], [0, 1]);
+  const uspY = useTransform(scrollYProgress, [0.52, 0.60], [30, 0]);
 
   // Arrays für einfaches Mapping
   const serviceAnimations = [
@@ -128,6 +142,7 @@ export function SolutionSection() {
     { opacity: opacity4, y: y4 },
     { opacity: opacity5, y: y5 },
     { opacity: opacity6, y: y6 },
+    { opacity: opacity7, y: y7 },
   ];
 
   return (
@@ -177,14 +192,19 @@ export function SolutionSection() {
               
               {/* USP Box */}
               <motion.div 
-                className="p-6 bg-mik-navy/5 rounded-xl border border-mik-navy/10"
+                className="p-6 bg-mik-navy/5 rounded-xl border border-mik-navy/10 mb-6"
                 style={{ opacity: uspOpacity, y: uspY }}
               >
                 <h4 className="font-heading font-bold text-mik-navy mb-1">Unser USP</h4>
-                <p className="font-sans text-sm text-muted-foreground">
-                  Die einzige Plattform, die echte Manufaktur-Qualität mit digitaler Prozess-Steuerung verbindet.
-                </p>
               </motion.div>
+              
+              {/* Hinweis für Wäsche-Service */}
+              <motion.p 
+                className="text-sm text-muted-foreground font-sans italic"
+                style={{ opacity: uspOpacity, y: uspY }}
+              >
+                * Ortsabhängig und von teilnehmenden Partnern
+              </motion.p>
             </div>
 
             {/* Bento Grid - Rechte Spalte */}

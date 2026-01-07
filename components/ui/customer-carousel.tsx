@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Customer } from "./customer-data";
 import { CustomerCard } from "./customer-card";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CustomerCarouselProps {
   customers: Customer[];
@@ -169,21 +170,40 @@ export function CustomerCarousel({
         </AnimatePresence>
       </div>
 
-      {/* Navigation Dots */}
-      <div className="flex justify-center items-center gap-2 mt-8">
-        {customers.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={cn(
-              "w-2 h-2 rounded-full transition-all duration-300",
-              index === currentIndex
-                ? "w-8 bg-mik-blue"
-                : "bg-white/20 hover:bg-white/40"
-            )}
-            aria-label={`Gehe zu Slide ${index + 1}`}
-          />
-        ))}
+      {/* Navigation Buttons */}
+      <div className="flex justify-center items-center gap-4 mt-8">
+        <button
+          onClick={goToPrevious}
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110"
+          aria-label="Vorherige Referenz"
+        >
+          <ChevronLeft className="w-6 h-6 text-white" />
+        </button>
+        
+        {/* Navigation Dots */}
+        <div className="flex justify-center items-center gap-2">
+          {customers.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={cn(
+                "w-2 h-2 rounded-full transition-all duration-300",
+                index === currentIndex
+                  ? "w-8 bg-mik-blue"
+                  : "bg-white/20 hover:bg-white/40"
+              )}
+              aria-label={`Gehe zu Slide ${index + 1}`}
+            />
+          ))}
+        </div>
+        
+        <button
+          onClick={goToNext}
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110"
+          aria-label="Nächste Referenz"
+        >
+          <ChevronRight className="w-6 h-6 text-white" />
+        </button>
       </div>
     </div>
   );

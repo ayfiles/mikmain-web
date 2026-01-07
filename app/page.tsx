@@ -1,7 +1,6 @@
 "use client";
 
 import { HeroSection } from "@/components/sections/hero-section";
-import { ProblemSection } from "@/components/sections/problem-section";
 import { SolutionSection } from "@/components/sections/solution-section";
 import { CatalogSection } from "@/components/sections/catalog-section";
 import { ReferencesSection } from "@/components/sections/references-section";
@@ -13,14 +12,6 @@ export default function Home() {
   
   // Die Menü-Struktur für MikMain - Jede Section hat eine eigene Card
   const navItems = [
-    {
-      label: "Problem",
-      bgColor: "#0a192f", 
-      textColor: "#ffffff",
-      links: [
-        { label: "Zur Section", href: "#problem", ariaLabel: "Problem" },
-      ]
-    },
     {
       label: "Lösung",
       bgColor: "#0a192f", 
@@ -71,12 +62,7 @@ export default function Home() {
 
       <HeroSection />
       
-      {/* 1. Problem (Pain Points) */}
-      <div id="problem">
-        <ProblemSection />
-      </div>
-
-      {/* 2. Solution (All-Inclusive) */}
+      {/* 1. Solution (All-Inclusive) */}
       <div id="solution">
         <SolutionSection />
       </div>

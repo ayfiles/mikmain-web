@@ -6,6 +6,7 @@ import { BRANCH_DATA, BranchItem } from "@/components/ui/infinite-branch-cards";
 import { BranchCarousel3D } from "@/components/ui/branch-carousel-3d";
 import { BranchModal } from "@/components/ui/branch-modal";
 import { CatalogRequestModal } from "@/components/ui/catalog-request-modal";
+import { FullCatalogModal } from "@/components/ui/full-catalog-modal";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
@@ -13,6 +14,7 @@ export function CatalogSection() {
   const [selectedBranch, setSelectedBranch] = useState<BranchItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const [isFullCatalogOpen, setIsFullCatalogOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
@@ -51,9 +53,9 @@ export function CatalogSection() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4"
             >
-              Unser{" "}
+              Unsere{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-mik-blue to-blue-400">
-                Katalog
+                Kollektionen
               </span>
             </motion.h2>
 
@@ -102,11 +104,21 @@ export function CatalogSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.8 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Button
-                onClick={() => setIsRequestModalOpen(true)}
+                onClick={() => setIsFullCatalogOpen(true)}
                 size="lg"
                 className="bg-mik-blue hover:bg-blue-600 text-white font-heading font-bold text-lg h-14 px-10 shadow-[0_0_40px_-5px_rgba(59,130,246,0.4)] transition-all hover:scale-105 rounded-xl"
+              >
+                Gesamtkatalog ansehen
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button
+                onClick={() => setIsRequestModalOpen(true)}
+                variant="outline"
+                size="lg"
+                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-lg h-14 px-10 backdrop-blur-sm rounded-xl"
               >
                 Jetzt anfragen
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -126,6 +138,10 @@ export function CatalogSection() {
       <CatalogRequestModal
         isOpen={isRequestModalOpen}
         onClose={() => setIsRequestModalOpen(false)}
+      />
+      <FullCatalogModal
+        isOpen={isFullCatalogOpen}
+        onClose={() => setIsFullCatalogOpen(false)}
       />
     </>
   );
