@@ -1,5 +1,5 @@
 "use client";
-import { motion } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 import React from 'react';
 
 interface BlurTextProps {
@@ -14,15 +14,17 @@ interface BlurTextProps {
 export const BlurText = ({ text, delay = 200, className = '' }: BlurTextProps) => {
   const words = text.split(' ');
 
-  const container = {
+  // Wir typisieren 'container' explizit als 'Variants'
+  const container: Variants = {
     hidden: { opacity: 0 },
-    visible: (i = 1) => ({
+    visible: (i: number = 1) => ({
       opacity: 1,
       transition: { staggerChildren: 0.12, delayChildren: 0.04 * i },
     }),
   };
 
-  const child = {
+  // Wir typisieren 'child' explizit als 'Variants'
+  const child: Variants = {
     visible: {
       opacity: 1,
       filter: 'blur(0px)',
