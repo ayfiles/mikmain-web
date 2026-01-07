@@ -47,10 +47,8 @@ export function HeroSection() {
       </div>
 
       {/* EBENE 2: MITTE (3D Modell) */}
-      {/* Nutzt jetzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
       <div className="absolute inset-0 z-[2] flex items-center justify-center pointer-events-none overflow-x-hidden">
         <div className="w-full h-full max-w-[1200px] relative mx-auto px-4 sm:px-0">
-          {/* pointer-events-auto ist entscheidend, damit TShirtScene Hover-Events registriert - weiter rechts für Gap */}
           <div className="hidden lg:block absolute right-0 lg:right-[-15%] top-1/2 -translate-y-1/2 w-full lg:w-[55%] h-[50vh] md:h-[60vh] lg:h-[70vh] pointer-events-auto overflow-hidden">
             <TShirtScene />
           </div>
@@ -58,13 +56,13 @@ export function HeroSection() {
       </div>
 
       {/* EBENE 3: VORNE (Content / Text / Buttons) */}
-      {/* Nutzt die gleiche max-w wie die Navbar (900px) für konsistente Ausrichtung */}
       <div className="relative z-10 w-full max-w-[1200px] mx-auto h-full flex flex-col justify-center pointer-events-none px-4 sm:px-0">
         
-        <div className="flex flex-col items-start text-left max-w-full lg:max-w-[55%]"> {/* Text-Breite begrenzt für Gap zum 3D-Modell */}
+        <div className="flex flex-col items-start text-left max-w-full lg:max-w-[55%]">
             
-            {/* Headline */}
-            <div className="font-heading font-bold text-4xl md:text-5xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.05]">
+            {/* Headline - HIER GEÄNDERT */}
+            {/* Vorher: text-4xl ... Jetzt: text-6xl (Mobile) */}
+            <div className="font-heading font-bold text-6xl md:text-7xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.1] md:leading-[1.05]">
             <BlurText 
                 text="Corporate Fashion." 
                 className="text-foreground drop-shadow-2xl" 
@@ -120,7 +118,6 @@ export function HeroSection() {
 
       {/* EBENE 4: LOGO LOOP AM UNTEREN RAND */}
       <div className="absolute bottom-0 left-0 right-0 z-[3] h-20 md:h-24 overflow-hidden overflow-x-hidden">
-        {/* Container mit CSS Mask für smooth fade */}
         <div 
           className="relative h-full w-full max-w-[1200px] mx-auto overflow-hidden overflow-x-hidden px-4 sm:px-0"
           style={{

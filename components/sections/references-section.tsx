@@ -26,7 +26,8 @@ export function ReferencesSection() {
     <>
       <section
         ref={sectionRef}
-        className="relative w-full py-16 md:py-24 lg:py-32 overflow-x-hidden bg-background"
+        // WICHTIG: overflow-hidden hier verhindert das Scrollen der ganzen Seite
+        className="relative w-full py-16 md:py-24 lg:py-32 overflow-hidden bg-background"
       >
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-mik-blue/5 to-transparent pointer-events-none" />
@@ -63,12 +64,14 @@ export function ReferencesSection() {
           </motion.div>
         </div>
 
-        {/* Carousel */}
+        {/* Carousel Wrapper */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="relative z-10 overflow-x-hidden"
+          // HIER GEÄNDERT: 'overflow-x-hidden' ENTFERNT. 
+          // Stattdessen nur 'relative z-10', damit Shadows/Hover nicht abgeschnitten werden.
+          className="relative z-10 w-full"
         >
           <CustomerCarousel
             customers={CUSTOMERS}
@@ -88,4 +91,3 @@ export function ReferencesSection() {
 }
 
 export default ReferencesSection;
-

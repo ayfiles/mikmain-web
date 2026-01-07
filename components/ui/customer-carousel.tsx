@@ -132,7 +132,8 @@ export function CustomerCarousel({
   return (
     <div
       ref={carouselRef}
-      className={cn("relative w-full", className)}
+      // HIER GEÄNDERT: max-w-[100vw] verhindert, dass Kinder das Layout sprengen
+      className={cn("relative w-full max-w-[100vw]", className)}
       onMouseEnter={() => !isDragging && setIsPaused(true)}
       onMouseLeave={() => !isDragging && setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -141,7 +142,8 @@ export function CustomerCarousel({
       onMouseDown={handleMouseDown}
     >
       {/* Carousel Container */}
-      <div className="relative w-full max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto overflow-visible px-2">
+      {/* overflow-visible ist wichtig für Shadows, aber der Parent (Section) fängt Overflow ab */}
+      <div className="relative w-full max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto overflow-visible px-4">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -174,7 +176,8 @@ export function CustomerCarousel({
       <div className="flex justify-center items-center gap-4 mt-6">
         <button
           onClick={goToPrevious}
-          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110"
+          // HIER GEÄNDERT: transform-gpu erzwingt GPU-Layering, verhindert Layout-Jumps
+          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110 transform-gpu active:scale-95"
           aria-label="Vorherige Referenz"
         >
           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-white" />
@@ -187,7 +190,7 @@ export function CustomerCarousel({
               key={index}
               onClick={() => goToSlide(index)}
               className={cn(
-                "w-2 h-2 rounded-full transition-all duration-300",
+                "w-2 h-2 rounded-full transition-all duration-300 transform-gpu",
                 index === currentIndex
                   ? "w-8 bg-mik-blue"
                   : "bg-white/20 hover:bg-white/40"
@@ -199,7 +202,8 @@ export function CustomerCarousel({
         
         <button
           onClick={goToNext}
-          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110"
+          // HIER GEÄNDERT: transform-gpu + active state
+          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110 transform-gpu active:scale-95"
           aria-label="Nächste Referenz"
         >
           <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
@@ -210,4 +214,3 @@ export function CustomerCarousel({
 }
 
 export default CustomerCarousel;
-
