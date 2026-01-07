@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "motion/react";
 
 const PARTNERS = [
   { name: "Partner 1", logo: "/logos/partner1.svg" },
@@ -13,7 +13,8 @@ const PARTNERS = [
 
 export function TrustedBySection() {
   // Wir verdoppeln die Liste für einen nahtlosen Übergang
-  const marqueeVariants = {
+  // WICHTIG: Typisierung als 'Variants' verhindert den TypeScript-Fehler bei "loop"
+  const marqueeVariants: Variants = {
     animate: {
       x: [0, -1000], // Passen Sie diesen Wert an die Gesamtbreite Ihrer Logos an
       transition: {
