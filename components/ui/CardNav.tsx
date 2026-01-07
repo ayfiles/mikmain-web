@@ -3,7 +3,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
-// HIER: Der Import für den neuen Toggler (Pfad ggf. anpassen auf @/components/magicui/...)
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { useOutsideClick } from "@/hooks/use-outside-click"; 
 
@@ -46,7 +45,10 @@ const CardNav: React.FC<CardNavProps> = ({
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
-  const cardsRef = useRef<HTMLDivElement[]>([]);
+  
+  // FIX: Typ auf HTMLAnchorElement geändert, da die Karten <a> Tags sind
+  const cardsRef = useRef<HTMLAnchorElement[]>([]);
+  
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   const calculateHeight = () => {
@@ -140,7 +142,8 @@ const CardNav: React.FC<CardNavProps> = ({
     }
   };
 
-  const setCardRef = (i: number) => (el: HTMLDivElement | null) => {
+  // FIX: Typ auf HTMLAnchorElement geändert
+  const setCardRef = (i: number) => (el: HTMLAnchorElement | null) => {
     if (el) cardsRef.current[i] = el;
   };
 
