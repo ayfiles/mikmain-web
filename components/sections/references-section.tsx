@@ -68,7 +68,7 @@ export function ReferencesSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="relative z-10"
+          className="relative z-10 overflow-x-hidden"
         >
           <CustomerCarousel
             customers={CUSTOMERS}

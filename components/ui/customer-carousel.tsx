@@ -141,7 +141,7 @@ export function CustomerCarousel({
       onMouseDown={handleMouseDown}
     >
       {/* Carousel Container */}
-      <div className="relative w-full max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto overflow-x-hidden px-2">
+      <div className="relative w-full max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto overflow-visible px-2">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -155,7 +155,7 @@ export function CustomerCarousel({
               duration: isDragging ? 0 : 0.5, 
               ease: "easeInOut" 
             }}
-            className="w-full"
+            className="w-full overflow-visible"
             style={{ cursor: isDragging ? "grabbing" : "grab" }}
           >
             <CustomerCard

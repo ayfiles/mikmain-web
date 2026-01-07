@@ -18,7 +18,7 @@ export function CustomerCard({ customer, onClick, className }: CustomerCardProps
         "border-2 border-white/30 bg-mik-navy/60 backdrop-blur-xl",
         "transition-all duration-300 ease-out",
         "[box-shadow:0_0_40px_-10px_rgba(59,130,246,0.15),inset_0_1px_0_0_rgba(255,255,255,0.15),inset_0_0_0_1px_rgba(255,255,255,0.1)]",
-        "hover:scale-[1.02] hover:border-mik-blue/60",
+        "hover:border-mik-blue/60",
         "hover:[box-shadow:0_0_60px_-10px_rgba(59,130,246,0.3),inset_0_1px_0_0_rgba(255,255,255,0.2),inset_0_0_0_1px_rgba(255,255,255,0.15)]",
         className
       )}
