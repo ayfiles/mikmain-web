@@ -3,6 +3,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+import Link from 'next/link'; // <--- NEU
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { useOutsideClick } from "@/hooks/use-outside-click"; 
 
@@ -45,10 +46,7 @@ const CardNav: React.FC<CardNavProps> = ({
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
-  
-  // FIX: Typ auf HTMLAnchorElement geändert, da die Karten <a> Tags sind
   const cardsRef = useRef<HTMLAnchorElement[]>([]);
-  
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   const calculateHeight = () => {
@@ -58,7 +56,6 @@ const CardNav: React.FC<CardNavProps> = ({
     const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
     const baseHeight = isMobile ? 60 : 120;
     
-    // Für beide Fälle: Content sichtbar machen, Höhe messen, wieder verstecken
     const contentEl = navEl.querySelector('.card-nav-content') as HTMLElement;
     if (contentEl) {
       const wasVisible = contentEl.style.visibility;
@@ -72,7 +69,7 @@ const CardNav: React.FC<CardNavProps> = ({
       contentEl.style.height = 'auto';
       contentEl.offsetHeight;
 
-        const padding = 8;
+      const padding = 16;
       const contentHeight = contentEl.scrollHeight;
 
       contentEl.style.visibility = wasVisible;
@@ -83,7 +80,7 @@ const CardNav: React.FC<CardNavProps> = ({
       return baseHeight + contentHeight + padding;
     }
     
-    return isMobile ? 200 : 340; 
+    return isMobile ? 250 : 400; 
   };
 
   const createTimeline = () => {
@@ -142,12 +139,10 @@ const CardNav: React.FC<CardNavProps> = ({
     }
   };
 
-  // FIX: Typ auf HTMLAnchorElement geändert
   const setCardRef = (i: number) => (el: HTMLAnchorElement | null) => {
     if (el) cardsRef.current[i] = el;
   };
 
-  // Click-Outside Handler
   useOutsideClick(navRef, () => {
     if (isExpanded) {
       const tl = tlRef.current;
@@ -160,7 +155,7 @@ const CardNav: React.FC<CardNavProps> = ({
 
   return (
     <div
-      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[95%] max-w-[1200px] z-[99] top-4 rounded-[40px] overflow-x-hidden ${className}`}
+      className={`card-nav-container fixed left-1/2 -translate-x-1/2 w-[95%] max-w-[1200px] z-[40] top-4 rounded-[40px] overflow-x-hidden ${className}`}
       style={{ maxWidth: 'min(95vw, 1200px)' }}
     >
       <nav
@@ -170,7 +165,7 @@ const CardNav: React.FC<CardNavProps> = ({
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] md:h-[120px] flex items-center justify-between px-4 md:px-10 z-[2]">
           
-          {/* MENU BUTTON (LINKS) */}
+          {/* MENU BUTTON */}
           <div
             className="cursor-pointer hover:opacity-70 transition-opacity touch-manipulation p-2 -ml-2"
             onClick={toggleMenu}
@@ -180,19 +175,19 @@ const CardNav: React.FC<CardNavProps> = ({
             {isHamburgerOpen ? <X size={24} className="sm:w-7 sm:h-7 md:w-9 md:h-9" /> : <Menu size={24} className="sm:w-7 sm:h-7 md:w-9 md:h-9" />}
           </div>
           
-          {/* LOGO (MITTE) */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center font-heading font-bold text-xl sm:text-2xl md:text-4xl tracking-tighter text-mik-navy">
+          {/* LOGO (JETZT KLICKBAR) */}
+          <Link 
+            href="/"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center font-heading font-bold text-xl sm:text-2xl md:text-4xl tracking-tighter text-mik-navy hover:opacity-80 transition-opacity"
+          >
              {logo ? <img src={logo} alt={logoAlt} className="h-8 sm:h-10 md:h-14 w-auto" /> : <span>MikMain<span className="text-mik-red">.</span></span>}
-          </div>
+          </Link>
 
-          {/* RECHTS: CTA & THEME TOGGLER */}
+          {/* RECHTS */}
           <div className="flex items-center gap-3 md:gap-5">
-             
-             {/* Der neue Theme Toggler */}
              <div className="hidden md:block scale-100">
                <AnimatedThemeToggler />
              </div>
-
              <button
                type="button"
                className="hidden md:inline-flex rounded-full px-6 py-3 text-base font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-200"
@@ -202,14 +197,12 @@ const CardNav: React.FC<CardNavProps> = ({
              </button>
           </div>
           
-          {/* Platzhalter Mobile */}
           <div className="md:hidden w-[24px]"></div>
-
         </div>
 
         {/* CONTENT */}
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[65px] md:top-[130px] bottom-0 px-4 md:px-10 py-1 flex flex-col md:flex-row items-center justify-center gap-[9px] z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[65px] md:top-[130px] bottom-0 px-4 md:px-10 py-2 flex flex-col md:flex-row items-center justify-center gap-[9px] z-[1] ${
             isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
           }`}
         >
@@ -220,7 +213,7 @@ const CardNav: React.FC<CardNavProps> = ({
                 key={`${item.label}-${idx}`}
                 href={firstLink?.href || '#'}
                 onClick={() => setIsExpanded(false)}
-                className="nav-card relative flex flex-col justify-between p-1 rounded-[12px] h-[45px] md:h-[90px] w-[calc(100%-32px)] md:w-[calc(18.75%-9px)] transition-all duration-300 ease-in-out hover:scale-110 backdrop-blur-xl border border-white/10 shadow-lg cursor-pointer"
+                className="nav-card relative flex flex-col justify-between p-3 rounded-[16px] h-[70px] md:h-[150px] w-[calc(100%-32px)] md:w-auto md:flex-1 md:min-w-[120px] transition-all duration-300 ease-in-out hover:scale-[1.02] backdrop-blur-xl border border-white/10 shadow-lg cursor-pointer"
                 ref={setCardRef(idx)}
                 style={{ 
                   backgroundColor: item.bgColor || 'rgba(10, 25, 47, 0.7)', 
@@ -228,13 +221,14 @@ const CardNav: React.FC<CardNavProps> = ({
                   textDecoration: 'none'
                 }}
               >
-                <div className="text-xs font-heading font-bold mb-0.5 opacity-90">
+                <div className="text-sm md:text-lg font-heading font-bold mb-0.5 opacity-90 leading-tight">
                   {item.label}
                 </div>
+                
                 <div className="flex flex-col gap-0.5">
                   {firstLink && (
-                    <div className="inline-flex items-center gap-1 text-[8px] font-medium opacity-70">
-                      <ArrowUpRight size={8} />
+                    <div className="inline-flex items-center gap-1 text-[10px] md:text-xs font-medium opacity-80">
+                      <ArrowUpRight size={12} className="md:w-4 md:h-4" />
                       {firstLink.label}
                     </div>
                   )}

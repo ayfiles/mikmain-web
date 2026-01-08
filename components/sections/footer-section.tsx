@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Linkedin, Instagram, ArrowUpRight } from "lucide-react";
+import Link from "next/link"; // <--- Import hinzugefügt für besseres Routing
 
 const FOOTER_LINKS = {
   company: [
@@ -16,7 +17,7 @@ const FOOTER_LINKS = {
     { label: "Wäscheservice", href: "#" },
   ],
   legal: [
-    { label: "Impressum", href: "#" },
+    { label: "Impressum", href: "/impressum" }, // <--- HIER GEÄNDERT
     { label: "Datenschutz", href: "#" },
     { label: "AGB", href: "#" },
   ],
@@ -160,13 +161,13 @@ export function FooterSection() {
               </p>
               <div className="flex gap-4">
                 {FOOTER_LINKS.legal.map((link, idx) => (
-                  <a 
+                  <Link 
                     key={idx}
                     href={link.href}
                     className="text-gray-500 hover:text-white text-xs transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -181,5 +182,3 @@ export function FooterSection() {
     </footer>
   );
 }
-
-
