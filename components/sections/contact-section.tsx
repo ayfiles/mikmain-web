@@ -1,440 +1,256 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { BRANCH_DATA } from "@/components/ui/infinite-branch-cards";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-interface FormData {
-  name: string;
-  company: string;
-  email: string;
-  branch: string;
-  products: string[];
-  budget: string;
-  message: string;
-  privacyAccepted: boolean;
-}
-
-interface FormErrors {
-  name?: string;
-  company?: string;
-  email?: string;
-  branch?: string;
-  products?: string;
-  budget?: string;
-  privacyAccepted?: string;
-}
-
-const BUDGET_OPTIONS = [
-  "Unter 5.000€",
-  "5.000€ - 10.000€",
-  "10.000€ - 25.000€",
-  "25.000€ - 50.000€",
-  "Über 50.000€",
-  "Individuell",
-];
-
-const GENERIC_PRODUCTS = [
-  "Berufskleidung",
-  "Uniformen",
-  "Accessoires",
-  "Wäscheservice",
-  "Individuelle Lösung",
-];
+import Link from "next/link";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export function ContactSection() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formState, setFormState] = useState({
     name: "",
     company: "",
     email: "",
     branch: "",
-    products: [],
     budget: "",
+    employees: "",
     message: "",
-    privacyAccepted: false,
+    privacy: false,
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
-  const selectedBranch = BRANCH_DATA.find((b) => b.id === formData.branch);
-  const availableProducts = selectedBranch
-    ? selectedBranch.features
-    : formData.branch === "other"
-    ? GENERIC_PRODUCTS
-    : [];
-
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-    
-    // Reset products when branch changes
-    if (name === "branch") {
-      setFormData((prev) => ({ ...prev, products: [] }));
-    }
+    setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleProductToggle = (product: string) => {
-    setFormData((prev) => {
-      const products = prev.products.includes(product)
-        ? prev.products.filter((p) => p !== product)
-        : [...prev.products, product];
-      return { ...prev, products };
-    });
-    if (errors.products) {
-      setErrors((prev) => ({ ...prev, products: undefined }));
-    }
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormState((prev) => ({ ...prev, privacy: e.target.checked }));
   };
 
-  const handlePrivacyChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, privacyAccepted: e.target.checked }));
-    if (errors.privacyAccepted) {
-      setErrors((prev) => ({ ...prev, privacyAccepted: undefined }));
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Bitte geben Sie Ihren Namen ein.";
-    }
-
-    if (!formData.company.trim()) {
-      newErrors.company = "Bitte geben Sie Ihr Unternehmen ein.";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
-    }
-
-    if (!formData.branch) {
-      newErrors.branch = "Bitte wählen Sie eine Branche aus.";
-    }
-
-    if (formData.products.length === 0) {
-      newErrors.products = "Bitte wählen Sie mindestens ein Produkt aus.";
-    }
-
-    if (!formData.budget) {
-      newErrors.budget = "Bitte wählen Sie ein Budget aus.";
-    }
-
-    if (!formData.privacyAccepted) {
-      newErrors.privacyAccepted = "Sie müssen die Datenschutzbestimmungen akzeptieren.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
     setIsSubmitting(true);
 
-    // TODO: Backend-Integration
-    console.log("Form Data:", formData);
-
-    // Simuliere API-Call
+    // Simulation eines API Calls
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
+    
+    console.log("Form Data:", formState);
+    setIsSent(true);
     setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setFormData({
-        name: "",
-        company: "",
-        email: "",
-        branch: "",
-        products: [],
-        budget: "",
-        message: "",
-        privacyAccepted: false,
-      });
-      setIsSubmitted(false);
-    }, 3000);
   };
 
+  // Gemeinsame Styles für Inputs/Selects
+  const inputClasses = "w-full bg-white/5 border border-border rounded-xl px-4 py-3 outline-none focus:border-mik-blue focus:ring-1 focus:ring-mik-blue/50 transition-all placeholder:text-muted-foreground/50 text-foreground";
+  
+  // FIX: Expliziter Style für Options, damit sie im Dropdown dunkel sind
+  const optionClasses = "bg-[#0a192f] text-white"; 
+
   return (
-    <section className="py-16 bg-background overflow-x-hidden w-full">
-      <div className="container mx-auto px-4 sm:px-6 max-w-xl md:max-w-4xl">
-        <div className="bg-card border border-border rounded-3xl p-6 md:p-8 shadow-lg">
-          <div className="text-center mb-10">
-            <h2 className="font-heading text-3xl font-bold mb-4">Kontakt</h2>
-            <p className="text-muted-foreground">Lassen Sie uns über Ihre Kollektion sprechen.</p>
-          </div>
+    <section className="relative w-full py-20 md:py-32 overflow-hidden" id="contact">
+      
+      {/* Background Elements */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-mik-blue/5 rounded-full blur-[100px] pointer-events-none" />
 
-          {isSubmitted ? (
-            <div className="text-center py-12">
-              <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h3 className="font-heading text-2xl font-bold mb-2">Vielen Dank!</h3>
-              <p className="text-muted-foreground">Wir werden uns in Kürze bei Ihnen melden.</p>
+      <div className="container mx-auto px-4 max-w-[1200px] relative z-10">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          
+          {/* TEXT SEITE */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-6 text-foreground">
+              Lassen Sie uns <br />
+              <span className="text-mik-blue">starten.</span>
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-md font-sans leading-relaxed">
+              Erzählen Sie uns von Ihrem Vorhaben. Wir erstellen Ihnen ein unverbindliches Konzept für Ihre Corporate Fashion.
+            </p>
+
+            <div className="space-y-6">
+               <div className="flex items-start gap-4">
+                 <div className="w-12 h-12 rounded-full bg-mik-navy/5 dark:bg-white/10 flex items-center justify-center shrink-0 text-mik-blue font-bold text-xl">1</div>
+                 <div>
+                   <h4 className="font-bold text-foreground text-lg">Analyse & Design</h4>
+                   <p className="text-muted-foreground text-sm">Wir verstehen Ihre Marke und entwerfen die passende Kollektion.</p>
+                 </div>
+               </div>
+               <div className="flex items-start gap-4">
+                 <div className="w-12 h-12 rounded-full bg-mik-navy/5 dark:bg-white/10 flex items-center justify-center shrink-0 text-mik-blue font-bold text-xl">2</div>
+                 <div>
+                   <h4 className="font-bold text-foreground text-lg">Produktion & Logistik</h4>
+                   <p className="text-muted-foreground text-sm">Hochwertige Fertigung und Lagerung Ihrer Textilien.</p>
+                 </div>
+               </div>
+               <div className="flex items-start gap-4">
+                 <div className="w-12 h-12 rounded-full bg-mik-navy/5 dark:bg-white/10 flex items-center justify-center shrink-0 text-mik-blue font-bold text-xl">3</div>
+                 <div>
+                   <h4 className="font-bold text-foreground text-lg">Full-Service</h4>
+                   <p className="text-muted-foreground text-sm">Wäscheservice, Reparatur und automatisierte Nachbestellung.</p>
+                 </div>
+               </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name & Unternehmen */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold ml-1">
-                    Name <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className={cn(
-                      "w-full p-3 rounded-xl bg-background border transition-all",
-                      "focus:ring-2 focus:ring-mik-blue outline-none",
-                      errors.name ? "border-red-400" : "border-input"
-                    )}
-                    placeholder="Max Mustermann"
-                  />
-                  {errors.name && (
-                    <p className="text-xs text-red-400 flex items-center gap-1">
-                      <AlertCircle className="w-2.5 h-2.5" />
-                      {errors.name}
-                    </p>
-                  )}
+          </motion.div>
+
+          {/* FORMULAR SEITE */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-card/50 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[40px] shadow-2xl"
+          >
+            {isSent ? (
+              <div className="h-[400px] flex flex-col items-center justify-center text-center">
+                <div className="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mb-6">
+                  <CheckCircle2 size={40} />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold ml-1">
-                    Unternehmen <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    className={cn(
-                      "w-full p-3 rounded-xl bg-background border transition-all",
-                      "focus:ring-2 focus:ring-mik-blue outline-none",
-                      errors.company ? "border-red-400" : "border-input"
-                    )}
-                    placeholder="Firma GmbH"
-                  />
-                  {errors.company && (
-                    <p className="text-xs text-red-400 flex items-center gap-1">
-                      <AlertCircle className="w-2.5 h-2.5" />
-                      {errors.company}
-                    </p>
-                  )}
-                </div>
+                <h3 className="text-2xl font-bold mb-2">Anfrage gesendet!</h3>
+                <p className="text-muted-foreground mb-6">Vielen Dank. Wir melden uns in Kürze bei Ihnen.</p>
+                <Button onClick={() => setIsSent(false)} variant="outline">Neue Anfrage</Button>
               </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <label className="text-sm font-bold ml-1">
-                  Email <span className="text-red-400">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={cn(
-                    "w-full p-3 rounded-xl bg-background border transition-all",
-                    "focus:ring-2 focus:ring-mik-blue outline-none",
-                    errors.email ? "border-red-400" : "border-input"
-                  )}
-                  placeholder="max@firma.de"
-                />
-                {errors.email && (
-                  <p className="text-xs text-red-400 flex items-center gap-1">
-                    <AlertCircle className="w-2.5 h-2.5" />
-                    {errors.email}
-                  </p>
-                )}
-              </div>
-
-              {/* Branche */}
-              <div className="space-y-2">
-                <label className="text-sm font-bold ml-1">
-                  Branche <span className="text-red-400">*</span>
-                </label>
-                <select
-                  name="branch"
-                  value={formData.branch}
-                  onChange={handleInputChange}
-                  className={cn(
-                    "w-full p-3 rounded-xl bg-background border transition-all",
-                    "focus:ring-2 focus:ring-mik-blue outline-none",
-                    errors.branch ? "border-red-400" : "border-input"
-                  )}
-                >
-                  <option value="">Bitte wählen...</option>
-                  {BRANCH_DATA.map((branch) => (
-                    <option key={branch.id} value={branch.id}>
-                      {branch.title}
-                    </option>
-                  ))}
-                  <option value="other">Sonstiges</option>
-                </select>
-                {errors.branch && (
-                  <p className="text-xs text-red-400 flex items-center gap-1">
-                    <AlertCircle className="w-2.5 h-2.5" />
-                    {errors.branch}
-                  </p>
-                )}
-              </div>
-
-              {/* Produkte */}
-              {availableProducts.length > 0 && (
-                <div className="space-y-2">
-                  <label className="text-sm font-bold ml-1">
-                    Produkte <span className="text-red-400">*</span>
-                    <span className="text-xs text-muted-foreground font-normal ml-2">
-                      (Mehrfachauswahl möglich)
-                    </span>
-                  </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                    {availableProducts.map((product) => (
-                      <button
-                        key={product}
-                        type="button"
-                        onClick={() => handleProductToggle(product)}
-                        className={cn(
-                          "p-2 rounded-xl border text-left transition-all",
-                          "hover:border-mik-blue/50",
-                          formData.products.includes(product)
-                            ? "bg-mik-blue/10 border-mik-blue text-mik-blue"
-                            : "bg-background border-input text-foreground"
-                        )}
-                      >
-                        <div className="flex items-center gap-2">
-                          <div
-                            className={cn(
-                              "w-3.5 h-3.5 rounded border-2 flex items-center justify-center",
-                              formData.products.includes(product)
-                                ? "bg-mik-blue border-mik-blue"
-                                : "border-input"
-                            )}
-                          >
-                            {formData.products.includes(product) && (
-                              <CheckCircle2 className="w-2.5 h-2.5 text-white" />
-                            )}
-                          </div>
-                          <span className="text-xs">{product}</span>
-                        </div>
-                      </button>
-                    ))}
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                
+                {/* Name & Firma */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Name *</label>
+                    <input 
+                      required
+                      type="text" 
+                      name="name" 
+                      placeholder="Max Mustermann" 
+                      value={formState.name}
+                      onChange={handleChange}
+                      className={inputClasses}
+                    />
                   </div>
-                  {errors.products && (
-                    <p className="text-xs text-red-400 flex items-center gap-1">
-                      <AlertCircle className="w-2.5 h-2.5" />
-                      {errors.products}
-                    </p>
-                  )}
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Firma *</label>
+                    <input 
+                      required
+                      type="text" 
+                      name="company" 
+                      placeholder="Muster GmbH" 
+                      value={formState.company}
+                      onChange={handleChange}
+                      className={inputClasses}
+                    />
+                  </div>
                 </div>
-              )}
 
-              {/* Budget */}
-              <div className="space-y-2">
-                <label className="text-sm font-bold ml-1">
-                  Budget <span className="text-red-400">*</span>
-                </label>
-                <select
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleInputChange}
-                  className={cn(
-                    "w-full p-3 rounded-xl bg-background border transition-all",
-                    "focus:ring-2 focus:ring-mik-blue outline-none",
-                    errors.budget ? "border-red-400" : "border-input"
-                  )}
-                >
-                  <option value="">Bitte wählen...</option>
-                  {BUDGET_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                {errors.budget && (
-                  <p className="text-xs text-red-400 flex items-center gap-1">
-                    <AlertCircle className="w-2.5 h-2.5" />
-                    {errors.budget}
-                  </p>
-                )}
-              </div>
+                {/* E-Mail & Branche */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">E-Mail *</label>
+                    <input 
+                      required
+                      type="email" 
+                      name="email" 
+                      placeholder="info@muster.de" 
+                      value={formState.email}
+                      onChange={handleChange}
+                      className={inputClasses}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Branche *</label>
+                    <input 
+                      required
+                      type="text" 
+                      name="branch" 
+                      placeholder="z.B. Gastronomie" 
+                      value={formState.branch}
+                      onChange={handleChange}
+                      className={inputClasses}
+                    />
+                  </div>
+                </div>
 
-              {/* Nachricht */}
-              <div className="space-y-2">
-                <label className="text-sm font-bold ml-1">Nachricht</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  rows={4}
-                  className="w-full p-3 rounded-xl bg-background border border-input focus:ring-2 focus:ring-mik-blue outline-none transition-all resize-none"
-                  placeholder="Wie können wir helfen?"
-                />
-              </div>
-
-              {/* Datenschutz */}
-              <div className="space-y-2">
-                <label className="flex items-start gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={formData.privacyAccepted}
-                    onChange={handlePrivacyChange}
-                    className={cn(
-                      "mt-1 w-4 h-4 rounded border-2",
-                      "bg-background border-input",
-                      "focus:ring-2 focus:ring-mik-blue/50",
-                      "checked:bg-mik-blue checked:border-mik-blue",
-                      "transition-all cursor-pointer",
-                      errors.privacyAccepted ? "border-red-400" : ""
-                    )}
-                  />
-                  <span className="text-xs text-foreground flex-1">
-                    Ich akzeptiere die{" "}
-                    <a
-                      href="#"
-                      className="text-mik-blue hover:underline"
-                      onClick={(e) => e.preventDefault()}
+                {/* Budget & Mitarbeiteranzahl */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Budget (Optional)</label>
+                    <select 
+                      name="budget" 
+                      value={formState.budget}
+                      onChange={handleChange}
+                      className={inputClasses}
                     >
-                      Datenschutzbestimmungen
-                    </a>
-                    <span className="text-red-400"> *</span>
-                  </span>
-                </label>
-                {errors.privacyAccepted && (
-                  <p className="text-xs text-red-400 flex items-center gap-1 ml-7">
-                    <AlertCircle className="w-2.5 h-2.5" />
-                    {errors.privacyAccepted}
-                  </p>
-                )}
-              </div>
+                      <option value="" disabled className={optionClasses}>Bitte wählen...</option>
+                      <option value="< 5k" className={optionClasses}>unter 5.000 €</option>
+                      <option value="5k-10k" className={optionClasses}>5.000 € - 10.000 €</option>
+                      <option value="10k-50k" className={optionClasses}>10.000 € - 50.000 €</option>
+                      <option value="> 50k" className={optionClasses}>über 50.000 €</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Mitarbeiteranzahl</label>
+                    <select 
+                      name="employees" 
+                      value={formState.employees}
+                      onChange={handleChange}
+                      className={inputClasses}
+                    >
+                      <option value="" disabled className={optionClasses}>Bitte wählen...</option>
+                      <option value="< 10" className={optionClasses}>Bis 10</option>
+                      <option value="10-50" className={optionClasses}>10 - 50</option>
+                      <option value="+100" className={optionClasses}>Über 100</option>
+                    </select>
+                  </div>
+                </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                size="lg"
-                className="w-full bg-mik-navy text-white hover:bg-mik-blue h-12 text-base font-heading disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? "Wird gesendet..." : "Anfrage senden"}
-              </Button>
-            </form>
-          )}
+                {/* Nachricht */}
+                <div className="space-y-1">
+                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Nachricht</label>
+                   <textarea 
+                     name="message" 
+                     rows={4}
+                     placeholder="Wie können wir Ihnen helfen?" 
+                     value={formState.message}
+                     onChange={handleChange}
+                     className={`${inputClasses} resize-none`}
+                   />
+                </div>
+
+                {/* Datenschutz Checkbox */}
+                <div className="flex items-start gap-3 pt-2">
+                  <input 
+                    required
+                    type="checkbox" 
+                    id="privacy" 
+                    name="privacy" 
+                    checked={formState.privacy}
+                    onChange={handleCheckboxChange}
+                    className="mt-1 w-4 h-4 rounded border-border bg-transparent text-mik-blue focus:ring-mik-blue"
+                  />
+                  <label htmlFor="privacy" className="text-xs text-muted-foreground leading-snug">
+                    Ich stimme zu, dass meine Angaben zur Kontaktaufnahme und Zuordnung für eventuelle Rückfragen dauerhaft gespeichert werden. 
+                    Hinweis: Diese Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen. 
+                    Weitere Informationen finden Sie in der <Link href="/datenschutz" className="underline hover:text-foreground">Datenschutzerklärung</Link>. *
+                  </label>
+                </div>
+
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full h-12 bg-mik-blue hover:bg-blue-600 text-white font-bold rounded-xl mt-4"
+                >
+                  {isSubmitting ? "Wird gesendet..." : "Anfrage absenden"}
+                  {!isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
+                </Button>
+
+              </form>
+            )}
+          </motion.div>
+
         </div>
       </div>
     </section>

@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { BlurText } from "@/components/react-bits/BlurText";
 import Silk from "@/components/ui/Silk"; 
 import TShirtScene from "@/components/ui/TShirtScene";
+import Link from "next/link"; // <--- Import hinzugefügt
 
 const LOGOS = [
   { name: "Harput", logo: "/logos/harput.svg" },
@@ -56,13 +57,12 @@ export function HeroSection() {
       </div>
 
       {/* EBENE 3: VORNE (Content / Text / Buttons) */}
-      {/* Das Parent Div hat pointer-events-none, damit man durch leere Flächen klicken kann */}
       <div className="relative z-10 w-full max-w-[1200px] mx-auto h-full flex flex-col justify-center pointer-events-none px-4 sm:px-0">
         
         <div className="flex flex-col items-start text-left max-w-full lg:max-w-[55%]">
             
-            {/* Headline - HIER GEÄNDERT: pointer-events-auto und select-text hinzugefügt */}
-            <div className="font-heading font-bold text-6xl md:text-7xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.1] md:leading-[1.05] pointer-events-auto select-text cursor-text">
+            {/* Headline */}
+            <div className="font-heading font-bold text-6xl md:text-7xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.1] md:leading-[1.05]">
             <BlurText 
                 text="Corporate Fashion." 
                 className="text-foreground drop-shadow-2xl" 
@@ -78,12 +78,12 @@ export function HeroSection() {
             </motion.div>
             </div>
 
-            {/* Subline - HIER GEÄNDERT: pointer-events-auto und select-text hinzugefügt */}
+            {/* Subline */}
             <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-2 text-base md:text-lg text-muted-foreground font-sans leading-relaxed max-w-xl pointer-events-auto select-text cursor-text"
+            className="mt-2 text-base md:text-lg text-muted-foreground font-sans leading-relaxed max-w-xl"
             >
             MikMain ist Ihr Concierge für Unternehmensbekleidung. 
             Wir verbinden <span className="text-foreground font-semibold">Manufaktur-Qualität</span> mit digitaler Prozess-Effizienz – vom Design bis zum Wäscheservice.
@@ -96,21 +96,27 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="mt-5 flex flex-col sm:flex-row gap-3 w-full sm:w-auto pointer-events-auto"
             >
-            <Button 
-                size="lg" 
-                className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-base h-12 px-6 shadow-[0_0_40px_-5px_#991B1B80] transition-all hover:scale-105 rounded-xl"
-            >
-                Plattform Demo
-                <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            {/* Button 1: Zu den Kollektionen */}
+            <Link href="/#catalog">
+              <Button 
+                  size="lg" 
+                  className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-base h-12 px-6 shadow-[0_0_40px_-5px_#991B1B80] transition-all hover:scale-105 rounded-xl w-full sm:w-auto"
+              >
+                  Kollektionen ansehen
+                  <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
 
-            <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-base h-12 px-6 backdrop-blur-sm rounded-xl"
-            >
-                Konzept ansehen
-            </Button>
+            {/* Button 2: Zu den Referenzen */}
+            <Link href="/#references">
+              <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-base h-12 px-6 backdrop-blur-sm rounded-xl w-full sm:w-auto"
+              >
+                  Referenzen ansehen
+              </Button>
+            </Link>
             </motion.div>
         </div>
 

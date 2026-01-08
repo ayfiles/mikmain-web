@@ -184,15 +184,17 @@ const CardNav: React.FC<CardNavProps> = ({
 
           {/* RECHTS */}
           <div className="flex items-center gap-3 md:gap-5">
-             {/* HIER WURDE DER TOGGLER ENTFERNT */}
              
-             <button
-               type="button"
-               className="hidden md:inline-flex rounded-full px-6 py-3 text-base font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-200"
-               style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-             >
-               Kontakt
-             </button>
+             {/* KONTAKT BUTTON MIT LINK */}
+             <Link href="/#contact">
+               <button
+                 type="button"
+                 className="hidden md:inline-flex rounded-full px-6 py-3 text-base font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-200"
+                 style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+               >
+                 Kontakt
+               </button>
+             </Link>
           </div>
           
           <div className="md:hidden w-[24px]"></div>
