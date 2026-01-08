@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Linkedin, Instagram, ArrowUpRight } from "lucide-react";
-import Link from "next/link"; // <--- Import hinzugefügt für besseres Routing
+import Link from "next/link";
 
 const FOOTER_LINKS = {
   company: [
@@ -17,9 +17,9 @@ const FOOTER_LINKS = {
     { label: "Wäscheservice", href: "#" },
   ],
   legal: [
-    { label: "Impressum", href: "/impressum" }, // <--- HIER GEÄNDERT
-    { label: "Datenschutz", href: "#" },
-    { label: "AGB", href: "#" },
+    { label: "Impressum", href: "/impressum" },
+    { label: "Datenschutz", href: "/datenschutz" },
+    { label: "AGB", href: "/agb" }, // <--- HIER GEÄNDERT: Link zur neuen AGB-Page
   ],
 };
 

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider"; // <--- NEU
+import { ThemeProvider } from "@/components/theme-provider";
 
-// Fonts Konfiguration (bleibt gleich)
+// Fonts Konfiguration
 const fontKiro = localFont({
   src: [
     { path: "./fonts/Kiro-Bold.otf", weight: "700", style: "normal" },
@@ -24,9 +24,13 @@ const fontAcumin = localFont({
   variable: "--font-acumin",
 });
 
+// HIER GEÄNDERT: Metadaten für Browser-Titel und Favicon
 export const metadata: Metadata = {
-  title: "MikMain - Personalverleih",
-  description: "Rundum-Lösungen für Ihr Unternehmen",
+  title: "MikMain - Corporate Fashion Concierge", // Der neue Titel im Browser-Tab
+  description: "Ihr Concierge für Unternehmensbekleidung. Von Design bis Wäscheservice.",
+  icons: {
+    icon: "/mikmain kurzlogo.svg", // Dein neues Favicon aus dem public-Ordner
+  },
 };
 
 export default function RootLayout({
@@ -38,14 +42,14 @@ export default function RootLayout({
     <html lang="de" className="scroll-smooth" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background text-foreground font-sans antialiased transition-colors duration-300", // <--- HIER GEÄNDERT: Variable Farben statt fester Navy
+          "min-h-screen bg-background text-foreground font-sans antialiased transition-colors duration-300",
           fontKiro.variable,
           fontAcumin.variable
         )}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark" // Wir starten standardmäßig im Dark Mode (Navy)
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

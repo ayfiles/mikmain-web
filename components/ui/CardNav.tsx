@@ -3,8 +3,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
-import Link from 'next/link'; // <--- NEU
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import Link from 'next/link';
 import { useOutsideClick } from "@/hooks/use-outside-click"; 
 
 type CardNavLink = {
@@ -175,7 +174,7 @@ const CardNav: React.FC<CardNavProps> = ({
             {isHamburgerOpen ? <X size={24} className="sm:w-7 sm:h-7 md:w-9 md:h-9" /> : <Menu size={24} className="sm:w-7 sm:h-7 md:w-9 md:h-9" />}
           </div>
           
-          {/* LOGO (JETZT KLICKBAR) */}
+          {/* LOGO */}
           <Link 
             href="/"
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center font-heading font-bold text-xl sm:text-2xl md:text-4xl tracking-tighter text-mik-navy hover:opacity-80 transition-opacity"
@@ -185,9 +184,8 @@ const CardNav: React.FC<CardNavProps> = ({
 
           {/* RECHTS */}
           <div className="flex items-center gap-3 md:gap-5">
-             <div className="hidden md:block scale-100">
-               <AnimatedThemeToggler />
-             </div>
+             {/* HIER WURDE DER TOGGLER ENTFERNT */}
+             
              <button
                type="button"
                className="hidden md:inline-flex rounded-full px-6 py-3 text-base font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-200"

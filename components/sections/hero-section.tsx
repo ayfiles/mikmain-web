@@ -56,13 +56,13 @@ export function HeroSection() {
       </div>
 
       {/* EBENE 3: VORNE (Content / Text / Buttons) */}
+      {/* Das Parent Div hat pointer-events-none, damit man durch leere Flächen klicken kann */}
       <div className="relative z-10 w-full max-w-[1200px] mx-auto h-full flex flex-col justify-center pointer-events-none px-4 sm:px-0">
         
         <div className="flex flex-col items-start text-left max-w-full lg:max-w-[55%]">
             
-            {/* Headline - HIER GEÄNDERT */}
-            {/* Vorher: text-4xl ... Jetzt: text-6xl (Mobile) */}
-            <div className="font-heading font-bold text-6xl md:text-7xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.1] md:leading-[1.05]">
+            {/* Headline - HIER GEÄNDERT: pointer-events-auto und select-text hinzugefügt */}
+            <div className="font-heading font-bold text-6xl md:text-7xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.1] md:leading-[1.05] pointer-events-auto select-text cursor-text">
             <BlurText 
                 text="Corporate Fashion." 
                 className="text-foreground drop-shadow-2xl" 
@@ -78,12 +78,12 @@ export function HeroSection() {
             </motion.div>
             </div>
 
-            {/* Subline */}
+            {/* Subline - HIER GEÄNDERT: pointer-events-auto und select-text hinzugefügt */}
             <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-2 text-base md:text-lg text-muted-foreground font-sans leading-relaxed max-w-xl"
+            className="mt-2 text-base md:text-lg text-muted-foreground font-sans leading-relaxed max-w-xl pointer-events-auto select-text cursor-text"
             >
             MikMain ist Ihr Concierge für Unternehmensbekleidung. 
             Wir verbinden <span className="text-foreground font-semibold">Manufaktur-Qualität</span> mit digitaler Prozess-Effizienz – vom Design bis zum Wäscheservice.

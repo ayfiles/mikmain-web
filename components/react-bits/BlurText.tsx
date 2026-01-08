@@ -14,7 +14,6 @@ interface BlurTextProps {
 export const BlurText = ({ text, delay = 200, className = '' }: BlurTextProps) => {
   const words = text.split(' ');
 
-  // Wir typisieren 'container' explizit als 'Variants'
   const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i: number = 1) => ({
@@ -23,7 +22,6 @@ export const BlurText = ({ text, delay = 200, className = '' }: BlurTextProps) =
     }),
   };
 
-  // Wir typisieren 'child' explizit als 'Variants'
   const child: Variants = {
     visible: {
       opacity: 1,
@@ -48,17 +46,24 @@ export const BlurText = ({ text, delay = 200, className = '' }: BlurTextProps) =
   };
 
   return (
-    <motion.div
-      className={`flex flex-wrap gap-x-4 gap-y-2 justify-start ${className}`}
-      variants={container}
-      initial="hidden"
-      animate="visible"
-    >
-      {words.map((word, index) => (
-        <motion.span key={index} variants={child} className="inline-block">
-          {word}
-        </motion.span>
-      ))}
-    </motion.div>
+    <div className="relative inline-block">
+      {/* SEO & Accessibility: Der volle Text für Screenreader und Bots */}
+      <span className="sr-only">{text}</span>
+      
+      {/* Visuelle Animation */}
+      <motion.div
+        className={`flex flex-wrap gap-x-4 gap-y-2 justify-start ${className}`}
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        aria-hidden="true" // Visuellen Teil vor Screenreadern verstecken, um Dopplung zu vermeiden
+      >
+        {words.map((word, index) => (
+          <motion.span key={index} variants={child} className="inline-block">
+            {word}
+          </motion.span>
+        ))}
+      </motion.div>
+    </div>
   );
 };

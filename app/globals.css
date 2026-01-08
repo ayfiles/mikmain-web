@@ -5,13 +5,12 @@
 @layer base {
   :root {
     /* --- LIGHT MODE (Business White) --- */
-    --background: 210 40% 98%; /* Helles Grau/Weiß */
-    --foreground: 222 47% 11%; /* Navy Text */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
     
     --primary: 222 47% 11%;
     --primary-foreground: 210 40% 98%;
 
-    /* Deine Akzentfarben bleiben gleich */
     --secondary: 221 83% 53%; 
     --secondary-foreground: 210 40% 98%;
     --accent: 0 72% 35%;
@@ -31,8 +30,8 @@
 
   .dark {
     /* --- DARK MODE (MikMain Navy) --- */
-    --background: 222 47% 11%; /* Dein Navy */
-    --foreground: 210 40% 98%; /* Weißer Text */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
     --primary: 210 40% 98%;
     --primary-foreground: 222 47% 11%;
@@ -45,7 +44,7 @@
     --muted: 215 20% 65%;
     --muted-foreground: 210 40% 98%;
     
-    --border: 215 20% 25%; /* Dunklere Border */
+    --border: 215 20% 25%;
     --input: 215 20% 25%;
   }
 }
@@ -54,6 +53,7 @@
   * {
     border-color: hsl(var(--border));
   }
+
   html {
     overflow-x: hidden;
     scroll-behavior: smooth;
@@ -61,6 +61,7 @@
     width: 100%;
     -webkit-tap-highlight-color: transparent;
   }
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
@@ -71,11 +72,49 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
-    -webkit-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+    
+    /* HIER IST DER FIX:
+       1. cursor: default -> Sorgt dafür, dass der Mauszeiger meistens ein Pfeil bleibt (App-Look).
+       2. Wir haben 'user-select: none' ENTFERNT. Text ist jetzt wieder kopierbar.
+    */
+    cursor: default;
   }
+
+  /* EDLER LOOK: 
+     Wenn man Text markiert, wird er MikMain-Rot statt Standard-Blau.
+     Das wirkt sehr hochwertig und passend zum Design.
+  */
+  ::selection {
+    background-color: #991b1b; /* mik-red */
+    color: #ffffff;
+    text-shadow: none;
+  }
+  ::-moz-selection {
+    background-color: #991b1b;
+    color: #ffffff;
+    text-shadow: none;
+  }
+
+  /* Links und Buttons sollen immer die Hand zeigen */
+  a, 
+  button, 
+  [role="button"], 
+  input[type="submit"], 
+  input[type="button"], 
+  label,
+  select {
+    cursor: pointer;
+  }
+
+  /* Inputs müssen den Text-Cursor haben, sonst verwirrt es den Nutzer total */
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  textarea, 
+  input[type="search"] {
+    cursor: text;
+  }
+
   main {
     overflow-x: hidden;
     max-width: 100vw;
@@ -93,6 +132,9 @@
   img, video {
     max-width: 100%;
     height: auto;
+    /* Bilder sollte man meistens nicht markieren können, das sieht "kaputt" aus */
+    user-select: none; 
+    -webkit-user-select: none;
   }
   a {
     text-decoration: none;
