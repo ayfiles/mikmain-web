@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion"; // <--- HIER "Variants" importiert
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // <--- NEU: Für Seitenwechsel
+import { useRouter } from "next/navigation";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { cn } from "@/lib/utils";
 
@@ -46,7 +46,7 @@ export default function CardNav({
 }: CardNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const router = useRouter(); // <--- NEU: Router initialisieren
+  const router = useRouter();
 
   useOutsideClick(containerRef, () => {
     if (isOpen) setIsOpen(false);
@@ -54,8 +54,8 @@ export default function CardNav({
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // Animationen
-  const menuVariants = {
+  // Animationen MIT Typisierung, damit TypeScript nicht meckert
+  const menuVariants: Variants = {
     closed: {
       opacity: 0,
       y: -20,
@@ -70,7 +70,7 @@ export default function CardNav({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     closed: { opacity: 0, y: 20 },
     open: { opacity: 1, y: 0 },
   };
@@ -168,16 +168,15 @@ export default function CardNav({
                   color: item.textColor || "#000"
                 }}
                 onClick={() => {
-                   // Logik-Fix: Unterscheidung zwischen Anker (#) und Pfad (/)
                    if(item.links.length > 0) {
                      const link = item.links[0];
                      
                      if (link.href.startsWith("#")) {
-                       // Scrollen (nur auf der Startseite möglich)
+                       // Scrollen
                        const element = document.querySelector(link.href);
                        if(element) element.scrollIntoView({ behavior: 'smooth' });
                      } else {
-                       // Navigieren (z.B. nach /impressum)
+                       // Navigieren
                        router.push(link.href);
                      }
                      
