@@ -35,7 +35,8 @@ export async function submitContactForm(prevState: any, formData: FormData) {
     budget: formData.get("budget"),
     employees: formData.get("employees"),
     message: formData.get("message"),
-    honeypot: formData.get("company_hp"), 
+    // WICHTIG: Hier haben wir den Namen geändert
+    honeypot: formData.get("gh_check_88"), 
   };
 
   console.log("Empfangene Daten (Honeypot wert):", `'${rawData.honeypot}'`);
