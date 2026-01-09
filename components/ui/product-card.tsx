@@ -3,6 +3,8 @@
 import { cn } from "@/lib/utils";
 import { Product } from "./product-data";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -10,6 +12,9 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, className }: ProductCardProps) {
+  // State für Fallback, falls Bild nicht lädt
+  const [imageError, setImageError] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -28,40 +33,39 @@ export function ProductCard({ product, className }: ProductCardProps) {
     >
       {/* Produktbild Container */}
       <div className="relative w-full aspect-[4/5] overflow-hidden bg-gradient-to-br from-mik-navy/60 to-mik-navy/40">
-        {/* Produktbild */}
-        <img 
-          src={product.image} 
-          alt={product.name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            // Fallback falls Bild nicht geladen werden kann
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            const fallback = target.nextElementSibling as HTMLElement;
-            if (fallback) fallback.style.display = 'flex';
-          }}
-        />
         
-        {/* Fallback Placeholder */}
-        <div 
-          className="absolute inset-0 flex items-center justify-center hidden"
-          style={{ backgroundColor: product.primaryColor }}
-        >
-          <div className="text-center p-6">
-            <div 
-              className="w-24 h-24 mx-auto rounded-lg mb-4 flex items-center justify-center"
-              style={{ backgroundColor: product.primaryColor === "#ffffff" ? "#e5e7eb" : "rgba(255,255,255,0.1)" }}
-            >
-              <span className="text-3xl">👔</span>
+        {!imageError ? (
+          // Optimiertes Next.js Image
+          <Image 
+            src={product.image} 
+            alt={product.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          // Fallback Placeholder (wird nur angezeigt wenn Error true ist)
+          <div 
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ backgroundColor: product.primaryColor }}
+          >
+            <div className="text-center p-6">
+              <div 
+                className="w-24 h-24 mx-auto rounded-lg mb-4 flex items-center justify-center"
+                style={{ backgroundColor: product.primaryColor === "#ffffff" ? "#e5e7eb" : "rgba(255,255,255,0.1)" }}
+              >
+                <span className="text-3xl">👔</span>
+              </div>
+              <p className="text-white/80 text-sm font-sans">
+                {product.name}
+              </p>
             </div>
-            <p className="text-white/80 text-sm font-sans">
-              {product.name}
-            </p>
           </div>
-        </div>
+        )}
         
         {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
 
       {/* Content */}
@@ -89,7 +93,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
                 className={cn(
                   "w-5 h-5 rounded-full border-2 transition-all duration-200",
                   "hover:scale-110 hover:border-white/40",
-                  variant.hex === "#ffffff" || variant.hex === "#ffffff" 
+                  variant.hex === "#ffffff" 
                     ? "border-white/30" 
                     : "border-white/20"
                 )}
@@ -114,4 +118,3 @@ export function ProductCard({ product, className }: ProductCardProps) {
 }
 
 export default ProductCard;
-

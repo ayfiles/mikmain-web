@@ -7,8 +7,9 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { BlurText } from "@/components/react-bits/BlurText";
 import Silk from "@/components/ui/Silk"; 
-import TShirtScene from "@/components/ui/TShirtScene";
-import Link from "next/link"; // <--- Import hinzugefügt
+import TShirtScene from "@/components/ui/TShirtScene"; 
+import Link from "next/link";
+import Image from "next/image";
 
 const LOGOS = [
   { name: "Harput", logo: "/logos/harput.svg" },
@@ -22,9 +23,16 @@ const LOGOS = [
 export function HeroSection() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
   }, []);
 
   const isLightMode = mounted && resolvedTheme === "light";
@@ -47,19 +55,22 @@ export function HeroSection() {
          )}
       </div>
 
-      {/* EBENE 2: MITTE (3D Modell) */}
+      {/* EBENE 2: MITTE (3D Modell - Nur Desktop!) */}
       <div className="absolute inset-0 z-[2] flex items-center justify-center pointer-events-none overflow-x-hidden">
         <div className="w-full h-full max-w-[1200px] relative mx-auto px-4 sm:px-0">
-          <div className="hidden lg:block absolute right-0 lg:right-[-15%] top-1/2 -translate-y-1/2 w-full lg:w-[55%] h-[50vh] md:h-[60vh] lg:h-[70vh] pointer-events-auto overflow-hidden">
-            <TShirtScene />
-          </div>
+          {/* HIER GEÄNDERT: Von right-0 auf -right-[10%] gesetzt */}
+          {isDesktop && (
+            <div className="hidden lg:block absolute -right-[10%] top-1/2 -translate-y-1/2 w-full lg:w-[65%] h-[50vh] md:h-[60vh] lg:h-[80vh] pointer-events-auto overflow-visible">
+                <TShirtScene />
+            </div>
+          )}
         </div>
       </div>
 
       {/* EBENE 3: VORNE (Content / Text / Buttons) */}
       <div className="relative z-10 w-full max-w-[1200px] mx-auto h-full flex flex-col justify-center pointer-events-none px-4 sm:px-0">
         
-        <div className="flex flex-col items-start text-left max-w-full lg:max-w-[55%]">
+        <div className="flex flex-col items-start text-left max-w-full lg:max-w-[50%]">
             
             {/* Headline */}
             <div className="font-heading font-bold text-6xl md:text-7xl lg:text-[6.3rem] tracking-tight text-foreground mb-3 leading-[1.1] md:leading-[1.05]">
@@ -96,7 +107,6 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="mt-5 flex flex-col sm:flex-row gap-3 w-full sm:w-auto pointer-events-auto"
             >
-            {/* Button 1: Zu den Kollektionen */}
             <Link href="/#catalog">
               <Button 
                   size="lg" 
@@ -107,7 +117,6 @@ export function HeroSection() {
               </Button>
             </Link>
 
-            {/* Button 2: Zu den Referenzen */}
             <Link href="/#references">
               <Button 
                   variant="outline" 
@@ -149,12 +158,14 @@ export function HeroSection() {
             {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((logoItem, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center min-w-[100px] sm:min-w-[140px] h-7 md:h-9 flex-shrink-0"
+                className="flex items-center justify-center min-w-[100px] sm:min-w-[140px] h-7 md:h-9 flex-shrink-0 relative"
               >
-                <img
+                <Image
                   src={logoItem.logo}
                   alt={logoItem.name}
-                  className="h-7 md:h-9 w-auto opacity-40 grayscale hover:grayscale-0 hover:opacity-60 transition-all duration-300"
+                  width={140}
+                  height={36}
+                  className="h-7 md:h-9 w-auto opacity-40 grayscale hover:grayscale-0 hover:opacity-60 transition-all duration-300 object-contain"
                 />
               </div>
             ))}

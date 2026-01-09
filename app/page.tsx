@@ -1,16 +1,25 @@
-"use client";
-
+import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/sections/hero-section";
-import { ServicesSection } from "@/components/sections/services-section";
-import { CatalogSection } from "@/components/sections/catalog-section";
-import { ReferencesSection } from "@/components/sections/references-section";
-import { ContactSection } from "@/components/sections/contact-section";
-import { FooterSection } from "@/components/sections/footer-section";
 import CardNav from "@/components/ui/CardNav";
+
+// Sections lazy loading
+const ServicesSection = dynamic(() => 
+  import("@/components/sections/services-section").then((mod) => mod.ServicesSection)
+);
+const CatalogSection = dynamic(() => 
+  import("@/components/sections/catalog-section").then((mod) => mod.CatalogSection)
+);
+const ReferencesSection = dynamic(() => 
+  import("@/components/sections/references-section").then((mod) => mod.ReferencesSection)
+);
+const ContactSection = dynamic(() => 
+  import("@/components/sections/contact-section").then((mod) => mod.ContactSection)
+);
+
+// HINWEIS: FooterSection Import wurde hier entfernt, da er jetzt global in layout.tsx ist!
 
 export default function Home() {
   
-  // Die Menü-Struktur für MikMain - Jede Section hat eine eigene Card
   const navItems = [
     {
       label: "Services",
@@ -37,11 +46,12 @@ export default function Home() {
       ]
     },
     {
-      label: "Impressum",
+      label: "Rechtliches", // Habe ich umbenannt für besseren Kontext
       bgColor: "#0a192f", 
       textColor: "#ffffff",
       links: [
-        { label: "Zur Seite", href: "/impressum", ariaLabel: "Impressum" },
+        { label: "Impressum", href: "/impressum", ariaLabel: "Impressum" },
+        { label: "Datenschutz", href: "/datenschutz", ariaLabel: "Datenschutz" }, // Optional ergänzt
       ]
     }
   ];
@@ -62,28 +72,23 @@ export default function Home() {
 
       <HeroSection />
       
-      {/* Services */}
       <div id="services">
         <ServicesSection />
       </div>
       
-      {/* Katalog (Branchen) */}
       <div id="catalog">
         <CatalogSection />
       </div>
 
-      {/* 4. Referenzen (Kunden) */}
       <div id="references">
         <ReferencesSection />
       </div>
 
-      {/* 5. Kontakt */}
       <div id="contact">
         <ContactSection />
       </div>
 
-      {/* 4. Footer */}
-      <FooterSection />
+      {/* Footer wurde hier entfernt -> kommt jetzt automatisch aus layout.tsx */}
 
     </main>
   );

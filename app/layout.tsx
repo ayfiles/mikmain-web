@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import dynamic from "next/dynamic"; // <--- NEU
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -12,6 +13,7 @@ const fontKiro = localFont({
     { path: "./fonts/Kiro-ExtraBoldItalic.otf", weight: "800", style: "italic" },
   ],
   variable: "--font-kiro",
+  display: "swap",
 });
 
 const fontAcumin = localFont({
@@ -22,14 +24,19 @@ const fontAcumin = localFont({
     { path: "./fonts/Acumin-ItalicBold.otf", weight: "700", style: "italic" },
   ],
   variable: "--font-acumin",
+  display: "swap",
 });
 
-// HIER GEÄNDERT: Metadaten für Browser-Titel und Favicon
+// <--- NEU: Footer dynamisch laden (Performance)
+const FooterSection = dynamic(() => 
+  import("@/components/sections/footer-section").then((mod) => mod.FooterSection)
+);
+
 export const metadata: Metadata = {
-  title: "MikMain - Corporate Fashion Concierge", // Der neue Titel im Browser-Tab
+  title: "MikMain - Corporate Fashion Concierge", 
   description: "Ihr Concierge für Unternehmensbekleidung. Von Design bis Wäscheservice.",
   icons: {
-    icon: "/mikmain kurzlogo.svg", // Dein neues Favicon aus dem public-Ordner
+    icon: "/mikmain kurzlogo.svg", 
   },
 };
 
@@ -42,7 +49,8 @@ export default function RootLayout({
     <html lang="de" className="scroll-smooth" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background text-foreground font-sans antialiased transition-colors duration-300",
+          // "flex flex-col" sorgt dafür, dass der Footer immer unten ist, auch bei wenig Text
+          "min-h-screen bg-background text-foreground font-sans antialiased transition-colors duration-300 flex flex-col",
           fontKiro.variable,
           fontAcumin.variable
         )}
@@ -53,7 +61,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          {/* Hauptinhalt (wächst, um Platz zu füllen) */}
+          <div className="flex-1">
+            {children}
+          </div>
+
+          {/* <--- NEU: Footer ist jetzt hier und damit auf ALLEN Seiten */}
+          <FooterSection />
         </ThemeProvider>
       </body>
     </html>

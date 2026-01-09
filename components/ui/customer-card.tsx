@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Customer } from "./customer-data";
+import Image from "next/image";
 
 interface CustomerCardProps {
   customer: Customer;
@@ -33,6 +34,7 @@ export function CustomerCard({ customer, onClick, className }: CustomerCardProps
             playsInline
             className="absolute inset-0 w-full h-full object-cover blur-sm"
           >
+            {/* HIER: Wenn du WebM hast, ändere den Pfad oder füge <source src="..." type="video/webm" /> hinzu */}
             <source src={customer.coverVideo} type="video/mp4" />
           </video>
           {/* Glass Effect Overlay */}
@@ -47,12 +49,14 @@ export function CustomerCard({ customer, onClick, className }: CustomerCardProps
       
       {/* Content - Linksbündig am unteren linken Rand */}
       <div className="relative z-10 h-full flex flex-col items-start justify-end p-6 md:p-8">
-        {/* Logo */}
-        <div className="mb-4">
-          <img
+        {/* Logo - Optimiert mit Next/Image */}
+        <div className="relative mb-4 h-20 md:h-24 w-40">
+          <Image
             src={customer.logo}
             alt={customer.name}
-            className="h-20 md:h-24 w-auto object-contain opacity-90 grayscale hover:grayscale-0 transition-all duration-300"
+            fill
+            className="object-contain object-left opacity-90 grayscale hover:grayscale-0 transition-all duration-300"
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
         </div>
         
@@ -76,4 +80,3 @@ export function CustomerCard({ customer, onClick, className }: CustomerCardProps
 }
 
 export default CustomerCard;
-

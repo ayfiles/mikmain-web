@@ -27,7 +27,7 @@ function JacketModel({ color }: { color: string }) {
   useFrame((state, delta) => {
     if (group.current) {
       if (isHovered) {
-        // Berechnet den kürzesten Weg zur Frontansicht (0, 2PI, etc.)
+        // Berechnet den kürzesten Weg zur Frontansicht
         const currentRot = group.current.rotation.y;
         const targetRot = Math.round(currentRot / (Math.PI * 2)) * (Math.PI * 2);
         
@@ -37,7 +37,7 @@ function JacketModel({ color }: { color: string }) {
           0.1
         );
       } else {
-        // Kontinuierliche 360 Grad Rotation
+        // Kontinuierliche Rotation
         group.current.rotation.y += 0.004;
       }
     }
@@ -50,10 +50,10 @@ function JacketModel({ color }: { color: string }) {
         rotationIntensity={isHovered ? 0 : 0.2} 
         floatIntensity={0.5}
       >
-        {/* Modell doppelt so groß (4.8) */}
+        {/* HIER GEÄNDERT: Scale von 4.8 auf 7.5 erhöht (ca. +50%) */}
         <primitive 
           object={scene} 
-          scale={4.8} 
+          scale={7.5} 
           position={[0, 0, 0]}
           onPointerOver={() => {
             setIsHovered(true);
@@ -76,19 +76,19 @@ export default function TShirtScene() {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <Canvas dpr={[1, 2]} gl={{ antialias: true }}>
-        {/* Kamera-Distanz angepasst für das größere Modell */}
-        <PerspectiveCamera makeDefault position={[0, 0, 12]} fov={50} />
+        {/* Kamera etwas weiter weg, um das riesige Modell ganz zu sehen, falls nötig */}
+        <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={50} />
         
         <ambientLight intensity={1} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         
         <Suspense fallback={null}>
           <JacketModel color={wireColor} />
-          {/* Schattenposition und Skalierung an die neue Größe angepasst */}
+          {/* Schatten angepasst: Tiefer gesetzt (-7.0) und größer skaliert (30) */}
           <ContactShadows 
-            position={[0, -4.5, 0]} 
+            position={[0, -7.0, 0]} 
             opacity={0.4} 
-            scale={20} 
+            scale={30} 
             blur={2.5} 
             far={5} 
           />
