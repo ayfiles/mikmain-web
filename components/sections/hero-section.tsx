@@ -20,7 +20,12 @@ const LOGOS = [
   { name: "Steinbergerhof", logo: "/logos/steinbergerhof.svg" },
 ];
 
-export function HeroSection() {
+// Interface für Props (damit wir die Funktion von page.tsx empfangen können)
+interface HeroSectionProps {
+  onOpenCatalog?: () => void;
+}
+
+export function HeroSection({ onOpenCatalog }: HeroSectionProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -36,6 +41,22 @@ export function HeroSection() {
   }, []);
 
   const isLightMode = mounted && resolvedTheme === "light";
+
+  // Funktion für den Klick auf "Katalog ansehen"
+  const handleCatalogClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // Standard Link-Verhalten verhindern
+    
+    // 1. Modal öffnen (über die Prop von page.tsx)
+    if (onOpenCatalog) {
+      onOpenCatalog();
+    }
+
+    // 2. Smooth Scroll zum Katalog-Abschnitt
+    const catalogSection = document.getElementById("catalog");
+    if (catalogSection) {
+      catalogSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <section 
@@ -58,7 +79,6 @@ export function HeroSection() {
       {/* EBENE 2: MITTE (3D Modell - Nur Desktop!) */}
       <div className="absolute inset-0 z-[2] flex items-center justify-center pointer-events-none overflow-x-hidden">
         <div className="w-full h-full max-w-[1200px] relative mx-auto px-4 sm:px-0">
-          {/* HIER GEÄNDERT: Von right-0 auf -right-[10%] gesetzt */}
           {isDesktop && (
             <div className="hidden lg:block absolute -right-[10%] top-1/2 -translate-y-1/2 w-full lg:w-[65%] h-[50vh] md:h-[60vh] lg:h-[80vh] pointer-events-auto overflow-visible">
                 <TShirtScene />
@@ -107,15 +127,16 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="mt-5 flex flex-col sm:flex-row gap-3 w-full sm:w-auto pointer-events-auto"
             >
-            <Link href="/#catalog">
+            {/* BUTTON GEÄNDERT: Ruft handleCatalogClick auf */}
+            <a href="#catalog" onClick={handleCatalogClick} className="w-full sm:w-auto">
               <Button 
                   size="lg" 
-                  className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-base h-12 px-6 shadow-[0_0_40px_-5px_#991B1B80] transition-all hover:scale-105 rounded-xl w-full sm:w-auto"
+                  className="bg-mik-red hover:bg-red-800 text-white font-heading font-bold text-base h-12 px-6 shadow-[0_0_40px_-5px_#991B1B80] transition-all hover:scale-105 rounded-xl w-full"
               >
-                  Kollektionen ansehen
+                  Katalog ansehen
                   <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-            </Link>
+            </a>
 
             <Link href="/#references">
               <Button 

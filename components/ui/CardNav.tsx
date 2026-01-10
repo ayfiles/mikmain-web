@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion"; // <--- HIER "Variants" importiert
+import { motion, AnimatePresence, Variants } from "framer-motion"; 
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -54,7 +54,7 @@ export default function CardNav({
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // Animationen MIT Typisierung, damit TypeScript nicht meckert
+  // Animationen für die Karten
   const menuVariants: Variants = {
     closed: {
       opacity: 0,
@@ -148,69 +148,90 @@ export default function CardNav({
         </Link>
       </div>
 
-      {/* Fullscreen / Dropdown Menu Overlay */}
+      {/* Fullscreen Overlay & Menu Dropdown */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={menuVariants}
-            className="absolute top-full left-0 right-0 mt-2 w-full p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 overflow-hidden bg-transparent"
-          >
-            {items.map((item, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                className="relative flex flex-col justify-between p-6 rounded-xl min-h-[160px] overflow-hidden group hover:shadow-xl transition-shadow cursor-pointer"
-                style={{ 
-                  backgroundColor: item.bgColor || menuColor,
-                  color: item.textColor || "#000"
-                }}
-                onClick={() => {
-                   if(item.links.length > 0) {
-                     const link = item.links[0];
-                     
-                     if (link.href.startsWith("#")) {
-                       // Scrollen
-                       const element = document.querySelector(link.href);
-                       if(element) element.scrollIntoView({ behavior: 'smooth' });
-                     } else {
-                       // Navigieren
-                       router.push(link.href);
-                     }
-                     
-                     setIsOpen(false);
-                   }
-                }}
-              >
-                <div>
-                  <h3 className="text-xl font-bold font-heading mb-4">{item.label}</h3>
-                  <div className="flex flex-col gap-2">
-                    {item.links.map((link, lIdx) => (
-                      <Link
-                        key={lIdx}
-                        href={link.href}
-                        onClick={(e) => {
-                          e.stopPropagation(); 
-                          setIsOpen(false);
-                        }}
-                        className="text-sm font-medium opacity-80 hover:opacity-100 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                        aria-label={link.ariaLabel}
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+          <>
+            {/* --- NEU: BACKDROP BLUR --- */}
+            {/* Dieser Div liegt hinter dem Menü und macht den Rest der Seite unscharf */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsOpen(false)} // Schließt Menü bei Klick auf Hintergrund
+              className="fixed inset-0 z-[-1] bg-black/40 backdrop-blur-md"
+              style={{
+                // Fix für Safari/Mobile, damit es den ganzen Viewport füllt
+                height: "100vh",
+                width: "100vw",
+                top: "-16px", // Kompensiert "top-4" des Parents
+                left: "50%",
+                transform: "translateX(-50%)" 
+              }}
+            />
 
-                {/* Decorative Icon */}
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ArrowUpRight className="w-6 h-6" />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+            {/* --- MENU CARDS --- */}
+            <motion.div
+              key="menu-content"
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={menuVariants}
+              className="absolute top-full left-0 right-0 mt-2 w-full p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 overflow-hidden bg-transparent"
+            >
+              {items.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={itemVariants}
+                  className="relative flex flex-col justify-between p-6 rounded-xl min-h-[160px] overflow-hidden group hover:shadow-xl transition-shadow cursor-pointer"
+                  style={{ 
+                    backgroundColor: item.bgColor || menuColor,
+                    color: item.textColor || "#000"
+                  }}
+                  onClick={() => {
+                     if(item.links.length > 0) {
+                       const link = item.links[0];
+                       
+                       if (link.href.startsWith("#")) {
+                         const element = document.querySelector(link.href);
+                         if(element) element.scrollIntoView({ behavior: 'smooth' });
+                       } else {
+                         router.push(link.href);
+                       }
+                       
+                       setIsOpen(false);
+                     }
+                  }}
+                >
+                  <div>
+                    <h3 className="text-xl font-bold font-heading mb-4">{item.label}</h3>
+                    <div className="flex flex-col gap-2">
+                      {item.links.map((link, lIdx) => (
+                        <Link
+                          key={lIdx}
+                          href={link.href}
+                          onClick={(e) => {
+                            e.stopPropagation(); 
+                            setIsOpen(false);
+                          }}
+                          className="text-sm font-medium opacity-80 hover:opacity-100 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                          aria-label={link.ariaLabel}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <ArrowUpRight className="w-6 h-6" />
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>

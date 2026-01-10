@@ -1,25 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Linkedin, Instagram, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
 
 const FOOTER_LINKS = {
-  company: [
-    { label: "Über uns", href: "#" },
-    { label: "Karriere", href: "#" },
-    { label: "Partner werden", href: "#" },
-  ],
-  services: [
-    { label: "Design", href: "#" },
-    { label: "Produktion", href: "#" },
-    { label: "Logistik", href: "#" },
-    { label: "Wäscheservice", href: "#" },
-  ],
+  // Unternehmen und Services wurden entfernt
   legal: [
     { label: "Impressum", href: "/impressum" },
     { label: "Datenschutz", href: "/datenschutz" },
-    { label: "AGB", href: "/agb" }, // <--- HIER GEÄNDERT: Link zur neuen AGB-Page
+    { label: "AGB", href: "/agb" },
   ],
 };
 
@@ -42,16 +32,17 @@ export function FooterSection() {
           
           {/* Top Section */}
           <div className="p-8 md:p-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Grid angepasst auf 2 Spalten (vorher 4) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-20">
               
-              {/* Brand Column */}
-              <div className="lg:col-span-1">
+              {/* Brand Column (Links) */}
+              <div>
                 <img 
                   src="/mikmain-primary-light.svg" 
                   alt="MikMain Logo" 
                   className="h-10 w-auto mb-4"
                 />
-                <p className="text-gray-400 font-sans text-sm leading-relaxed mb-6">
+                <p className="text-gray-400 font-sans text-sm leading-relaxed mb-6 max-w-sm">
                   Ihr Concierge für Corporate Fashion. 
                   Von der Idee bis zum Wäscheservice – alles aus einer Hand.
                 </p>
@@ -75,49 +66,14 @@ export function FooterSection() {
                 </div>
               </div>
 
-              {/* Links Columns */}
-              <div>
-                <h4 className="font-heading font-bold text-white text-base mb-4">Unternehmen</h4>
-                <ul className="space-y-3">
-                  {FOOTER_LINKS.company.map((link, idx) => (
-                    <li key={idx}>
-                      <a 
-                        href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-2 group"
-                      >
-                        {link.label}
-                        <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="font-heading font-bold text-white text-base mb-4">Services</h4>
-                <ul className="space-y-2">
-                  {FOOTER_LINKS.services.map((link, idx) => (
-                    <li key={idx}>
-                      <a 
-                        href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-2 group"
-                      >
-                        {link.label}
-                        <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Contact Column */}
-              <div>
-                <h4 className="font-heading font-bold text-white text-base mb-4">Kontakt</h4>
-                <ul className="space-y-4">
+              {/* Contact Column (Rechts) */}
+              <div className="md:flex md:flex-col md:items-end md:text-right">
+                <h4 className="font-heading font-bold text-white text-base mb-4 w-full md:text-right">Kontakt</h4>
+                <ul className="space-y-4 w-full md:w-auto">
                   <li>
                     <a 
                       href="mailto:info@mikmain.de"
-                      className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-3"
+                      className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-3 md:flex-row-reverse"
                     >
                       <div className="w-10 h-10 rounded-full bg-mik-red/20 flex items-center justify-center text-mik-red">
                         <Mail size={18} />
@@ -128,7 +84,7 @@ export function FooterSection() {
                   <li>
                     <a 
                       href="tel:+49123456789"
-                      className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-3"
+                      className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-3 md:flex-row-reverse"
                     >
                       <div className="w-10 h-10 rounded-full bg-mik-blue/20 flex items-center justify-center text-mik-blue">
                         <Phone size={18} />
@@ -137,7 +93,7 @@ export function FooterSection() {
                     </a>
                   </li>
                   <li>
-                    <div className="text-gray-400 inline-flex items-start gap-3">
+                    <div className="text-gray-400 inline-flex items-start gap-3 md:flex-row-reverse md:text-right">
                       <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white flex-shrink-0">
                         <MapPin size={18} />
                       </div>

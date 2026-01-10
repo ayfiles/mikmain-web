@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion } from "motion/react"; // FIX: Import von motion/react
+import { motion } from "motion/react"; 
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BranchItem } from "./infinite-branch-cards";
@@ -25,10 +25,8 @@ export function BranchCarousel3D({
   const [dragOffset, setDragOffset] = useState(0);
   const startXRef = useRef<number>(0);
   
-  // FIX: Typ auf 'number | null' geändert für Browser-Kompatibilität
   const autoPlayIntervalRef = useRef<number | null>(null);
 
-  // Auto-Play Logic (15 Sekunden, pausiert bei Hover)
   useEffect(() => {
     if (isHovered || isDragging) {
       if (autoPlayIntervalRef.current) {
@@ -38,7 +36,6 @@ export function BranchCarousel3D({
       return;
     }
 
-    // FIX: window.setInterval erzwingt die Rückgabe einer 'number' (statt NodeJS.Timeout)
     autoPlayIntervalRef.current = window.setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % items.length);
     }, 15000);
@@ -50,7 +47,6 @@ export function BranchCarousel3D({
     };
   }, [isHovered, isDragging, items.length]);
 
-  // Navigation Functions mit Endless Looping
   const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % items.length);
   }, [items.length]);
@@ -59,7 +55,6 @@ export function BranchCarousel3D({
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   }, [items.length]);
 
-  // Touch Events
   const handleTouchStart = (e: React.TouchEvent) => {
     startXRef.current = e.touches[0].clientX;
     setIsDragging(true);
@@ -88,7 +83,6 @@ export function BranchCarousel3D({
     setDragOffset(0);
   };
 
-  // Mouse Events
   const handleMouseDown = (e: React.MouseEvent) => {
     startXRef.current = e.clientX;
     setIsDragging(true);
@@ -127,7 +121,6 @@ export function BranchCarousel3D({
     };
   }, [isDragging, dragOffset, goToNext, goToPrevious]);
 
-  // Get Card Position basierend auf Index
   const getCardPosition = (index: number): CardPosition => {
     const leftIndex = (currentIndex - 1 + items.length) % items.length;
     const rightIndex = (currentIndex + 1) % items.length;
@@ -138,7 +131,6 @@ export function BranchCarousel3D({
     return "hidden";
   };
 
-  // Get Transform Styles für 3D-Effekt
   const getCardStyle = (position: CardPosition) => {
     const baseTransform = dragOffset;
 
@@ -180,7 +172,6 @@ export function BranchCarousel3D({
       onTouchEnd={handleTouchEnd}
       onMouseDown={handleMouseDown}
     >
-      {/* 3D Container mit Perspective */}
       <div
         className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center"
         style={{ perspective: "1000px" }}
@@ -211,22 +202,23 @@ export function BranchCarousel3D({
                 }}
                 transition={{
                   duration: isDragging ? 0.1 : 0.8,
-                  ease: [0.16, 1, 0.3, 1], // Custom easing für smooth Animation
+                  ease: [0.16, 1, 0.3, 1],
                   opacity: {
                     duration: isDragging ? 0.1 : 0.6,
                   },
                 }}
                 className={cn(
-                  "absolute cursor-pointer",
+                  "absolute", // cursor-pointer entfernt
                   position === "center" && "z-30",
                   position === "left" && "z-20",
                   position === "right" && "z-20"
                 )}
-                onClick={() => {
-                  if (!isDragging && position === "center") {
-                    onCardClick?.(item);
-                  }
-                }}
+                // onClick deaktiviert (auskommentiert)
+                // onClick={() => {
+                //   if (!isDragging && position === "center") {
+                //     onCardClick?.(item);
+                //   }
+                // }}
               >
                 <BranchCard item={item} position={position} />
               </motion.div>
@@ -235,9 +227,7 @@ export function BranchCarousel3D({
         </div>
       </div>
 
-      {/* Navigation Controls - Unterhalb des Carousels */}
       <div className="flex justify-center items-center gap-4 mt-8">
-        {/* Previous Button */}
         <button
           onClick={goToPrevious}
           className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all disabled:opacity-50"
@@ -246,7 +236,6 @@ export function BranchCarousel3D({
           <ChevronLeft className="h-6 w-6 text-white" />
         </button>
 
-        {/* Dots Indicator */}
         <div className="flex justify-center items-center gap-2">
           {items.map((_, index) => (
             <button
@@ -263,7 +252,6 @@ export function BranchCarousel3D({
           ))}
         </div>
 
-        {/* Next Button */}
         <button
           onClick={goToNext}
           className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all disabled:opacity-50"
@@ -276,7 +264,6 @@ export function BranchCarousel3D({
   );
 }
 
-// Branch Card Component (wiederverwendet aus infinite-branch-cards.tsx)
 function BranchCard({
   item,
   position,
@@ -295,10 +282,8 @@ function BranchCard({
           "scale-105 border-mik-blue/50 [box-shadow:0_0_60px_-10px_rgba(59,130,246,0.4),inset_0_1px_0_0_rgba(255,255,255,0.1)]"
       )}
     >
-      {/* Background: Image or Gradient */}
       {item.backgroundImage ? (
         <>
-          {/* Background Image */}
           <div className="absolute inset-0">
             <img
               src={item.backgroundImage}
@@ -306,13 +291,10 @@ function BranchCard({
               className="w-full h-full object-cover"
             />
           </div>
-          {/* Glassmorphism Overlay */}
           <div className="absolute inset-0 bg-mik-navy/60 backdrop-blur-[2px]" />
-          {/* Gradient for text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-mik-navy/90 via-mik-navy/40 to-transparent" />
         </>
       ) : (
-        /* Fallback: Gradient Background */
         <div
           className={cn(
             "absolute inset-0 bg-gradient-to-br opacity-60",
@@ -321,9 +303,7 @@ function BranchCard({
         />
       )}
 
-      {/* Content */}
       <div className="relative z-10 h-full p-6 flex flex-col justify-end">
-        {/* Title & Description */}
         <div className="flex-1 flex flex-col justify-end">
           <h3 className="font-heading text-xl md:text-2xl font-bold text-white mb-1">
             {item.title}
@@ -336,7 +316,6 @@ function BranchCard({
           </p>
         </div>
 
-        {/* Bottom: Features Tags */}
         <div className="flex flex-wrap gap-2 mt-4">
           {item.features.slice(0, 3).map((feature, i) => (
             <span
@@ -354,7 +333,6 @@ function BranchCard({
         </div>
       </div>
 
-      {/* Hover Indicator */}
       <div
         className={cn(
           "absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-mik-blue via-mik-blue to-transparent",

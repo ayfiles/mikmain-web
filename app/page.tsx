@@ -1,4 +1,7 @@
+"use client";
+
 import dynamic from "next/dynamic";
+import { useState } from "react"; // <--- NEU: useState importiert
 import { HeroSection } from "@/components/sections/hero-section";
 import CardNav from "@/components/ui/CardNav";
 
@@ -6,9 +9,12 @@ import CardNav from "@/components/ui/CardNav";
 const ServicesSection = dynamic(() => 
   import("@/components/sections/services-section").then((mod) => mod.ServicesSection)
 );
+
+// CatalogSection dynamisch importieren (jetzt mit Props!)
 const CatalogSection = dynamic(() => 
   import("@/components/sections/catalog-section").then((mod) => mod.CatalogSection)
 );
+
 const ReferencesSection = dynamic(() => 
   import("@/components/sections/references-section").then((mod) => mod.ReferencesSection)
 );
@@ -16,10 +22,11 @@ const ContactSection = dynamic(() =>
   import("@/components/sections/contact-section").then((mod) => mod.ContactSection)
 );
 
-// HINWEIS: FooterSection Import wurde hier entfernt, da er jetzt global in layout.tsx ist!
-
 export default function Home() {
   
+  // State für das Gesamtkatalog-Modal (Zentral verwaltet)
+  const [isFullCatalogOpen, setIsFullCatalogOpen] = useState(false);
+
   const navItems = [
     {
       label: "Services",
@@ -46,12 +53,12 @@ export default function Home() {
       ]
     },
     {
-      label: "Rechtliches", // Habe ich umbenannt für besseren Kontext
+      label: "Rechtliches",
       bgColor: "#0a192f", 
       textColor: "#ffffff",
       links: [
         { label: "Impressum", href: "/impressum", ariaLabel: "Impressum" },
-        { label: "Datenschutz", href: "/datenschutz", ariaLabel: "Datenschutz" }, // Optional ergänzt
+        { label: "Datenschutz", href: "/datenschutz", ariaLabel: "Datenschutz" },
       ]
     }
   ];
@@ -70,14 +77,19 @@ export default function Home() {
         logoAlt="MikMain Logo"
       />
 
-      <HeroSection />
+      {/* HeroSection bekommt die Funktion zum Öffnen des Modals */}
+      <HeroSection onOpenCatalog={() => setIsFullCatalogOpen(true)} />
       
       <div id="services">
         <ServicesSection />
       </div>
       
       <div id="catalog">
-        <CatalogSection />
+        {/* CatalogSection bekommt den State und die Funktion zum Schließen */}
+        <CatalogSection 
+           isOpenProp={isFullCatalogOpen} 
+           onCloseProp={() => setIsFullCatalogOpen(false)} 
+        />
       </div>
 
       <div id="references">
@@ -87,8 +99,6 @@ export default function Home() {
       <div id="contact">
         <ContactSection />
       </div>
-
-      {/* Footer wurde hier entfernt -> kommt jetzt automatisch aus layout.tsx */}
 
     </main>
   );

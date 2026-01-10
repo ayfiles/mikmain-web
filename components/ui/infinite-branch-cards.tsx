@@ -138,7 +138,7 @@ export function InfiniteBranchCards({
             <div
               key={`${item.id}-${idx}`}
               className={cn(
-                "relative flex-shrink-0 w-[280px] h-[320px] rounded-2xl overflow-hidden cursor-pointer",
+                "relative flex-shrink-0 w-[280px] h-[320px] rounded-2xl overflow-hidden", // cursor-pointer entfernt
                 "border border-white/10 bg-mik-navy/60 backdrop-blur-xl",
                 "transition-all duration-300 ease-out",
                 "[box-shadow:0_0_40px_-10px_rgba(59,130,246,0.15),inset_0_1px_0_0_rgba(255,255,255,0.05)]",
@@ -146,7 +146,8 @@ export function InfiniteBranchCards({
               )}
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
-              onClick={() => onCardClick?.(item)}
+              // onClick deaktiviert (auskommentiert)
+              // onClick={() => onCardClick?.(item)}
             >
               {/* Background: Image or Gradient */}
               {item.backgroundImage ? (
@@ -220,4 +221,3 @@ export function InfiniteBranchCards({
 }
 
 export default InfiniteBranchCards;
-

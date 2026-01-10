@@ -1,151 +1,138 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { BRANCH_DATA, BranchItem } from "@/components/ui/infinite-branch-cards";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { BranchCarousel3D } from "@/components/ui/branch-carousel-3d";
-import { BranchModal } from "@/components/ui/branch-modal";
-import { CatalogRequestModal } from "@/components/ui/catalog-request-modal";
-import { FullCatalogModal } from "@/components/ui/full-catalog-modal";
+import { BRANCH_DATA } from "@/components/ui/infinite-branch-cards";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles, Upload } from "lucide-react";
+import FullCatalogModal from "@/components/ui/full-catalog-modal"; 
+// HIER GEÄNDERT: Geschweifte Klammern { } hinzugefügt (Named Import)
+import { CatalogRequestModal } from "@/components/ui/catalog-request-modal"; 
 
-export function CatalogSection() {
-  const [selectedBranch, setSelectedBranch] = useState<BranchItem | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+interface CatalogSectionProps {
+  isOpenProp?: boolean;
+  onCloseProp?: () => void;
+}
+
+export function CatalogSection({ isOpenProp, onCloseProp }: CatalogSectionProps) {
+  // State für "Gesamtkatalog" (Blätterkatalog)
   const [isFullCatalogOpen, setIsFullCatalogOpen] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  
+  // State für "Personalisierter Katalog" (Logo Upload Popup)
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
 
-  const handleCardClick = (item: BranchItem) => {
-    setSelectedBranch(item);
-    setIsModalOpen(true);
+  // Reagiert auf Öffnen vom Hero-Bereich (nur Gesamtkatalog)
+  useEffect(() => {
+    if (isOpenProp) {
+      setIsFullCatalogOpen(true);
+    }
+  }, [isOpenProp]);
+
+  // Schließen des Gesamtkatalogs
+  const handleCloseFullCatalog = () => {
+    setIsFullCatalogOpen(false);
+    if (onCloseProp) {
+      onCloseProp();
+    }
   };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    // Verzögertes Zurücksetzen für smooth Animation
-    setTimeout(() => setSelectedBranch(null), 300);
-  };
-
 
   return (
-    <>
-      <section
-        ref={sectionRef}
-        className="relative w-full py-16 md:py-24 lg:py-32 overflow-x-hidden bg-background"
-      >
-        {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-mik-blue/5 to-transparent pointer-events-none" />
+    <section className="py-20 md:py-32 relative overflow-hidden bg-background">
+      
+      {/* Hintergrund-Effekte */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-mik-blue/5 rounded-full blur-[120px] pointer-events-none" />
 
+      <div className="container px-4 mx-auto relative z-10 max-w-[1200px]">
+        
         {/* Header */}
-        <div className="relative z-10 w-full max-w-[1200px] mx-auto mb-10 md:mb-16 px-4 sm:px-0" style={{ maxWidth: 'min(95vw, 1200px)' }}>
+        <div className="text-center mb-16 md:mb-24">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mik-blue/10 text-mik-blue text-sm font-medium mb-4 border border-mik-blue/20"
           >
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
-            >
-              Unsere{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-mik-blue to-blue-400">
-                Kollektionen
-              </span>
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
-            >
-              Spezialisierte Lösungen für jede Branche. Von der Gastronomie bis zum
-              Corporate Office – wir kennen die Anforderungen Ihres Bereichs.
-            </motion.p>
+            <Sparkles size={14} />
+            <span>Unsere Kollektionen</span>
           </motion.div>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground"
+          >
+            Für jede Branche <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-mik-blue to-blue-400">
+              der perfekte Look.
+            </span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+          >
+            Entdecken Sie unsere spezialisierten Kollektionen für Gastronomie, Medizin, Handwerk und Business. Hochwertig, langlebig und individuell veredelbar.
+          </motion.p>
         </div>
 
         {/* 3D Carousel */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="relative z-10"
-        >
-          <BranchCarousel3D
-            items={BRANCH_DATA}
-            onCardClick={handleCardClick}
-          />
-        </motion.div>
-
-        {/* CTA Bereich */}
-        <div className="relative z-10 w-full max-w-[1200px] mx-auto mt-10 md:mt-16 px-4 sm:px-0" style={{ maxWidth: 'min(95vw, 1200px)' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-center"
-          >
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="text-base md:text-lg text-muted-foreground mb-6"
-            >
-              Benötigen Sie einen personalisierten Produktkatalog für Ihr Unternehmen?
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-3 justify-center items-center"
-            >
-              <Button
-                onClick={() => setIsFullCatalogOpen(true)}
-                size="lg"
-                className="bg-mik-blue hover:bg-blue-600 text-white font-heading font-bold text-base h-12 px-8 shadow-[0_0_40px_-5px_rgba(59,130,246,0.4)] transition-all hover:scale-105 rounded-xl"
-              >
-                Gesamtkatalog ansehen
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                onClick={() => setIsRequestModalOpen(true)}
-                variant="outline"
-                size="lg"
-                className="border-border bg-background/5 text-foreground hover:bg-foreground/10 hover:border-mik-blue/50 font-heading font-bold text-base h-12 px-8 backdrop-blur-sm rounded-xl"
-              >
-                Jetzt anfragen
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </motion.div>
-          </motion.div>
+        <div className="mb-16">
+          <BranchCarousel3D items={BRANCH_DATA} />
         </div>
 
-      </section>
+        {/* Buttons Area */}
+        <motion.div
+           initial={{ opacity: 0, y: 20 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.5, delay: 0.3 }}
+           className="flex flex-col sm:flex-row justify-center gap-4"
+        >
+          {/* Button 1: Gesamtkatalog */}
+          <Button 
+            onClick={() => setIsFullCatalogOpen(true)}
+            size="lg"
+            className="bg-mik-navy hover:bg-mik-navy/80 text-white font-heading font-bold px-8 h-14 rounded-xl shadow-lg border border-white/10 hover:border-mik-blue/50 transition-all hover:scale-105"
+          >
+            Gesamten Katalog ansehen
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </Button>
 
-      {/* Modals */}
-      <BranchModal
-        item={selectedBranch}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+          {/* Button 2: Personalisierter Katalog */}
+          <Button 
+            onClick={() => setIsRequestModalOpen(true)}
+            size="lg"
+            variant="outline"
+            className="border-mik-blue/30 bg-mik-blue/5 text-mik-blue hover:bg-mik-blue/10 font-heading font-bold px-8 h-14 rounded-xl shadow-lg transition-all hover:scale-105"
+          >
+            <Upload className="mr-2 w-5 h-5" />
+            Personalisierten Katalog anfragen
+          </Button>
+        </motion.div>
+
+      </div>
+
+      {/* --- MODALS --- */}
+      
+      {/* 1. Gesamtkatalog (Blätterkatalog) */}
+      <FullCatalogModal 
+        isOpen={isFullCatalogOpen} 
+        onClose={handleCloseFullCatalog} 
       />
-      <CatalogRequestModal
-        isOpen={isRequestModalOpen}
-        onClose={() => setIsRequestModalOpen(false)}
+
+      {/* 2. Personalisierter Katalog (Upload Popup) */}
+      <CatalogRequestModal 
+        isOpen={isRequestModalOpen} 
+        onClose={() => setIsRequestModalOpen(false)} 
       />
-      <FullCatalogModal
-        isOpen={isFullCatalogOpen}
-        onClose={() => setIsFullCatalogOpen(false)}
-      />
-    </>
+
+    </section>
   );
 }
-
-export default CatalogSection;
-
