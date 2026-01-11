@@ -3,6 +3,14 @@
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
+// 1. Typ definieren und exportieren
+export type ContactFormState = {
+  success: boolean;
+  message: string;
+  errors?: Record<string, string[]>;
+  inputs?: any; // Optional: falls du alte Eingaben zurückgeben willst
+};
+
 const ContactSchema = z.object({
   name: z.string().min(2, "Name ist zu kurz"),
   company: z.string().min(2, "Firmenname ist zu kurz"),
@@ -14,7 +22,6 @@ const ContactSchema = z.object({
   honeypot: z.string().optional(),
 });
 
-// Check ob Keys da sind
 if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
   console.error("ACHTUNG: SUPABASE_SERVICE_ROLE_KEY fehlt!");
 }
@@ -24,7 +31,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function submitContactForm(prevState: any, formData: FormData) {
+// 2. Typ in der Funktion nutzen (Promise<ContactFormState>)
+export async function submitContactForm(
+  prevState: ContactFormState, 
+  formData: FormData
+): Promise<ContactFormState> {
   console.log("--- NEUE ANFRAGE GESTARTET ---");
   
   const rawData = {
@@ -35,16 +46,12 @@ export async function submitContactForm(prevState: any, formData: FormData) {
     budget: formData.get("budget"),
     employees: formData.get("employees"),
     message: formData.get("message"),
-    // WICHTIG: Hier haben wir den Namen geändert
     honeypot: formData.get("gh_check_88"), 
   };
 
-  console.log("Empfangene Daten (Honeypot wert):", `'${rawData.honeypot}'`);
-
   // 1. Security Check: Honeypot
   if (rawData.honeypot && rawData.honeypot !== "") {
-    console.log("⛔ HONEYPOT DETECTED! Speicherung abgebrochen (Bot-Schutz).");
-    return { success: true, message: "Nachricht gesendet!" }; // Fake Success
+    return { success: true, message: "Nachricht gesendet!" };
   }
 
   // 2. Validierung
@@ -54,13 +61,12 @@ export async function submitContactForm(prevState: any, formData: FormData) {
     console.log("❌ Validierungs-Fehler:", validated.error.flatten().fieldErrors);
     return { 
       success: false, 
+      message: "Bitte überprüfen Sie Ihre Eingaben.", // WICHTIG: Message hinzugefügt
       errors: validated.error.flatten().fieldErrors 
     };
   }
 
   // 3. Speichern
-  console.log("Versuche in Supabase zu speichern...");
-  
   const { error } = await supabase
     .from("contact_requests")
     .insert({
