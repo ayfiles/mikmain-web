@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { X, Upload, FileText, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { submitCatalogRequest } from "@/app/actions/submit-catalog"; // Server Action Import
+import { submitCatalogRequest } from "@/app/actions/submit-catalog";
 
 interface CatalogRequestModalProps {
   isOpen: boolean;
@@ -111,21 +112,18 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
 
     setIsSubmitting(true);
 
-    // FormData für die Server Action erstellen
     const submissionData = new FormData();
     submissionData.append("name", formData.name);
     submissionData.append("email", formData.email);
     submissionData.append("company", formData.company);
     submissionData.append("phone", formData.phone);
     submissionData.append("message", formData.message);
-    // submissionData.append("gh_check_cat", ""); // Optional: Honeypot im Frontend
 
     if (formData.logo) {
       submissionData.append("logo", formData.logo);
     }
 
     try {
-      // Server Action aufrufen
       const result = await submitCatalogRequest(null, submissionData);
 
       if (result.success) {
@@ -147,13 +145,11 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
       <DialogContent 
         className={cn(
             "p-0 overflow-hidden bg-mik-navy border border-white/10 text-white sm:max-w-[600px]",
-            // Versteckt das Standard-Kreuz von Radix UI
             "[&>button]:hidden"
         )}
       >
         <DialogTitle className="sr-only">Katalog anfragen</DialogTitle>
         
-        {/* Header mit eigenem Schließen-Button */}
         <div className="relative h-28 bg-gradient-to-br from-mik-blue/20 via-mik-blue/10 to-transparent flex items-center justify-between px-6">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:24px_24px] opacity-30" />
             
@@ -174,7 +170,6 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
             </button>
         </div>
 
-        {/* Content */}
         <div className="p-6">
             {showSuccess ? (
                 <motion.div 
@@ -276,10 +271,22 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     </div>
 
                     <div className="flex items-start gap-3">
-                        <input type="checkbox" checked={formData.privacyAccepted} onChange={(e) => { setFormData(p => ({...p, privacyAccepted: e.target.checked})); if(errors.privacyAccepted) setErrors(p => ({...p, privacyAccepted: undefined})); }} className="mt-1" />
-                        <span className={cn("text-xs text-mik-grey leading-tight", errors.privacyAccepted && "text-red-400")}>
-                            Ich stimme der Verarbeitung meiner Daten zu.
-                        </span>
+                        <input 
+                          type="checkbox" 
+                          id="privacy-catalog"
+                          checked={formData.privacyAccepted} 
+                          onChange={(e) => { 
+                            setFormData(p => ({...p, privacyAccepted: e.target.checked})); 
+                            if(errors.privacyAccepted) setErrors(p => ({...p, privacyAccepted: undefined})); 
+                          }} 
+                          className="mt-1 cursor-pointer" 
+                        />
+                        <label 
+                          htmlFor="privacy-catalog"
+                          className={cn("text-xs text-mik-grey leading-tight cursor-pointer select-none", errors.privacyAccepted && "text-red-400")}
+                        >
+                            Ich stimme der Verarbeitung meiner Daten zu. Weitere Infos in der <Link href="/datenschutz" className="underline hover:text-white transition-colors">Datenschutzerklärung</Link>.
+                        </label>
                     </div>
 
                     <div className="pt-2">
