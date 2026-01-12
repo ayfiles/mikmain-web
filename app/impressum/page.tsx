@@ -68,37 +68,20 @@ export default function ImpressumPage() {
           <div className="space-y-6 text-lg text-foreground/80 relative z-10 font-sans">
             
             <section>
-              {/* HIER GEÄNDERT: text-foreground */}
-              <h2 className="text-xl font-bold text-foreground mb-2">Angaben gemäß § 5 TMG</h2>
+              <h2 className="text-xl font-bold text-foreground mb-2">Angaben gemäß § 5 DDG</h2>
               <p>
-                MikMain GmbH<br />
-                Musterstraße 123<br />
-                12345 Musterstadt<br />
-                Deutschland
+                MIKMAIN<br />
+                Mikail Demirci<br />
+                Große Gallusstraße 14<br />
+                60315 Frankfurt am Main
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-bold text-foreground mb-2">Kontakt</h2>
               <p>
-                Telefon: +49 (0) 123 44 55 66<br />
-                E-Mail: info@mikmain.com
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-bold text-foreground mb-2">Vertreten durch</h2>
-              <p>
-                Geschäftsführer: Max Mustermann
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-bold text-foreground mb-2">Registereintrag</h2>
-              <p>
-                Eintragung im Handelsregister.<br />
-                Registergericht: Amtsgericht Musterstadt<br />
-                Registernummer: HRB 12345
+                Telefon: +49 (0) 171 1696958<br />
+                E-Mail: info@mikmain.de
               </p>
             </section>
 
@@ -106,15 +89,42 @@ export default function ImpressumPage() {
               <h2 className="text-xl font-bold text-foreground mb-2">Umsatzsteuer-ID</h2>
               <p>
                 Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
-                DE 123 456 789
+                DE367861915
               </p>
             </section>
 
-            <div className="w-full h-px bg-foreground/10 my-8"></div>
+            <section>
+              <h2 className="text-xl font-bold text-foreground mb-2">Redaktionell verantwortlich</h2>
+              <p>
+                Mikail Demirci<br />
+                Große Gallusstraße 14<br />
+                60315 Frankfurt am Main
+              </p>
+            </section>
 
-            <p className="text-sm opacity-60">
-              Hinweis: Dies ist ein Platzhalter-Impressum. Bitte ersetzen Sie diese Daten vor Veröffentlichung durch Ihre rechtlich korrekten Angaben.
-            </p>
+            <section>
+              <h2 className="text-xl font-bold text-foreground mb-2">EU-Streitschlichtung</h2>
+              <p>
+                Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}
+                <a 
+                  href="https://ec.europa.eu/consumers/odr/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-mik-red hover:underline"
+                >
+                  https://ec.europa.eu/consumers/odr/
+                </a>
+                <br />
+                Unsere E-Mail-Adresse finden Sie oben im Impressum.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold text-foreground mb-2">Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+              <p>
+                Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+              </p>
+            </section>
 
           </div>
         </div>

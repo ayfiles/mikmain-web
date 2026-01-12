@@ -3,13 +3,14 @@
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
-// 1. Validierung (angepasst an Katalog-Modal)
+// 1. Validierung
 const CatalogSchema = z.object({
   name: z.string().min(2, "Name ist zu kurz"),
   email: z.string().email("Ungültige E-Mail Adresse"),
   company: z.string().min(2, "Unternehmen ist erforderlich"),
   phone: z.string().optional(),
   message: z.string().optional(),
+  // Änderung: Wir erlauben explizit nullable oder behandeln es unten
   honeypot: z.string().optional(),
 });
 
@@ -23,14 +24,18 @@ export async function submitCatalogRequest(prevState: any, formData: FormData) {
   console.log("--- KATALOG ANFRAGE START ---");
 
   // 1. Daten extrahieren
-  const file = formData.get("logo") as File | null; // Das Bild
+  const file = formData.get("logo") as File | null;
+  
   const rawData = {
     name: formData.get("name"),
     email: formData.get("email"),
     company: formData.get("company"),
     phone: formData.get("phone"),
     message: formData.get("message"),
-    honeypot: formData.get("gh_check_cat"), // Eigener Honeypot Name für dieses Formular
+    // WICHTIGE ÄNDERUNG HIER:
+    // Wenn formData.get() null zurückgibt (Feld fehlt), machen wir daraus undefined.
+    // Das akzeptiert Zod dann problemlos.
+    honeypot: formData.get("gh_check_cat")?.toString() || undefined, 
   };
 
   // 2. Security Check: Honeypot
@@ -41,6 +46,7 @@ export async function submitCatalogRequest(prevState: any, formData: FormData) {
 
   // 3. Validierung der Text-Daten
   const validated = CatalogSchema.safeParse(rawData);
+  
   if (!validated.success) {
     console.log("❌ Validierungs-Fehler:", validated.error.flatten().fieldErrors);
     return { success: false, errors: validated.error.flatten().fieldErrors };
@@ -61,7 +67,7 @@ export async function submitCatalogRequest(prevState: any, formData: FormData) {
         return { success: false, message: "Die Datei ist zu groß (Max 5MB)." };
     }
 
-    // Dateiname sicher machen (Zeitstempel + bereinigter Name)
+    // Dateiname sicher machen
     const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, "_")}`;
     
     // Upload in Bucket 'request-uploads'
@@ -77,10 +83,7 @@ export async function submitCatalogRequest(prevState: any, formData: FormData) {
       return { success: false, message: "Fehler beim Bildupload." };
     }
 
-    // Public URL generieren (damit du das Bild im Dashboard sehen kannst)
-    // Hinweis: Da der Bucket 'private' ist, erstellen wir hier eine signed URL oder speichern den Pfad.
-    // Für Admin-Zugriff reicht der Pfad, aber für E-Mails ist eine Public URL besser. 
-    // Wir speichern hier einfach den Pfad, da du Admin bist.
+    // Pfad speichern
     fileUrl = fileName; 
     console.log("✅ Upload erfolgreich:", fileUrl);
   }
@@ -94,7 +97,7 @@ export async function submitCatalogRequest(prevState: any, formData: FormData) {
       company: validated.data.company,
       phone: validated.data.phone,
       message: validated.data.message,
-      file_url: fileUrl, // Pfad zum Bild oder null
+      file_url: fileUrl,
       status: "new"
     });
 

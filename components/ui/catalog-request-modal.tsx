@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Upload, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { X, Upload, FileText, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { submitCatalogRequest } from "@/app/actions/submit-catalog"; // Server Action Import
 
 interface CatalogRequestModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-interface FormData {
+interface FormDataState {
   name: string;
   email: string;
   company: string;
@@ -33,7 +34,8 @@ interface FormErrors {
 
 export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [formData, setFormData] = useState<FormData>({
+  
+  const [formData, setFormData] = useState<FormDataState>({
     name: "",
     email: "",
     company: "",
@@ -42,15 +44,16 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
     logo: null,
     privacyAccepted: false,
   });
+  
   const [errors, setErrors] = useState<FormErrors>({});
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // Reset bei Öffnen/Schließen
+  // Reset Formular, wenn das Modal geschlossen wird
   useEffect(() => {
     if (!isOpen) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setFormData({
             name: "", email: "", company: "", phone: "", message: "", logo: null, privacyAccepted: false
         });
@@ -59,6 +62,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
         setIsSubmitting(false);
         setShowSuccess(false);
       }, 300);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
@@ -106,18 +110,36 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
-    // Hier kommt später deine echte Server-Action hin
-    // await submitCatalogRequest(formData); 
-    
-    // Simulation
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
-    
-    // Automatisch schließen nach 2 Sekunden (optional)
-    // setTimeout(onClose, 2000);
+
+    // FormData für die Server Action erstellen
+    const submissionData = new FormData();
+    submissionData.append("name", formData.name);
+    submissionData.append("email", formData.email);
+    submissionData.append("company", formData.company);
+    submissionData.append("phone", formData.phone);
+    submissionData.append("message", formData.message);
+    // submissionData.append("gh_check_cat", ""); // Optional: Honeypot im Frontend
+
+    if (formData.logo) {
+      submissionData.append("logo", formData.logo);
+    }
+
+    try {
+      // Server Action aufrufen
+      const result = await submitCatalogRequest(null, submissionData);
+
+      if (result.success) {
+        setShowSuccess(true);
+      } else {
+        console.error("Server Error:", result.message);
+        alert(result.message || "Fehler beim Senden.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Ein unerwarteter Fehler ist aufgetreten.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -125,13 +147,13 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
       <DialogContent 
         className={cn(
             "p-0 overflow-hidden bg-mik-navy border border-white/10 text-white sm:max-w-[600px]",
-            // WICHTIG: Das hier versteckt das Standard-Kreuz des Dialogs!
+            // Versteckt das Standard-Kreuz von Radix UI
             "[&>button]:hidden"
         )}
       >
         <DialogTitle className="sr-only">Katalog anfragen</DialogTitle>
         
-        {/* Header */}
+        {/* Header mit eigenem Schließen-Button */}
         <div className="relative h-28 bg-gradient-to-br from-mik-blue/20 via-mik-blue/10 to-transparent flex items-center justify-between px-6">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:24px_24px] opacity-30" />
             
@@ -144,7 +166,6 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                 </p>
             </div>
 
-            {/* Unser eigenes, schönes Schließen-Kreuz */}
             <button 
                 onClick={onClose}
                 className="relative z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition-colors"
@@ -221,7 +242,6 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                         </div>
                     </div>
 
-                    {/* Logo Upload */}
                     <div className="space-y-1">
                         <label className="text-xs font-bold uppercase text-mik-grey ml-1">Logo (Optional)</label>
                         <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
@@ -243,7 +263,6 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                         )}
                     </div>
 
-                    {/* Nachricht */}
                     <div className="space-y-1">
                         <label className="text-xs font-bold uppercase text-mik-grey ml-1">Nachricht (Optional)</label>
                         <textarea 
@@ -256,7 +275,6 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                         />
                     </div>
 
-                    {/* Datenschutz */}
                     <div className="flex items-start gap-3">
                         <input type="checkbox" checked={formData.privacyAccepted} onChange={(e) => { setFormData(p => ({...p, privacyAccepted: e.target.checked})); if(errors.privacyAccepted) setErrors(p => ({...p, privacyAccepted: undefined})); }} className="mt-1" />
                         <span className={cn("text-xs text-mik-grey leading-tight", errors.privacyAccepted && "text-red-400")}>
