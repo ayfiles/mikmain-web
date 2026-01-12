@@ -8,13 +8,14 @@ export type ContactFormState = {
   success: boolean;
   message: string;
   errors?: Record<string, string[]>;
-  inputs?: any; // Optional: falls du alte Eingaben zurückgeben willst
+  inputs?: any;
 };
 
 const ContactSchema = z.object({
   name: z.string().min(2, "Name ist zu kurz"),
   company: z.string().min(2, "Firmenname ist zu kurz"),
   email: z.string().email("Ungültige E-Mail Adresse"),
+  phone: z.string().optional(), // NEU: Optionales Telefonfeld
   industry: z.string().min(2, "Branche ist erforderlich"),
   budget: z.string().optional(),
   employees: z.string().optional(),
@@ -31,7 +32,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-// 2. Typ in der Funktion nutzen (Promise<ContactFormState>)
+// 2. Typ in der Funktion nutzen
 export async function submitContactForm(
   prevState: ContactFormState, 
   formData: FormData
@@ -42,6 +43,7 @@ export async function submitContactForm(
     name: formData.get("name"),
     company: formData.get("company"),
     email: formData.get("email"),
+    phone: formData.get("phone"), // NEU: Auslesen
     industry: formData.get("industry"),
     budget: formData.get("budget"),
     employees: formData.get("employees"),
@@ -61,7 +63,7 @@ export async function submitContactForm(
     console.log("❌ Validierungs-Fehler:", validated.error.flatten().fieldErrors);
     return { 
       success: false, 
-      message: "Bitte überprüfen Sie Ihre Eingaben.", // WICHTIG: Message hinzugefügt
+      message: "Bitte überprüfen Sie Ihre Eingaben.", 
       errors: validated.error.flatten().fieldErrors 
     };
   }
@@ -73,6 +75,7 @@ export async function submitContactForm(
       name: validated.data.name,
       company: validated.data.company,
       email: validated.data.email,
+      phone: validated.data.phone, // NEU: Speichern
       industry: validated.data.industry,
       budget: validated.data.budget,
       employees: validated.data.employees,

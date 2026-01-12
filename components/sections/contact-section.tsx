@@ -25,14 +25,14 @@ export function ContactSection() {
   return (
     <section className="relative w-full py-20 md:py-32 overflow-hidden" id="contact">
       
-      {/* Background Elements (Dein Original) */}
+      {/* Background Elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-mik-blue/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-4 max-w-[1200px] relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
-          {/* LINKSE SEITE: TEXT & SCHRITTE (Wie davor) */}
+          {/* LINKSE SEITE: TEXT & SCHRITTE */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -72,7 +72,7 @@ export function ContactSection() {
             </div>
           </motion.div>
 
-          {/* RECHTE SEITE: FORMULAR (Jetzt mit Funktion) */}
+          {/* RECHTE SEITE: FORMULAR */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -92,7 +92,6 @@ export function ContactSection() {
                 </div>
                 <h3 className="text-2xl font-bold mb-2 text-white">Anfrage gesendet!</h3>
                 <p className="text-muted-foreground mb-6">Vielen Dank. Wir melden uns in Kürze bei Ihnen.</p>
-                {/* Button lädt die Seite neu oder setzt Formular zurück (optional) */}
                 <Button onClick={() => window.location.reload()} variant="outline" className="border-white/10 hover:bg-white/5">
                   Neue Anfrage
                 </Button>
@@ -135,7 +134,7 @@ export function ContactSection() {
                   </div>
                 </div>
 
-                {/* E-Mail & Branche */}
+                {/* E-Mail & Telefon (NEU) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">E-Mail *</label>
@@ -148,38 +147,52 @@ export function ContactSection() {
                     />
                     {state.errors?.email && <p className="text-red-400 text-xs flex items-center gap-1 mt-1"><AlertCircle size={10}/> {state.errors.email[0]}</p>}
                   </div>
+                  {/* NEUES FELD: TELEFON */}
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Branche *</label>
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Rückrufnummer</label>
                     <input 
-                      required
-                      type="text" 
-                      name="industry" // WICHTIG: Hier "industry", nicht "branch"
-                      placeholder="z.B. Gastronomie" 
+                      type="tel" 
+                      name="phone" 
+                      placeholder="+49 123 456789" 
                       className={inputClasses}
                     />
-                    {state.errors?.industry && <p className="text-red-400 text-xs flex items-center gap-1 mt-1"><AlertCircle size={10}/> {state.errors.industry[0]}</p>}
+                    {state.errors?.phone && <p className="text-red-400 text-xs flex items-center gap-1 mt-1"><AlertCircle size={10}/> {state.errors.phone[0]}</p>}
                   </div>
                 </div>
 
-                {/* Budget & Mitarbeiteranzahl */}
+                {/* Branche & Budget (Umgruppiert für Layout) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Budget</label>
-                    <div className="relative">
-                      <select 
-                        name="budget" 
-                        defaultValue=""
-                        className={inputClasses}
-                      >
-                        <option value="" disabled className={optionClasses}>Bitte wählen...</option>
-                        <option value="< 5k" className={optionClasses}>bis 5.000 €</option>
-                        <option value="5k-10k" className={optionClasses}>5.000 € - 10.000 €</option>
-                        <option value="10k-50k" className={optionClasses}>10.000 € - 50.000 €</option>
-                        <option value="> 50k" className={optionClasses}>über 50.000 €</option>
-                      </select>
+                    <div className="space-y-1">
+                        <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Branche *</label>
+                        <input 
+                          required
+                          type="text" 
+                          name="industry" 
+                          placeholder="z.B. Gastronomie" 
+                          className={inputClasses}
+                        />
+                        {state.errors?.industry && <p className="text-red-400 text-xs flex items-center gap-1 mt-1"><AlertCircle size={10}/> {state.errors.industry[0]}</p>}
                     </div>
-                  </div>
-                  <div className="space-y-1">
+                    <div className="space-y-1">
+                        <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Budget</label>
+                        <div className="relative">
+                          <select 
+                            name="budget" 
+                            defaultValue=""
+                            className={inputClasses}
+                          >
+                            <option value="" disabled className={optionClasses}>Bitte wählen...</option>
+                            <option value="< 5k" className={optionClasses}>bis 5.000 €</option>
+                            <option value="5k-10k" className={optionClasses}>5.000 € - 10.000 €</option>
+                            <option value="10k-50k" className={optionClasses}>10.000 € - 50.000 €</option>
+                            <option value="> 50k" className={optionClasses}>über 50.000 €</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Mitarbeiteranzahl */}
+                <div className="space-y-1">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Mitarbeiteranzahl</label>
                     <div className="relative">
                       <select 
@@ -193,7 +206,6 @@ export function ContactSection() {
                         <option value="+100" className={optionClasses}>Über 100</option>
                       </select>
                     </div>
-                  </div>
                 </div>
 
                 {/* Nachricht */}
@@ -233,7 +245,7 @@ export function ContactSection() {
                   {!isPending && <ArrowRight className="ml-2 w-5 h-5" />}
                 </Button>
                 
-                {/* Globaler Fehler (falls DB down ist) */}
+                {/* Globaler Fehler */}
                 {state.message && !state.success && (
                     <p className="text-red-400 text-sm text-center mt-2 bg-red-500/10 p-2 rounded-lg border border-red-500/20">
                         {state.message}
