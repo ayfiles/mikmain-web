@@ -97,7 +97,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name fehlt.";
+    if (!formData.name.trim()) newErrors.name = "Ansprechpartner fehlt.";
     if (!formData.email.trim()) newErrors.email = "E-Mail fehlt.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Ungültige E-Mail.";
     if (!formData.company.trim()) newErrors.company = "Firma fehlt.";
@@ -192,7 +192,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                            <label className="text-xs font-bold uppercase text-mik-grey ml-1">Name *</label>
+                            <label className="text-xs font-bold uppercase text-mik-grey ml-1">Ansprechpartner *</label>
                             <input 
                                 name="name" 
                                 value={formData.name} 
@@ -238,7 +238,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase text-mik-grey ml-1">Logo (Optional)</label>
+                        <label className="text-xs font-bold uppercase text-mik-grey ml-1">Logo</label>
                         <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
                         
                         {logoPreview ? (
@@ -259,7 +259,7 @@ export function CatalogRequestModal({ isOpen, onClose }: CatalogRequestModalProp
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase text-mik-grey ml-1">Nachricht (Optional)</label>
+                        <label className="text-xs font-bold uppercase text-mik-grey ml-1">Nachricht</label>
                         <textarea 
                             name="message" 
                             rows={3} 

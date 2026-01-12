@@ -112,7 +112,7 @@ export function ContactSection() {
                 {/* Name & Firma */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Name *</label>
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Ansprechpartner *</label>
                     <input 
                       required
                       type="text" 
@@ -164,7 +164,7 @@ export function ContactSection() {
                 {/* Budget & Mitarbeiteranzahl */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Budget (Optional)</label>
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">Budget</label>
                     <div className="relative">
                       <select 
                         name="budget" 
@@ -172,7 +172,7 @@ export function ContactSection() {
                         className={inputClasses}
                       >
                         <option value="" disabled className={optionClasses}>Bitte wählen...</option>
-                        <option value="< 5k" className={optionClasses}>unter 5.000 €</option>
+                        <option value="< 5k" className={optionClasses}>bis 5.000 €</option>
                         <option value="5k-10k" className={optionClasses}>5.000 € - 10.000 €</option>
                         <option value="10k-50k" className={optionClasses}>10.000 € - 50.000 €</option>
                         <option value="> 50k" className={optionClasses}>über 50.000 €</option>
