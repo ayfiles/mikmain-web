@@ -17,11 +17,11 @@ export interface Product {
 // Produktdaten mit Bildern aus dem Gesamtkatalog
 export const PRODUCTS: Product[] = [
   {
-    id: "frauen-hemd-1",
-    name: "Frauen Hemd",
-    description: "Elegantes Hemd für Damen. Hochwertige Qualität mit modernem Schnitt.",
+    id: "hemd-1",
+    name: "Hemd Classic",
+    description: "Klassisches Hemd für Damen und Herren. Hochwertige Qualität mit modernem Schnitt.",
     category: "Business",
-    image: "/Gesamtkatalog/frauen_hemd.jpg",
+    image: "/Gesamtkatalog/hemd.png",
     primaryColor: "#ffffff", // Weiß
     colorVariants: [
       { name: "Weiß", hex: "#ffffff" },
@@ -31,11 +31,25 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
+    id: "bluse-1",
+    name: "Bluse Elegant",
+    description: "Elegante Bluse für den professionellen Auftritt. Pflegeleicht und bügelfrei.",
+    category: "Business",
+    image: "/Gesamtkatalog/Bluse.png",
+    primaryColor: "#ffffff", // Weiß
+    colorVariants: [
+      { name: "Weiß", hex: "#ffffff" },
+      { name: "Hellblau", hex: "#3b82f6" },
+      { name: "Rosa", hex: "#f472b6" },
+      { name: "Schwarz", hex: "#000000" },
+    ],
+  },
+  {
     id: "tshirt-1",
     name: "T-Shirt Premium",
     description: "Hochwertiges T-Shirt aus weicher Baumwolle. Perfekt für Business Casual.",
     category: "Business",
-    image: "/Gesamtkatalog/tshirt.jpg",
+    image: "/Gesamtkatalog/t shirt.png",
     primaryColor: "#1e3a8a", // Navy
     colorVariants: [
       { name: "Navy", hex: "#1e3a8a" },
@@ -49,7 +63,7 @@ export const PRODUCTS: Product[] = [
     name: "Fleece Pullover",
     description: "Warmes und bequemes Fleece-Material. Ideal für kältere Tage im Büro.",
     category: "Business",
-    image: "/Gesamtkatalog/fleece.jpg",
+    image: "/Gesamtkatalog/Fleece.png",
     primaryColor: "#4b5563", // Grau
     colorVariants: [
       { name: "Grau", hex: "#4b5563" },
@@ -59,30 +73,55 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    id: "dry-touch-1",
-    name: "Dry Touch Shirt",
-    description: "Atmungsaktives Dry Touch Material. Perfekt für aktive Arbeitstage.",
-    category: "Business",
-    image: "/Gesamtkatalog/dry%20touch.jpg",
-    primaryColor: "#1e3a8a", // Navy
+    id: "kochhemd-1",
+    name: "Kochhemd Professional",
+    description: "Professionelles Kochhemd für die Gastronomie. Atmungsaktiv und strapazierfähig.",
+    category: "Gastronomie",
+    image: "/Gesamtkatalog/Kochhemd.png",
+    primaryColor: "#ffffff", // Weiß
     colorVariants: [
-      { name: "Navy", hex: "#1e3a8a" },
       { name: "Weiß", hex: "#ffffff" },
       { name: "Schwarz", hex: "#000000" },
       { name: "Grau", hex: "#6b7280" },
     ],
   },
   {
-    id: "schurze-1",
-    name: "Schürze Professional",
-    description: "Robuste Schürze für Küche und Service. Langlebig und leicht zu reinigen.",
+    id: "schuerze-1",
+    name: "Schürze Lang",
+    description: "Robuste lange Schürze für Küche und Service. Langlebig und leicht zu reinigen.",
     category: "Gastronomie",
-    image: "/Gesamtkatalog/schurze.jpg",
+    image: "/Gesamtkatalog/Schürze lang.png",
+    primaryColor: "#000000", // Schwarz
+    colorVariants: [
+      { name: "Schwarz", hex: "#000000" },
+      { name: "Weiß", hex: "#ffffff" },
+      { name: "Navy", hex: "#1e3a8a" },
+    ],
+  },
+  {
+    id: "service-hose-1",
+    name: "Service Hose",
+    description: "Bequeme Service-Hose für den Gastronomiebereich. Elastisch und pflegeleicht.",
+    category: "Gastronomie",
+    image: "/Gesamtkatalog/Service Hose.png",
+    primaryColor: "#000000", // Schwarz
+    colorVariants: [
+      { name: "Schwarz", hex: "#000000" },
+      { name: "Navy", hex: "#1e3a8a" },
+      { name: "Grau", hex: "#6b7280" },
+    ],
+  },
+  {
+    id: "bademantel-1",
+    name: "Bademantel Premium",
+    description: "Luxuriöser Bademantel für Wellness und Hotel. Weich und saugfähig.",
+    category: "Wellness",
+    image: "/Gesamtkatalog/Bademantel.png",
     primaryColor: "#ffffff", // Weiß
     colorVariants: [
       { name: "Weiß", hex: "#ffffff" },
-      { name: "Schwarz", hex: "#000000" },
-      { name: "Navy", hex: "#1e3a8a" },
+      { name: "Beige", hex: "#d4c4a8" },
+      { name: "Grau", hex: "#6b7280" },
     ],
   },
 ];

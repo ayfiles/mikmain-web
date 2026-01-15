@@ -7,30 +7,6 @@ export default function AgbPage() {
   
   const navItems = [
     {
-      label: "Services",
-      bgColor: "#0a192f", 
-      textColor: "#ffffff",
-      links: [
-        { label: "Zur Section", href: "/#services", ariaLabel: "Services" },
-      ]
-    },
-    {
-      label: "Kollektion",
-      bgColor: "#0a192f", 
-      textColor: "#ffffff",
-      links: [
-        { label: "Zur Section", href: "/#catalog", ariaLabel: "Kollektion" },
-      ]
-    },
-    {
-      label: "Kundenreferenzen",
-      bgColor: "#0a192f", 
-      textColor: "#ffffff",
-      links: [
-        { label: "Zur Section", href: "/#references", ariaLabel: "Kundenreferenzen" },
-      ]
-    },
-    {
       label: "Startseite",
       bgColor: "#0a192f", 
       textColor: "#ffffff",
@@ -56,69 +32,119 @@ export default function AgbPage() {
 
       <main className="container mx-auto px-4 pt-32 pb-20 md:pt-48">
         
-        <div className="max-w-3xl mx-auto rounded-[30px] border border-white/10 bg-mik-navy/5 dark:bg-white/5 backdrop-blur-xl shadow-2xl p-6 md:p-12 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto rounded-[30px] border border-white/10 bg-mik-navy/5 dark:bg-white/5 backdrop-blur-xl shadow-2xl p-6 md:p-12 relative overflow-hidden">
           
           <div className="absolute top-20 right-[-100px] w-80 h-80 bg-mik-red/5 rounded-full blur-3xl pointer-events-none"></div>
 
-          {/* HIER GEÄNDERT: text-foreground */}
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-8 relative z-10">
+          <h1 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-8 relative z-10">
             Allgemeine Geschäftsbedingungen (AGB)
           </h1>
+          
+          <p className="text-sm text-muted-foreground mb-8">
+            Stand: {new Date().getFullYear()} | MikMain
+          </p>
 
-          <div className="space-y-6 text-lg text-foreground/80 relative z-10 font-sans">
+          <div className="space-y-8 text-base md:text-lg text-foreground/80 relative z-10 font-sans leading-relaxed">
             
             <section>
-              {/* HIER GEÄNDERT: text-foreground */}
-              <h2 className="text-xl font-bold text-foreground mb-2">1. Geltungsbereich</h2>
+              <h2 className="text-xl font-bold text-foreground mb-3">§ 1 Geltungsbereich</h2>
               <p>
-                Für alle Geschäftsbeziehungen zwischen der MikMain GmbH (nachfolgend „Anbieter“) und dem Kunden 
-                gelten ausschließlich die nachfolgenden Allgemeinen Geschäftsbedingungen in ihrer zum Zeitpunkt der Bestellung gültigen Fassung.
+                (1) Für alle Geschäftsbeziehungen zwischen <strong>MikMain</strong> (nachfolgend „Anbieter“ oder „wir“) und dem Kunden (nachfolgend „Kunde“) 
+                gelten ausschließlich die nachfolgenden Allgemeinen Geschäftsbedingungen in ihrer zum Zeitpunkt der Beauftragung gültigen Fassung.
+              </p>
+              <p className="mt-2">
+                (2) Abweichende Bedingungen des Kunden werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdrücklich schriftlich zu.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-foreground mb-2">2. Vertragsgegenstand</h2>
+              <h2 className="text-xl font-bold text-foreground mb-3">§ 2 Vertragsgegenstand & Kein Online-Shop</h2>
               <p>
-                Gegenstand des Vertrages ist der Verkauf und die Dienstleistung im Bereich Corporate Fashion (Unternehmensbekleidung), 
-                einschließlich Design, Produktion, Logistik und Wäscheservice, wie auf unserer Website dargestellt.
+                (1) Gegenstand des Vertrages ist die Veredelung und Lieferung von Textilien (Corporate Fashion) nach individuellen Vorgaben des Kunden 
+                (z.B. Bestickung, Bedruckung mit Firmenlogo).
+              </p>
+              <p className="mt-2">
+                (2) <strong>Wichtiger Hinweis:</strong> Die Darstellung der Produkte auf der Website stellt kein rechtlich bindendes Angebot dar, sondern dient als Online-Katalog zur Information. 
+                Es findet kein direkter Vertragsschluss über die Website statt (kein Warenkorb-System).
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-foreground mb-2">3. Vertragsschluss</h2>
+              <h2 className="text-xl font-bold text-foreground mb-3">§ 3 Angebot und Vertragsschluss</h2>
               <p>
-                Die Darstellung der Produkte und Dienstleistungen auf der Website stellt kein rechtlich bindendes Angebot, 
-                sondern eine Aufforderung zur Abgabe einer Anfrage dar. Ein Vertrag kommt erst durch eine individuelle Auftragsbestätigung unsererseits zustande.
+                (1) Der Kunde stellt über das Kontaktformular oder per E-Mail eine unverbindliche Anfrage.
+              </p>
+              <p className="mt-2">
+                (2) Der Anbieter erstellt daraufhin ein individuelles Angebot in Textform (z.B. per E-Mail oder als PDF), in dem die Details (Textilart, Stückzahl, Veredelung, Preis) aufgeführt sind.
+              </p>
+              <p className="mt-2">
+                (3) Der Vertrag kommt erst zustande, wenn der Kunde dieses Angebot innerhalb der Gültigkeitsdauer annimmt (z.B. durch schriftliche Bestätigung per E-Mail) 
+                oder der Anbieter eine explizite Auftragsbestätigung versendet.
+              </p>
+            </section>
+
+            <section className="p-6 rounded-2xl bg-red-500/5 border border-red-500/10">
+              <h2 className="text-xl font-bold text-red-500 mb-3 flex items-center gap-2">
+                § 4 Ausschluss des Widerrufsrechts (WICHTIG)
+              </h2>
+              <p className="font-medium">
+                (1) Für Unternehmer (B2B) besteht grundsätzlich kein gesetzliches Widerrufsrecht.
+              </p>
+              <p className="mt-4 font-medium">
+                (2) Auch für Verbraucher (B2C) besteht <u>kein Widerrufsrecht</u> bei Verträgen zur Lieferung von Waren, die nicht vorgefertigt sind 
+                und für deren Herstellung eine individuelle Auswahl oder Bestimmung durch den Verbraucher maßgeblich ist oder die eindeutig auf die persönlichen Bedürfnisse zugeschnitten sind.
+              </p>
+              <p className="mt-4 italic text-sm">
+                Erläuterung: Da wir Textilien speziell für Sie mit Ihrem Logo, Namen oder Design veredeln (sticken/drucken), können diese Waren nicht anderweitig verkauft werden. 
+                <strong>Eine Rückgabe oder ein Umtausch wegen Nichtgefallens oder falscher Größe ist bei personalisierter Ware daher ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB).</strong>
+              </p>
+              <p className="mt-2 text-sm">
+                 Dies gilt nicht bei Vorliegen von Sachmängeln (siehe § 7 Gewährleistung).
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-foreground mb-2">4. Preise und Zahlungsbedingungen</h2>
+              <h2 className="text-xl font-bold text-foreground mb-3">§ 5 Preise und Zahlungsbedingungen</h2>
               <p>
-                Alle genannten Preise sind Netto-Preise zzgl. der gesetzlichen Umsatzsteuer, sofern nicht anders angegeben. 
-                Die Zahlung erfolgt nach Rechnungsstellung gemäß den vereinbarten Zahlungszielen.
+                (1) Sofern im Angebot nicht anders angegeben, verstehen sich alle Preise in Euro netto zuzüglich der gesetzlichen Umsatzsteuer (für Geschäftskunden).
+              </p>
+              <p className="mt-2">
+                (2) Der Rechnungsbetrag ist nach Erhalt der Rechnung und Lieferung der Ware innerhalb des auf der Rechnung ausgewiesenen Zahlungsziels ohne Abzug zu zahlen, sofern nichts anderes vereinbart wurde.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-foreground mb-2">5. Eigentumsvorbehalt</h2>
+              <h2 className="text-xl font-bold text-foreground mb-3">§ 6 Lieferung und Eigentumsvorbehalt</h2>
               <p>
-                Die gelieferte Ware bleibt bis zur vollständigen Bezahlung aller Forderungen aus dem Liefervertrag im Eigentum des Anbieters.
+                (1) Die Lieferzeiten werden im individuellen Angebot genannt. Da es sich um individuelle Anfertigungen handelt, sind Liefertermine nur dann verbindlich, wenn sie ausdrücklich als solche bestätigt wurden.
+              </p>
+              <p className="mt-2">
+                (2) Die gelieferte Ware bleibt bis zur vollständigen Bezahlung aller Forderungen aus dem Liefervertrag im Eigentum des Anbieters.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-foreground mb-2">6. Gewährleistung und Haftung</h2>
+              <h2 className="text-xl font-bold text-foreground mb-3">§ 7 Gewährleistung (Mängelhaftung)</h2>
               <p>
-                Es gelten die gesetzlichen Gewährleistungsrechte. Für Schäden haftet der Anbieter nur bei Vorsatz oder grober Fahrlässigkeit.
+                (1) Es gelten die gesetzlichen Gewährleistungsrechte. 
+              </p>
+              <p className="mt-2">
+                (2) Handelsübliche oder geringfügige, technisch nicht vermeidbare Abweichungen der Qualität, Farbe, Größe, des Gewichts, der Ausrüstung oder des Designs (z.B. leichte Farbabweichungen beim Stickgarn) stellen keinen Mangel dar.
+              </p>
+              <p className="mt-2">
+                (3) Offensichtliche Mängel sind vom Kunden (sofern Kaufmann) unverzüglich, spätestens jedoch innerhalb von 7 Tagen nach Erhalt der Ware schriftlich anzuzeigen.
               </p>
             </section>
 
-            <div className="w-full h-px bg-foreground/10 my-8"></div>
-
-            <p className="text-sm opacity-60">
-              Hinweis: Dies ist ein Platzhalter-Text für die AGB. Bitte lassen Sie Ihre Allgemeinen Geschäftsbedingungen anwaltlich prüfen und passen Sie diese Inhalte vor Veröffentlichung an Ihre spezifischen Geschäftsprozesse an.
-            </p>
+            <section>
+              <h2 className="text-xl font-bold text-foreground mb-3">§ 8 Schlussbestimmungen</h2>
+              <p>
+                (1) Es gilt das Recht der Bundesrepublik Deutschland.
+              </p>
+              <p className="mt-2">
+                (2) Sofern der Kunde Kaufmann ist, ist der Geschäftssitz des Anbieters (MikMain) Gerichtsstand für alle Streitigkeiten aus diesem Vertrag.
+              </p>
+            </section>
 
           </div>
         </div>

@@ -32,7 +32,7 @@ export function FooterSection() {
           
           {/* Top Section */}
           <div className="p-8 md:p-10">
-            {/* Grid angepasst auf 2 Spalten (vorher 4) */}
+            {/* Grid angepasst auf 2 Spalten */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-20">
               
               {/* Brand Column (Links) */}
@@ -66,7 +66,7 @@ export function FooterSection() {
                 </div>
               </div>
 
-              {/* Contact Column (Rechts) */}
+              {/* Contact Column (Rechts) - Mit echten Daten aus dem Impressum */}
               <div className="md:flex md:flex-col md:items-end md:text-right">
                 <h4 className="font-heading font-bold text-white text-base mb-4 w-full md:text-right">Kontakt</h4>
                 <ul className="space-y-4 w-full md:w-auto">
@@ -83,13 +83,13 @@ export function FooterSection() {
                   </li>
                   <li>
                     <a 
-                      href="tel:+49123456789"
+                      href="tel:+491711696958"
                       className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-3 md:flex-row-reverse"
                     >
                       <div className="w-10 h-10 rounded-full bg-mik-blue/20 flex items-center justify-center text-mik-blue">
                         <Phone size={18} />
                       </div>
-                      +49 123 456 789
+                      +49 (0) 171 1696958
                     </a>
                   </li>
                   <li>
@@ -98,8 +98,8 @@ export function FooterSection() {
                         <MapPin size={18} />
                       </div>
                       <span>
-                        Musterstraße 123<br />
-                        12345 Musterstadt
+                        Große Gallusstraße 14<br />
+                        60315 Frankfurt am Main
                       </span>
                     </div>
                   </li>

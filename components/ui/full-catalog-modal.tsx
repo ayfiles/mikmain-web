@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, LayoutGrid, List } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { ProductCard } from "./product-card";
@@ -15,6 +15,8 @@ interface FullCatalogModalProps {
 
 export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  // State für die Ansicht: false = 1 Spalte (Liste), true = 2 Spalten (Grid)
+  const [isCompact, setIsCompact] = useState(false);
 
   useOutsideClick(modalRef, () => {
     if (isOpen) onClose();
@@ -85,23 +87,64 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
                     </p>
                   </div>
 
-                  <button
-                    onClick={onClose}
-                    className={cn(
-                      "p-2 rounded-full",
-                      "bg-white/10 backdrop-blur-sm border border-white/20",
-                      "hover:bg-white/20 transition-colors"
-                    )}
-                    aria-label="Modal schließen"
-                  >
-                    <X className="w-4 h-4 text-white" />
-                  </button>
+                  <div className="flex items-center gap-3">
+                    {/* View Toggle Buttons */}
+                    <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-lg p-1 border border-white/20">
+                      <button
+                        onClick={() => setIsCompact(false)}
+                        className={cn(
+                          "p-1.5 rounded-md transition-all",
+                          !isCompact 
+                            ? "bg-white/20 text-white shadow-sm" 
+                            : "text-white/60 hover:text-white hover:bg-white/10"
+                        )}
+                        aria-label="Listenansicht (1 Spalte)"
+                        title="1 Spalte"
+                      >
+                        <List className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setIsCompact(true)}
+                        className={cn(
+                          "p-1.5 rounded-md transition-all",
+                          isCompact 
+                            ? "bg-white/20 text-white shadow-sm" 
+                            : "text-white/60 hover:text-white hover:bg-white/10"
+                        )}
+                        aria-label="Rasteransicht (2 Spalten)"
+                        title="2 Spalten"
+                      >
+                        <LayoutGrid className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Close Button */}
+                    <button
+                      onClick={onClose}
+                      className={cn(
+                        "p-2 rounded-full",
+                        "bg-white/10 backdrop-blur-sm border border-white/20",
+                        "hover:bg-white/20 transition-colors"
+                      )}
+                      aria-label="Modal schließen"
+                    >
+                      <X className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* Content - Scrollable Grid */}
               <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-6rem)] sm:max-h-[calc(90vh-8rem)]">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div 
+                  className={cn(
+                    "grid gap-4 transition-all duration-300",
+                    // Hier wird die Basis-Spaltenanzahl (für Mobile) gesteuert:
+                    isCompact ? "grid-cols-2" : "grid-cols-1",
+                    // Responsive Breakpoints bleiben erhalten:
+                    "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                  )}
+                >
                   {PRODUCTS.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
@@ -116,4 +159,3 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
 }
 
 export default FullCatalogModal;
-
