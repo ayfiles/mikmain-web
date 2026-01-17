@@ -33,13 +33,12 @@ export function CustomerCard({ customer, onClick, className }: CustomerCardProps
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover blur-sm scale-105" // scale-105 verhindert weiße Ränder beim Blur
+            className="absolute inset-0 w-full h-full object-cover"
           >
-            {/* Hier wird das Video geladen (WebM oder MP4) */}
             <source src={customer.coverVideo} />
           </video>
-          {/* Glass Effect Overlay */}
-          <div className="absolute inset-0 bg-mik-navy/20 backdrop-blur-[2px]" />
+          {/* Overlay für bessere Lesbarkeit */}
+          <div className="absolute inset-0 bg-mik-navy/10" />
           {/* Verlauf für bessere Lesbarkeit des Textes */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         </>

@@ -1,10 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Product } from "./product-data";
-import { motion } from "framer-motion";
+import { Product, BADGE_CONFIG, BadgeType } from "./product-data";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
@@ -13,7 +14,65 @@ interface ProductCardProps {
 
 export function ProductCard({ product, className }: ProductCardProps) {
   // State für Fallback, falls Bild nicht lädt
-  const [imageError, setImageError] = useState(false);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+  // State für aktuelle Bildindex (für Galerie)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // Swipe Direction für Animation
+  const [direction, setDirection] = useState(0);
+
+  // Alle Bilder (images Array oder nur das Hauptbild)
+  const allImages = product.images && product.images.length > 0 
+    ? product.images 
+    : [product.image];
+  
+  const hasMultipleImages = allImages.length > 1;
+
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => new Set(prev).add(index));
+  };
+
+  const goToNext = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setDirection(1);
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  }, [allImages.length]);
+
+  const goToPrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setDirection(-1);
+    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  }, [allImages.length]);
+
+  // Swipe-Handler
+  const handleDragEnd = useCallback(
+    (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      const threshold = 50;
+      if (info.offset.x > threshold) {
+        goToPrev();
+      } else if (info.offset.x < -threshold) {
+        goToNext();
+      }
+    },
+    [goToNext, goToPrev]
+  );
+
+  // Slide Animation Variants
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 300 : -300,
+      opacity: 0,
+    }),
+  };
 
   return (
     <motion.div
@@ -34,33 +93,107 @@ export function ProductCard({ product, className }: ProductCardProps) {
       {/* Produktbild Container */}
       <div className="relative w-full aspect-[4/5] overflow-hidden bg-gradient-to-br from-mik-navy/60 to-mik-navy/40">
         
-        {!imageError ? (
-          // Optimiertes Next.js Image
-          <Image 
-            src={product.image} 
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImageError(true)}
-          />
-        ) : (
-          // Fallback Placeholder (wird nur angezeigt wenn Error true ist)
-          <div 
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: product.primaryColor }}
-          >
-            <div className="text-center p-6">
-              <div 
-                className="w-24 h-24 mx-auto rounded-lg mb-4 flex items-center justify-center"
-                style={{ backgroundColor: product.primaryColor === "#ffffff" ? "#e5e7eb" : "rgba(255,255,255,0.1)" }}
-              >
-                <span className="text-3xl">👔</span>
+        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+          {!imageErrors.has(currentImageIndex) ? (
+            <motion.div
+              key={currentImageIndex}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
+              }}
+              drag={hasMultipleImages ? "x" : false}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
+              className="absolute inset-0"
+            >
+              <Image 
+                src={allImages[currentImageIndex]} 
+                alt={`${product.name} - Bild ${currentImageIndex + 1}`}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                onError={() => handleImageError(currentImageIndex)}
+              />
+            </motion.div>
+          ) : (
+            // Fallback Placeholder
+            <div 
+              className="absolute inset-0 flex items-center justify-center"
+              style={{ backgroundColor: product.primaryColor }}
+            >
+              <div className="text-center p-6">
+                <div 
+                  className="w-24 h-24 mx-auto rounded-lg mb-4 flex items-center justify-center"
+                  style={{ backgroundColor: product.primaryColor === "#ffffff" ? "#e5e7eb" : "rgba(255,255,255,0.1)" }}
+                >
+                  <span className="text-3xl">👔</span>
+                </div>
+                <p className="text-white/80 text-sm font-sans">
+                  {product.name}
+                </p>
               </div>
-              <p className="text-white/80 text-sm font-sans">
-                {product.name}
-              </p>
             </div>
+          )}
+        </AnimatePresence>
+
+        {/* Navigation Arrows (nur bei mehreren Bildern) */}
+        {hasMultipleImages && (
+          <>
+            <button
+              onClick={goToPrev}
+              className={cn(
+                "absolute left-2 top-1/2 -translate-y-1/2 z-10",
+                "w-8 h-8 rounded-full flex items-center justify-center",
+                "bg-black/40 backdrop-blur-sm border border-white/20",
+                "opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                "hover:bg-black/60 hover:border-white/40"
+              )}
+              aria-label="Vorheriges Bild"
+            >
+              <ChevronLeft className="w-4 h-4 text-white" />
+            </button>
+            <button
+              onClick={goToNext}
+              className={cn(
+                "absolute right-2 top-1/2 -translate-y-1/2 z-10",
+                "w-8 h-8 rounded-full flex items-center justify-center",
+                "bg-black/40 backdrop-blur-sm border border-white/20",
+                "opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                "hover:bg-black/60 hover:border-white/40"
+              )}
+              aria-label="Nächstes Bild"
+            >
+              <ChevronRight className="w-4 h-4 text-white" />
+            </button>
+          </>
+        )}
+
+        {/* Dot Indicators (nur bei mehreren Bildern) */}
+        {hasMultipleImages && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+            {allImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDirection(index > currentImageIndex ? 1 : -1);
+                  setCurrentImageIndex(index);
+                }}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-all duration-300",
+                  index === currentImageIndex
+                    ? "bg-white w-4"
+                    : "bg-white/40 hover:bg-white/60"
+                )}
+                aria-label={`Bild ${index + 1} anzeigen`}
+              />
+            ))}
           </div>
         )}
         
@@ -76,9 +209,36 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </h3>
         
         {/* Beschreibung */}
-        <p className="text-xs text-mik-grey/80 font-sans mb-4 line-clamp-2">
+        <p className="text-xs text-mik-grey/80 font-sans mb-3 line-clamp-2">
           {product.description}
         </p>
+
+        {/* Badges */}
+        {product.badges && product.badges.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {product.badges.map((badge, index) => {
+              const config = BADGE_CONFIG[badge];
+              return (
+                <motion.span
+                  key={badge}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium"
+                  style={{ 
+                    backgroundColor: `${config.color}20`,
+                    color: config.color,
+                    border: `1px solid ${config.color}40`
+                  }}
+                  title={config.label}
+                >
+                  <span className="text-[9px]">{config.icon}</span>
+                  {config.label}
+                </motion.span>
+              );
+            })}
+          </div>
+        )}
 
         {/* Farbvarianten */}
         <div className="flex items-center gap-2">

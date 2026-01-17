@@ -18,25 +18,49 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
   // State für die Ansicht: false = 1 Spalte (Liste), true = 2 Spalten (Grid)
   const [isCompact, setIsCompact] = useState(false);
 
+  // Scroll-Position speichern
+  const scrollYRef = useRef<number>(0);
+
   useOutsideClick(modalRef, () => {
     if (isOpen) onClose();
   });
 
-  // ESC zum Schließen
+  // Scroll-Lock für Hintergrund
+  useEffect(() => {
+    if (isOpen) {
+      // Aktuelle Scroll-Position speichern
+      scrollYRef.current = window.scrollY;
+      
+      // Scroll-Lock: Body und HTML blockieren
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollYRef.current}px`;
+      document.body.style.width = "100%";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      // Styles zurücksetzen
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.documentElement.style.overflow = "";
+      
+      // Scroll-Position wiederherstellen (nur wenn eine gespeichert wurde)
+      if (scrollYRef.current > 0) {
+        window.scrollTo(0, scrollYRef.current);
+        scrollYRef.current = 0;
+      }
+    }
+  }, [isOpen]);
+
+  // ESC zum Schließen (separater Effect)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape" && isOpen) onClose();
     };
 
-    if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
-    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
   return (
@@ -48,7 +72,8 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm touch-none"
+            onWheel={(e) => e.stopPropagation()}
           />
 
           {/* Modal Container */}
@@ -135,7 +160,7 @@ export function FullCatalogModal({ isOpen, onClose }: FullCatalogModalProps) {
               </div>
 
               {/* Content - Scrollable Grid */}
-              <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-6rem)] sm:max-h-[calc(90vh-8rem)]">
+              <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(100vh-6rem)] sm:max-h-[calc(90vh-8rem)] overscroll-contain">
                 <div 
                   className={cn(
                     "grid gap-4 transition-all duration-300",

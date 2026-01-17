@@ -16,7 +16,7 @@ export const CUSTOMERS: Customer[] = [
     id: "harput",
     name: "Harput",
     logo: "/logos/harput.svg",
-    coverVideo: "/kundenreferenzen/Harput/vid1.mp4",
+    coverVideo: "/Kundenreferenzen/Harput/Harput_Banner.webm",
     industry: "Gastronomie",
     description: "Premium Restaurant mit exquisiter Küche",
     assets: {
@@ -29,7 +29,8 @@ export const CUSTOMERS: Customer[] = [
     id: "kostarellos",
     name: "Kostarellos",
     logo: "/logos/kostarellos.svg",
-    industry: "Gastronomie",
+    coverVideo: "/Kundenreferenzen/Kostarellos/Kostarellos_Banner.webm",
+    industry: "Einzelhandel",
     description: "Traditionelle griechische Küche",
     assets: {
       images: [
@@ -42,7 +43,8 @@ export const CUSTOMERS: Customer[] = [
     id: "sh",
     name: "SH",
     logo: "/logos/sh.svg",
-    industry: "Retail",
+    coverVideo: "/Kundenreferenzen/Sh/SH_Banner.webm",
+    industry: "Hotellerie",
     description: "Moderner Einzelhandel",
     assets: {
       images: [
@@ -55,7 +57,8 @@ export const CUSTOMERS: Customer[] = [
     id: "fluffy",
     name: "Fluffy",
     logo: "/logos/fluffy.svg",
-    industry: "Wellness",
+    coverVideo: "/Kundenreferenzen/fluffy/fluffy.webm",
+    industry: "Gastronomie",
     description: "Wellness & Beauty Studio",
     assets: {
       images: [
@@ -68,7 +71,8 @@ export const CUSTOMERS: Customer[] = [
     id: "gartnerei-kujtah",
     name: "Gärtnerei Kujtah",
     logo: "/logos/gartnerei-kujtah.svg",
-    industry: "Retail",
+    coverVideo: "/Kundenreferenzen/GK/GK_Banner.webm",
+    industry: "Dienstleistung",
     description: "Regionale Gärtnerei",
     assets: {
       images: [
@@ -81,7 +85,8 @@ export const CUSTOMERS: Customer[] = [
     id: "steinbergerhof",
     name: "Steinbergerhof",
     logo: "/logos/steinbergerhof.svg",
-    industry: "Gastronomie",
+    coverVideo: "/Kundenreferenzen/Steinberger Hof/Steinberger Hof_Banner.webm",
+    industry: "Hotellerie",
     description: "Landgasthof mit Tradition",
     assets: {
       images: [
