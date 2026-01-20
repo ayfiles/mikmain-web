@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Script from "next/script";
 import CardNav from "@/components/ui/CardNav";
 
 export default function DatenschutzPage() {
@@ -167,6 +168,22 @@ export default function DatenschutzPage() {
               <p>
                 Wir haben einen Vertrag über Auftragsverarbeitung mit Usercentrics geschlossen. Dieser stellt sicher, dass die Daten unserer Seitenbesucher nur nach unseren Weisungen und unter Einhaltung der DSGVO verarbeitet werden.
               </p>
+            </section>
+
+            {/* 6. Cookie Declaration */}
+            <section>
+              <h2 className="text-2xl font-bold text-foreground mb-4">6. Cookie-Erklärung</h2>
+              <p className="mb-4">
+                Nachfolgend finden Sie eine vollständige Auflistung aller auf dieser Website verwendeten Cookies:
+              </p>
+              <div className="bg-foreground/5 p-4 rounded-lg">
+                <Script
+                  id="CookieDeclaration"
+                  src="https://consent.cookiebot.com/ae91e211-2886-44ea-9ee9-9c87a6de2ff9/cd.js"
+                  strategy="lazyOnload"
+                  async
+                />
+              </div>
             </section>
 
           </div>

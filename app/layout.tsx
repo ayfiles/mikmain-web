@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import dynamic from "next/dynamic"; // <--- NEU
+import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -55,6 +56,15 @@ export default function RootLayout({
           fontAcumin.variable
         )}
       >
+        {/* Cookiebot CMP Banner für DSGVO-Konformität */}
+        <Script
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          data-cbid="ae91e211-2886-44ea-9ee9-9c87a6de2ff9"
+          data-blockingmode="auto"
+          strategy="beforeInteractive"
+        />
+        
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
