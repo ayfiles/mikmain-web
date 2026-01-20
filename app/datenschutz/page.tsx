@@ -87,10 +87,15 @@ export default function DatenschutzPage() {
             <section>
               <h2 className="text-2xl font-bold text-foreground mb-4">2. Hosting und Backend</h2>
               
-              <h3 className="text-lg font-bold mt-4 text-foreground">Externes Hosting (Vercel)</h3>
+              <h3 className="text-lg font-bold mt-4 text-foreground">Hosting durch Telekom</h3>
               <p className="mb-4">
-                Diese Website wird bei <strong>Vercel Inc.</strong> gehostet (440 N Barranca Ave #4133, Covina, CA 91723, USA).<br />
-                Vercel verarbeitet Ihre IP-Adresse und technische Zugriffsdaten, um die Website auszuliefern. Dies erfolgt auf Grundlage unseres berechtigten Interesses an einer sicheren und schnellen Bereitstellung unseres Online-Angebots (Art. 6 Abs. 1 lit. f DSGVO).
+                Wir hosten unsere Website bei der <strong>Telekom Deutschland GmbH</strong>, Landgrabenweg 151, 53227 Bonn (nachfolgend: Telekom).
+              </p>
+              <p className="mb-4">
+                Wenn Sie unsere Website besuchen, erfasst die Telekom verschiedene Logfiles inklusive Ihrer IP-Adressen. Details entnehmen Sie der Datenschutzerklärung der Telekom: <a href="https://www.telekom.de/datenschutzhinweise" className="text-mik-blue hover:underline" target="_blank" rel="noopener noreferrer">https://www.telekom.de/datenschutzhinweise</a>.
+              </p>
+              <p className="mb-4">
+                Die Verwendung der Telekom erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an einer möglichst zuverlässigen Darstellung unserer Website. Sofern eine entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO; die Einwilligung ist jederzeit widerrufbar.
               </p>
 
               <h3 className="text-lg font-bold mt-4 text-foreground">Supabase (Datenbank)</h3>
@@ -100,8 +105,9 @@ export default function DatenschutzPage() {
                 Die Nutzung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (technisch fehlerfreie und sichere Verwaltung von Kundenanfragen).
               </p>
               
+              <h3 className="text-lg font-bold mt-4 text-foreground">Auftragsverarbeitung</h3>
               <p className="text-sm italic">
-                Wir haben mit beiden Anbietern Verträge zur Auftragsverarbeitung (AVV) abgeschlossen, um den Schutz Ihrer Daten zu gewährleisten.
+                Wir haben mit den oben genannten Anbietern Verträge zur Auftragsverarbeitung (AVV) abgeschlossen. Hierbei handelt es sich um datenschutzrechtlich vorgeschriebene Verträge, die gewährleisten, dass diese die personenbezogenen Daten unserer Websitebesucher nur nach unseren Weisungen und unter Einhaltung der DSGVO verarbeiten.
               </p>
             </section>
 
