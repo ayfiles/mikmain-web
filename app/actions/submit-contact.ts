@@ -43,10 +43,10 @@ export async function submitContactForm(
     name: formData.get("name"),
     company: formData.get("company"),
     email: formData.get("email"),
-    phone: formData.get("phone"), // NEU: Auslesen
+    phone: formData.get("phone") || undefined, // Optional: null zu undefined
     industry: formData.get("industry"),
-    budget: formData.get("budget"),
-    employees: formData.get("employees"),
+    budget: formData.get("budget") || undefined, // Optional: null zu undefined
+    employees: formData.get("employees") || undefined, // Optional: null zu undefined
     message: formData.get("message"),
     honeypot: formData.get("gh_check_88"), 
   };
