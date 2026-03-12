@@ -29,15 +29,15 @@ const fontAcumin = localFont({
 });
 
 // <--- NEU: Footer dynamisch laden (Performance)
-const FooterSection = dynamic(() => 
+const FooterSection = dynamic(() =>
   import("@/components/sections/footer-section").then((mod) => mod.FooterSection)
 );
 
 export const metadata: Metadata = {
-  title: "MikMain - Corporate Fashion Concierge", 
+  title: "MikMain - Corporate Fashion Concierge",
   description: "Ihr Concierge für Unternehmensbekleidung. Von Design bis Wäscheservice.",
   icons: {
-    icon: "/mikmain kurzlogo.svg", 
+    icon: "/mikmain kurzlogo.svg",
   },
 };
 
@@ -60,11 +60,12 @@ export default function RootLayout({
         <Script
           id="Cookiebot"
           src="https://consent.cookiebot.com/uc.js"
-          data-cbid="ae91e211-2886-44ea-9ee9-9c87a6de2ff9"
+          data-cbid="582ebfb4-bf61-457c-9511-44b90f371737"
           data-blockingmode="auto"
+          type="text/javascript"
           strategy="beforeInteractive"
         />
-        
+
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
